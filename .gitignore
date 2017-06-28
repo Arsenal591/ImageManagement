@@ -202,7 +202,7 @@ Backup*/
 UpgradeLog*.XML
 UpgradeLog*.htm
 
-/ImageManagement/settings.py
+/ImageManagement/ImageManagement/settings.py
 
 # SQL Server files
 *.mdf
