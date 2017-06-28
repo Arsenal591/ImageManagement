@@ -30,7 +30,6 @@
   <ItemGroup>
     <Compile Include="manage.py" />
     <Compile Include="ImageManagement\__init__.py" />
-    <Compile Include="ImageManagement\settings.py" />
     <Compile Include="ImageManagement\urls.py" />
     <Compile Include="ImageManagement\wsgi.py" />
   </ItemGroup>
