@@ -1,0 +1,6 @@
+rcnn.ckpt
+*.ipynb
+*.jpg
+*.jpeg
+*.pyc
+samples/
