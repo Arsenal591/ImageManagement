@@ -7,7 +7,8 @@ from .models import ImageTag, ImageComment, ImagePost
 
 def index(request):
     imgs = ImagePost.objects.order_by('-created_at')
-    return render(request, 'index.html', {'imgs': imgs})
+    pub_imgs = [img for img in imgs if img.is_public]
+    return render(request, 'index.html', {'imgs': pub_imgs})
 
 
 
