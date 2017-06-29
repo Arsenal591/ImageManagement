@@ -1,9 +1,8 @@
 <html>
 <head><title></title></head>
 
-<body>
+{% for img in imgs %}
+<img src="{{img.path }}">
+{% endfor %}
 
-{{ content }}
-
-</body>
 </html>
