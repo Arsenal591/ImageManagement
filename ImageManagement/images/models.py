@@ -9,10 +9,10 @@ class ImageTag(models.Model):
         return self.name
 
 class ImagePost(models.Model):
-    author = models.ForeignKey('auth.User')
+    author = models.ForeignKey('auth.User', null=True)
     tags = models.ManyToManyField(ImageTag, blank=True)
     path = models.CharField(max_length=100)
-    is_public = models.BooleanField()
+    is_public = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=timezone.now)
     heat = models.IntegerField(default=0)
     

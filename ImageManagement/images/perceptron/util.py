@@ -7,8 +7,8 @@ from scipy.misc import *
 
 
 def gray(img):
-    return np.dot(img[:,:], [0.299, 0.587, 0.114])
-
+    chan =  np.dot(img[:,:], [0.299, 0.587, 0.114])
+    return np.concatenate((chan, chan, chan), axis=2)
 
 def blur(img, degree=0.5):
     ksize_h = int(degree * img.shape[0])
