@@ -9,7 +9,7 @@ class LoginForm(AuthenticationForm):
 class SignupForm(UserCreationForm):
     email = forms.EmailField()
     nickname = forms.CharField()
-    gender = forms.BooleanField()
+    gender = forms.BooleanField(required=False)
     class Meta:
         model = MyUser
         fields = ['username', 'email', 'nickname', 'gender']
