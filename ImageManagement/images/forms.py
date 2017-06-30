@@ -3,9 +3,8 @@ from .models import ImagePost, ImageComment, ImageTag
 
 
 
-class UploadImgForm(forms.ModelForm):
-    class Meta:
-        model = ImagePost
-        fields = ('is_public', 'description')
-
+class EditForm(forms.ModelForm):
+    description = forms.CharField(label='description', max_length=140)
+    tags = forms.MultipleChoiceField(ImageTag.objects.all())
+    is_pulic = forms.BooleanField()
 
