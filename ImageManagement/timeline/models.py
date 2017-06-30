@@ -1,14 +1,15 @@
-from ..users.models import MyUser
-from ..images.models import ImagePost
+from users.models import MyUser
+from images.models import ImagePost
 from django.db import models
 from django.utils import timezone
 
 class TimelineComment(models.Model):
-    sender_id = models.ForeignKey(MyUser)
+    sender_id = models.ForeignKey(MyUser, related_name='sender')
     timeline_id = models.ForeignKey('Timeline')
-    receiver_id = models.ForeignKey(MyUser)
+    receiver_id = models.ForeignKey(MyUser, related_name='receiver')
     occur_time = models.TimeField(default=timezone.now)
-# Create your models here.
+
+
 class Timeline(models.Model):
     user_id = models.ForeignKey(MyUser)
     occur_time = models.DateTimeField(default=timezone.now)
