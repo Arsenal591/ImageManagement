@@ -36,6 +36,6 @@ def upload_img(request):
             return render(request, 'success.html')
         return render(requese, 'fail.html')
 
+    
 
 
-# Create your views here.
