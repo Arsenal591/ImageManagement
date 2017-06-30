@@ -51,9 +51,18 @@
     <Compile Include="timeline\__init__.py" />
     <Compile Include="users\admin.py" />
     <Compile Include="users\apps.py" />
+    <Compile Include="users\auth_views.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="users\migrations\__init__.py" />
     <Compile Include="users\models.py" />
+    <Compile Include="users\forms.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="users\tests.py" />
+    <Compile Include="users\urls.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="users\views.py" />
     <Compile Include="users\__init__.py" />
     <Compile Include="__init__.py">
@@ -64,7 +73,11 @@
     <Content Include="images\templates\index.html" />
     <Content Include="requirements.txt" />
     <Content Include="timeline\templates\index.html" />
-    <Content Include="users\templates\index.html" />
+    <Content Include="users\templates\basic.html" />
+    <Content Include="users\templates\signup.html" />
+    <Content Include="users\templates\welcome.html" />
+    <Content Include="users\templates\login.html" />
+    <Content Include="users\templates\shit.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ImageManagement\" />

@@ -1,0 +1,12 @@
+﻿{% extends 'basic.html'%}
+{% load bootstrap3 %}
+{% block content %}
+<h3>请登录</h3>
+<div>
+    <form method="post", action="{%url 'authenticate'%}">
+        {% csrf_token %}
+        {% bootstrap_form login_form %}
+        {% buttons submit='登录' %}{% endbuttons %}
+    </form>
+</div>
+{% endblock %}

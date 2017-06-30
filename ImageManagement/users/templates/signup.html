@@ -1,0 +1,12 @@
+﻿{% extends 'basic.html'%}
+{% load bootstrap3 %}
+{% block content %}
+<h3>请输入你的个人信息</h3>
+<div>
+    <form method="post", action="{%url 'signup-submit'%}">
+        {% csrf_token %}
+        {% bootstrap_form signup_form %}
+        {% buttons submit='提交' %}{% endbuttons %}
+    </form>
+</div>
+{% endblock %}
