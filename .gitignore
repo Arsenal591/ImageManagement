@@ -243,6 +243,9 @@ ModelManifest.xml
 # Paket dependency manager
 .paket/paket.exe
 
+# py
+*.pyc*
+
 # FAKE - F# Make
 .fake/
 /ImageManagement/ImageManagement/module1.py
