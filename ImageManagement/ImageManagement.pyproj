@@ -73,6 +73,7 @@
     <Content Include="images\templates\index.html" />
     <Content Include="requirements.txt" />
     <Content Include="timeline\templates\index.html" />
+    <Content Include="timeline\timeline_generator.py" />
     <Content Include="users\templates\basic.html" />
     <Content Include="users\templates\signup.html" />
     <Content Include="users\templates\welcome.html" />
