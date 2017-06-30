@@ -42,16 +42,41 @@
     <Compile Include="ImageManagement\__init__.py" />
     <Compile Include="ImageManagement\urls.py" />
     <Compile Include="ImageManagement\wsgi.py" />
+    <Compile Include="timeline\admin.py" />
+    <Compile Include="timeline\apps.py" />
+    <Compile Include="timeline\migrations\__init__.py" />
+    <Compile Include="timeline\models.py" />
+    <Compile Include="timeline\tests.py" />
+    <Compile Include="timeline\views.py" />
+    <Compile Include="timeline\__init__.py" />
+    <Compile Include="users\admin.py" />
+    <Compile Include="users\apps.py" />
+    <Compile Include="users\migrations\__init__.py" />
+    <Compile Include="users\models.py" />
+    <Compile Include="users\tests.py" />
+    <Compile Include="users\views.py" />
+    <Compile Include="users\__init__.py" />
+    <Compile Include="__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\templates\index.html" />
     <Content Include="requirements.txt" />
+    <Content Include="timeline\templates\index.html" />
+    <Content Include="users\templates\index.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ImageManagement\" />
     <Folder Include="images\" />
     <Folder Include="images\migrations\" />
     <Folder Include="images\templates\" />
+    <Folder Include="timeline\" />
+    <Folder Include="timeline\migrations\" />
+    <Folder Include="timeline\templates\" />
+    <Folder Include="users\" />
+    <Folder Include="users\migrations\" />
+    <Folder Include="users\templates\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.Django.targets" />
   <!-- Specify pre- and post-build commands in the BeforeBuild and 
