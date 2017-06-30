@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from .models import ImageTag, ImageComment, ImagePost
+from .models import ImageTag,  ImagePost
 from django.contrib.auth.models import User
 from django.utils import timezone
 import time
@@ -36,6 +36,6 @@ def upload_img(request):
             return render(request, 'success.html')
         return render(requese, 'fail.html')
 
+    
 
 
-# Create your views here.

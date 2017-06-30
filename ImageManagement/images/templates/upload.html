@@ -1,5 +1,64 @@
+<!--
+=======
+<h1>Step 1: Upload your image</h1>
+>>>>>>> a92b27ba032dc65574a534c00dd2e5bd47a1d3d1
 <form action="/upload_img" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <input name="image" type="file" id="uploadImage">
     <button id="uploadImageBtn" class="btn" type="submit">Upload</button>
+    <div id="options">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Make this image</label>
+                <div class="col-sm-10">
+                    <select class="form-control">
+                        <option>Public</option>
+                        <option>Private</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
 </form>
+-->
+<form action="/upload_img" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input name="image" type="file" id="uploadImage">
+
+    <div id="options">
+        <div class="make_private">
+            <label>
+                <input type="checkbox" value="">
+                Make this image private.
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" id="cutout-check" value="">
+                Cut out
+            </label>
+            <input type="text" id="cutout-value" disabled>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" id="rotate-check" value="">
+                Rotate
+            </label>
+            <input type="text" id="rotate-value" disabled>
+        </div>
+    </div>
+    </form>
+	<script>
+    $("#cutout-check").click(function () {
+        if($("#cutout-check")[0].checked == false)
+            $("#cutout-value")[0].setAttribute('disabled', 'disabled');
+        else
+            $("#cutout-value")[0].removeAttribute('disabled');
+    })
+    $("#rotate-check").click(function () {
+        if($("#rotate-check")[0].checked == false)
+            $("#rotate-value")[0].setAttribute('disabled', 'disabled');
+        else
+            $("#rotate-value")[0].removeAttribute('disabled');
+    })
+</script>
