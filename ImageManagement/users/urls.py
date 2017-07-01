@@ -14,6 +14,10 @@ urlpatterns = [
     url(r'^changepassword/submit[/]?$', auth_views.changepassword_submit, name='changepassword-submit'),
     url(r'^changeinfo[/]?$', auth_views.changeinfo, name='changeinfo'),
     url(r'^changeinfo/submit[/]?$', auth_views.changeinfo_submit, name='changeinfo-submit'),
-    #url(r'^managerelationship[/]?$', auth_views.manage_relationship, name='manage-relationship'),
+    url(r'^managerelationship[/]?$', views.manage_relationship, name='manage-relationship'),
     url(r'^users/(?P<visited_username>[A-Za-z0-9\@\.\+\-\_]+)[/]?$', views.visit_user, name='visit-user'),
+    url(r'^follow/(?P<follow_username>[A-Za-z0-9\@\.\+\-\_]+)[/]?$', views.follow_user, name='follow-user'),
+    url(r'^unfollow/(?P<unfollow_username>[A-Za-z0-9\@\.\+\-\_]+)[/]?$',views.unfollow_user, name='unfollow-user'),
+    url(r'^black/(?P<black_username>[A-Za-z0-9\@\.\+\-\_]+)[/]?$',views.black_user, name='black-user'),
+    url(r'^unblack/(?P<unblack_username>[A-Za-z0-9\@\.\+\-\_]+)[/]?$',views.unblack_user, name='unblack-user'),
 ]

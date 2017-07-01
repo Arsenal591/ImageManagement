@@ -19,7 +19,6 @@ class SignupForm(UserCreationForm):
         new_user.email = self.cleaned_data['email']
         new_user.nickname = self.cleaned_data['nickname']
         new_user.gender = self.cleaned_data['gender']
-        new_user.date_joined = ''
         if commit:
             new_user.save()
         return new_user

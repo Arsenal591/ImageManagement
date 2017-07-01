@@ -1,0 +1,25 @@
+﻿{% extends 'basic.html'%}
+{% load bootstrap3 %}
+{% block content %}
+
+<h3>管理用户关系</h3>
+<h4>关注列表</h4>
+{% for user in followings %}
+<li>{{user.nickname}}</li>
+<a href="">查看主页</a>
+<a href="{{"/follow/"|add:user.username}}">关注该用户</a>
+<a href="{{'/unfollow/'|add:user.username}}">取消关注</a>
+<a href="{{'/black/'|add:user.username}}">加入黑名单</a>
+<a href="{{'/unblack/'|add:user.username}}">移出黑名单</a>
+{% endfor %}
+
+{% for user in blacklist %}
+<h4>黑名单列表</h4>
+<li>{{user.nickname}}</li>
+<a href="">查看主页</a>
+<a href="{{"/follow/"|add:user.username}}">关注该用户</a>
+<a href="{{'/unfollow/'|add:user.username}}">取消关注</a>
+<a href="{{'/black/'|add:user.username}}">加入黑名单</a>
+<a href="{{'/unblack/'|add:user.username}}">移出黑名单</a>
+{% endfor %}
+{% endblock %}

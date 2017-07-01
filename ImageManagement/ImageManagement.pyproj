@@ -164,6 +164,7 @@
     <Content Include="users\templates\basic.html" />
     <Content Include="users\templates\changeinfo.html" />
     <Content Include="users\templates\changepassword.html" />
+    <Content Include="users\templates\managerelationship.html" />
     <Content Include="users\templates\messages.html" />
     <Content Include="users\templates\signup.html" />
     <Content Include="users\templates\welcome.html" />
