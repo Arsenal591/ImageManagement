@@ -8,9 +8,9 @@ class LoginForm(AuthenticationForm):
         fields = ['username', 'password']
 
 class SignupForm(UserCreationForm):
-    email = forms.EmailField()
-    nickname = forms.CharField()
-    gender = forms.BooleanField(required=False)
+    email = forms.EmailField(label='电子邮箱')
+    nickname = forms.CharField(label='昵称')
+    gender = forms.ChoiceField(label='性别', choices=[(0, '男'), (1, '女')])
     class Meta:
         model = MyUser
         fields = ['username', 'email', 'nickname', 'gender']
@@ -19,17 +19,27 @@ class SignupForm(UserCreationForm):
         new_user.email = self.cleaned_data['email']
         new_user.nickname = self.cleaned_data['nickname']
         new_user.gender = self.cleaned_data['gender']
+        new_user.date_joined = ''
         if commit:
             new_user.save()
         return new_user
 
-class UpdateInfoForm(forms.ModelForm):
-    old_password = forms.CharField(widget=forms.TextInput(attrs={'type':'password'}))
-    new_password = forms.CharField(widget=forms.TextInput(attrs={'type':'password'}))
-    new_password_2 = forms.CharField(widget=forms.TextInput(attrs={'type':'password'}))
-    email = forms.EmailField()
-    nickname = forms.CharField()
-    gender = forms.BooleanField(required=False)
+class ChangeinfoForm(forms.Form):
+    email = forms.EmailField(label='电子邮箱')
+    nickname = forms.CharField(label='新昵称')
+    gender = forms.ChoiceField(label='性别', choices=[(0, '男'), (1, '女')])
 
-    class Meta:
-        pass
+    def set_username(self, username):
+        self.username = username
+
+    def save(self, commit=True):
+        tar_user = MyUser.objects.get(username=self.username)
+        if not tar_user:
+            raise forms.ValidationError('CANNOT FIND THIS USER')
+        tar_user.email = self.cleaned_data['email']
+        tar_user.nickname = self.cleaned_data['nickname']
+        tar_user.gender = self.cleaned_data['gender']
+
+        if commit:
+            tar_user.save()
+        return tar_user

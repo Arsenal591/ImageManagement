@@ -2,7 +2,7 @@ from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .forms import LoginForm, SignupForm
+from .forms import LoginForm, SignupForm, ChangeinfoForm
 
 def login(request):
     login_form = LoginForm(None)
@@ -54,3 +54,20 @@ def changepassword_submit(request):
         return redirect('login')
     else:
         return redirect('changepassword')
+
+@login_required(login_url='login')
+def changeinfo(request):
+    form = ChangeinfoForm(None)
+    return render(request, 'changeinfo.html', {'form':form})
+
+@login_required(login_url='login')
+def changeinfo_submit(request):
+    params = request.POST if request.method == 'POST' else None
+    form = ChangeinfoForm(params)
+    form.set_username(request.user.username)
+
+    if form.is_valid():
+        form.save()
+        return redirect('/')
+    else:
+        return redirect('changeinfo')
