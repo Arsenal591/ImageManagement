@@ -33,9 +33,11 @@
     </Compile>
     <Compile Include="images\admin.py" />
     <Compile Include="images\apps.py" />
+    <Compile Include="images\forms.py" />
     <Compile Include="images\migrations\__init__.py" />
     <Compile Include="images\models.py" />
     <Compile Include="images\tests.py" />
+    <Compile Include="images\urls.py" />
     <Compile Include="images\views.py" />
     <Compile Include="images\__init__.py" />
     <Compile Include="manage.py" />
@@ -70,7 +72,28 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\static\bootstrap\css\bootstrap-responsive.css" />
+    <Content Include="images\static\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="images\static\bootstrap\css\bootstrap.css" />
+    <Content Include="images\static\bootstrap\css\bootstrap.min.css" />
+    <Content Include="images\static\bootstrap\img\glyphicons-halflings-white.png" />
+    <Content Include="images\static\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="images\static\bootstrap\js\bootstrap.js" />
+    <Content Include="images\static\bootstrap\js\bootstrap.min.js" />
+    <Content Include="images\static\images\14987463227656848360.jpg" />
+    <Content Include="images\static\samples\0.jpg" />
+    <Content Include="images\static\samples\1.jpg" />
+    <Content Include="images\static\samples\2.jpg" />
+    <Content Include="images\static\samples\3.jpg" />
+    <Content Include="images\static\samples\4.jpg" />
+    <Content Include="images\static\samples\5.jpg" />
+    <Content Include="images\static\samples\6.jpg" />
+    <Content Include="images\static\samples\7.jpg" />
+    <Content Include="images\templates\edit.html" />
+    <Content Include="images\templates\fail.html" />
     <Content Include="images\templates\index.html" />
+    <Content Include="images\templates\success.html" />
+    <Content Include="images\templates\upload.html" />
     <Content Include="requirements.txt" />
     <Content Include="timeline\templates\index.html" />
     <Content Include="timeline\timeline_generator.py" />
@@ -84,6 +107,13 @@
     <Folder Include="ImageManagement\" />
     <Folder Include="images\" />
     <Folder Include="images\migrations\" />
+    <Folder Include="images\static\" />
+    <Folder Include="images\static\bootstrap\" />
+    <Folder Include="images\static\bootstrap\css\" />
+    <Folder Include="images\static\bootstrap\img\" />
+    <Folder Include="images\static\bootstrap\js\" />
+    <Folder Include="images\static\images\" />
+    <Folder Include="images\static\samples\" />
     <Folder Include="images\templates\" />
     <Folder Include="timeline\" />
     <Folder Include="timeline\migrations\" />
