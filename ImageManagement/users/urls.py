@@ -10,5 +10,8 @@ urlpatterns = [
     url(r'^signup/$', auth_views.signup, name='signup'),
     url(r'^signup/submit', auth_views.signup_submit, name='signup-submit'),
     url(r'^logout/', auth_views.logout, name='logout'),
-    #url(r'')
+    url(r'^changepassword/$', auth_views.changepassword, name='changepassword'),
+    url(r'^changepassword/submit', auth_views.changepassword_submit, name='changepassword-submit'),
+    url(r'^changeinfo/$', auth_views.changeinfo, name='changeinfo'),
+    url(r'^changeinfo/submit', auth_views.changeinfo_submit, name='changeinfo-submit'),
 ]

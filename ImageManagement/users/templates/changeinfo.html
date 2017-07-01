@@ -1,0 +1,13 @@
+﻿{% extends 'basic.html'%}
+{% load bootstrap3 %}
+{% block content %}
+
+<h3>修改个人信息</h3>
+<div>
+    <form method="post", action="{%url 'changeinfo-submit'%}">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons submit='提交' %}{% endbuttons %}
+    </form>
+</div>
+{% endblock %}
