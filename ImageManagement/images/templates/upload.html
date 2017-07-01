@@ -1,26 +1,15 @@
-<!--
-=======
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block content %}
 <h1>Step 1: Upload your image</h1>
->>>>>>> a92b27ba032dc65574a534c00dd2e5bd47a1d3d1
-<form action="/upload_img" method="POST" enctype="multipart/form-data">
+<form action="{% url 'upload' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <input name="image" type="file" id="uploadImage">
-    <button id="uploadImageBtn" class="btn" type="submit">Upload</button>
-    <div id="options">
-        <form class="form-horizontal">
-            <div class="form-group">
-                <label class="col-sm-2 control-label">Make this image</label>
-                <div class="col-sm-10">
-                    <select class="form-control">
-                        <option>Public</option>
-                        <option>Private</option>
-                    </select>
-                </div>
-            </div>
-        </form>
-    </div>
+    {% bootstrap_form_errors form %}
+    {% bootstrap_form form %}
+    {% buttons submit='Submit' %}{% endbuttons %}
 </form>
--->
+{% endblock %}
+<!--
 <form action="/upload_img" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <input name="image" type="file" id="uploadImage">
@@ -63,3 +52,4 @@
             $("#rotate-value")[0].removeAttribute('disabled');
     })
 </script>
+-->

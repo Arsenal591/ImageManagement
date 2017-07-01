@@ -9,6 +9,7 @@ from django.utils import timezone
 import time
 import random
 import os
+from .forms import *
 from scipy import misc
 from django.http import HttpResponse
 
@@ -18,7 +19,13 @@ def index(request):
     return render(request, 'index.html', {'imgs': pub_imgs})
 
 def upload(request):
-    return render(request, 'upload.html')
+    if request.method == 'POST':
+        form = UploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.save()
+            return render(request, 'success.html')
+    return render(request, 'upload.html', {'form': UploadForm()})
 
 def upload_img(request):
     if request.method == 'POST':

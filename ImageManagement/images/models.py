@@ -17,18 +17,18 @@ class ImageTag(models.Model):
 class ImagePost(models.Model):
     # basic info
     author = models.ForeignKey('auth.User', null=True)
-    tags = models.ManyToManyField(ImageTag)
-    path = models.CharField(max_length=128)
+    tags = models.ManyToManyField(ImageTag, null=True)
     is_public = models.BooleanField(default=True)
     created_at = models.DateTimeField(default=timezone.now)
     like_num = models.IntegerField(default=0)
-    store_num = models.IntegerField(default=0)
+    collect_num = models.IntegerField(default=0)
     description = models.CharField(max_length=140, null=True)
+    img = models.ImageField(null=True)
     # edit from some picture?
     parent = models.ForeignKey('ImagePost', null=True)
 
     def __str__(self):
-        return self.path
+        return str(self.id)
 
 #class ImageComment(models.Model):
 #    image = models.ForeignKey(ImagePost, on_delete=models.CASCADE)
