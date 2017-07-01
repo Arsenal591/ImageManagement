@@ -28,14 +28,12 @@ def signup_submit(request):
     params = request.POST if request.method == 'POST' else None
     form = SignupForm(params)
     if form.is_valid():
-        print('Im valid')
         new_user = form.save(commit=False)
         new_user.email = form.cleaned_data['email']
         new_user.nickname = form.cleaned_data['nickname']
         new_user.gender = form.cleaned_data['gender']
         new_user.save()
         return redirect('login')
-    print('Im dirty', form)
     return redirect('signup')
 
 @login_required(login_url='login')
