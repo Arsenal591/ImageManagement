@@ -2,7 +2,8 @@
 <head><title></title></head>
 
 {% for img in imgs %}
-<img src="{{img.path }}">
+<img src="/static/img_pool/{{ img.img }}">
+{{ img.tags.all }}
 {% endfor %}
 
 </html>
