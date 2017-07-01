@@ -8,3 +8,6 @@ from django.http import HttpResponse
 #@login_required(login_url='login')
 def index(request):
     return render(request, 'welcome.html')
+
+def visit_user(request, visited_username):
+    pass
