@@ -6,6 +6,7 @@ from django.utils import timezone
 TIMELINE_TYPE = [('like', 'like'), ('collect', 'collect'), ('comment', 'comment'), ('post', 'post')]
 class Timeline(models.Model):
     type = models.CharField(max_length=10, choices=TIMELINE_TYPE)
+    original = models.ForeignKey('self', null=True)
     sender_id = models.ForeignKey(MyUser, related_name='sends')
     image_id = models.ForeignKey(ImagePost)
     receiver_id = models.ForeignKey(MyUser, related_name='receives', null=True)

@@ -53,6 +53,12 @@
     <Compile Include="timeline\migrations\__init__.py" />
     <Compile Include="timeline\models.py" />
     <Compile Include="timeline\tests.py" />
+    <Compile Include="timeline\timeline_analysis.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="timeline\timeline_spread.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="timeline\views.py" />
     <Compile Include="timeline\__init__.py" />
     <Compile Include="users\admin.py" />
