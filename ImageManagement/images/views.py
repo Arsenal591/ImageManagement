@@ -137,7 +137,11 @@ def process(request, img_id):
         return render(request, 'success.html')
 
     return render(request, 'process.html', {'img': img_post, 'form': ProcessForm()})
-        
+
+def detail(request, img_id):
+    img_post = get_object_or_404(ImagePost, pk=img_id)
+    return render(request, 'detail.html', {'img': img_post})
+
 def filtershow(request):
     return render(request, 'filter.html')
 
