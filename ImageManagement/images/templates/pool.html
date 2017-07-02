@@ -12,9 +12,11 @@
                 <p>name</p>
             </div>
             -->
+            {% load static %}
             {% for img in imgs %}
             <div class="col-sm-2 placeholder">
-                <img src="/static/img_pool/{{ img.img }}" width="200" height="200"
+                <img src="{% static 'img_pool/{{ img.img }}' %}" width="200"
+                     height="200"
                      class="img-responsive"
                      alt="Generic placeholder thumbnail">
                 <p>name</p>
