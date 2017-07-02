@@ -16,7 +16,7 @@ def select_object_timeline_by_name(request_name, target_name):
     request_user = MyUser.objects.get(username=request_name)
     target_user = MyUser.objects.get(username=target_name)
 
-    assert (request_user is not None) and (target_user is not None)
+    assert (request_user is not None) and (target_user is not None) 
 
     return select_object_timeline_by_user(request_user, target_user)
 
