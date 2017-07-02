@@ -36,6 +36,7 @@
     <Compile Include="images\forms.py" />
     <Compile Include="images\migrations\__init__.py" />
     <Compile Include="images\models.py" />
+    <Compile Include="images\slave.py" />
     <Compile Include="images\tests.py" />
     <Compile Include="images\urls.py" />
     <Compile Include="images\views.py" />
@@ -89,10 +90,13 @@
     <Content Include="images\static\samples\5.jpg" />
     <Content Include="images\static\samples\6.jpg" />
     <Content Include="images\static\samples\7.jpg" />
+    <Content Include="images\tags.list" />
     <Content Include="images\templates\base.html" />
     <Content Include="images\templates\edit.html" />
     <Content Include="images\templates\fail.html" />
     <Content Include="images\templates\index.html" />
+    <Content Include="images\templates\pool.html" />
+    <Content Include="images\templates\process.html" />
     <Content Include="images\templates\success.html" />
     <Content Include="images\templates\upload.html" />
     <Content Include="requirements.txt" />
