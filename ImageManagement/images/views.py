@@ -10,6 +10,7 @@ from PIL import Image
 from django.core.files import File
 import time
 import os
+import random
 from .forms import *
 from .slave import *
 from scipy import misc
@@ -19,7 +20,7 @@ from django.conf import settings
 def img_pool(request):
     imgs = ImagePost.objects.order_by('-created_at')
     pub_imgs = [img for img in imgs if img.is_public]
-    pub_imgs = pub_imgs[:]
+    pub_imgs = pub_imgs[:6]
     return render(request, 'pool.html', {'imgs': pub_imgs})
 
 def upload(request):
@@ -50,11 +51,12 @@ def create_img(img_post, method, **kwargs):
         new_img = rotate(img_file, kwargs['angle'])
     else:
         return
-    new_path = img_dir + img_name.split('.')[0] + '_' + method + '.jpg'
+    new_name = img_name.split('.')[0] + '_' + method + str(random.randint(0,1000)) + '.jpg'
+    new_path = img_dir + new_name
     misc.imsave(new_path, new_img)
 
     new_post = ImagePost()
-    new_post.img = File(new_path)
+    new_post.img.name = new_name
     new_post.author = img_post.author
     new_post.is_public = img_post.is_public
     new_post.parent = img_post
@@ -84,9 +86,11 @@ def process(request, img_id):
             # for convience set the height and width percentage the same
             create_img(img_post, 'rescale', percentage=[percent, percent])
         
-        rotate = int(form['rotate'].value())
-        if rotate != 0 and rotate != 360:
-            create_img(img_post, 'rotate', angle=rotate)
+        rotate = form['rotate'].value()
+        if len(rotate) != 0:
+            rotate = int(rotate)
+            if rotate != 0 and rotate != 360:
+                create_img(img_post, 'rotate', angle=rotate)
         
         return render(request, 'success.html')
 
