@@ -36,26 +36,30 @@ def add_tag(post, tag_line):
             tag_ins.save()
         post.tags.add(tag_ins)
 
+@login_required
 def upload(request):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if True: # lazy to delete this line
             post = form.save()
+            post.author = request.user
             add_tag(post, form['tags'].value())
             # need to add user info here
             post.save()
             return redirect('process', post.id)
     return render(request, 'upload.html', {'form': UploadForm()})
 
-def create_post_entry(is_public, description, img, tags):
+def create_post_entry(is_public, description, img, tags, author):
     new_post = ImagePost()
     new_post.save()
     new_post.img = img
     new_post.is_public = is_public
     new_post.description = description
     add_tag(new_post, tags)
+    new_post.author = author
     new_post.save()
 
+@login_required
 def upload_batch(request):
     if request.method == 'POST':
         form = BatchUploadForm(request.POST)
@@ -65,7 +69,7 @@ def upload_batch(request):
             tags = form['tags'].value()
             imgs = request.FILES.getlist('img_batch')
             for img in imgs:
-                create_post_entry(is_public, description, img, tags)
+                create_post_entry(is_public, description, img, tags, request.user)
             return render(request, 'success.html')
     return render(request, 'upload_batch.html', {'form': BatchUploadForm()})
 
@@ -92,6 +96,7 @@ def create_img(img_post, method, **kwargs):
     misc.imsave(new_path, new_img)
 
     new_post = ImagePost()
+    new_post.save()
     new_post.img.name = new_name
     new_post.author = img_post.author
     new_post.is_public = img_post.is_public
@@ -101,6 +106,7 @@ def create_img(img_post, method, **kwargs):
         new_post.tags.add(tag)
     new_post.save()
 
+@login_required
 def process(request, img_id):
     img_post = get_object_or_404(ImagePost, pk=img_id)
     form = ProcessForm(request.POST)
