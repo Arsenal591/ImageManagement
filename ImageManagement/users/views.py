@@ -1,8 +1,9 @@
 from django.shortcuts import render
-from django.contrib import auth
+from django.contrib import auth, messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from .models import MyUser
+from .forms import SearchForm
 
 # Create your views here.
 
@@ -16,13 +17,18 @@ def visit_user(request, visited_username):
 
 @login_required(login_url='login')
 def manage_relationship(request, search_result = None):
+    search_form = SearchForm(None)
     user = MyUser.objects.get(username=request.user.username)
     followings = user.followings.values()
     blacklist = user.blacklist.values()
 
-    return render(request, 'managerelationship.html', {'search_result': search_result, 
+    if search_result == None or len(search_result) == 0:
+        messages.info(request, '对不起，找不到该用户！')
+    return render(request, 'managerelationship.html', {'search_form': search_form,
+                                                       'search_result': search_result, 
                                                        'followings': followings, 
-                                                       'blacklist': blacklist}
+                                                       'blacklist': blacklist,
+                                                       'username': request.user.username}
                   )
 
 
@@ -92,3 +98,16 @@ def unblack_user(request, unblack_username):
         print("sorry NOT in my blacklist")
 
     return manage_relationship(request)
+
+@login_required(login_url='login')
+def search_user(request):
+    params = request.POST if request.method == 'POST' else None
+    form = SearchForm(params)
+
+    if form.is_valid():
+        username = form.cleaned_data['username']
+        results = MyUser.objects.filter(username=username)
+        return manage_relationship(request, results)
+    else:
+        messages.info(request, '您的输入不合法！')
+        return manage_relationship(request)

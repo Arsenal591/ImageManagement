@@ -42,3 +42,6 @@ class ChangeinfoForm(forms.Form):
         if commit:
             tar_user.save()
         return tar_user
+
+class SearchForm(forms.Form):
+    username = forms.CharField(label = '请输入用户名称')
