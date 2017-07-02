@@ -2,9 +2,10 @@ from django import forms
 from .models import ImagePost, ImageTag
 
 class UploadForm(forms.ModelForm):
+    tags = forms.CharField(max_length=512)
     class Meta:
         model = ImagePost
-        fields = ('description','tags', 'is_public', 'img')
+        fields = ('description','is_public', 'img')
 
 class ProcessForm(forms.Form):
     gray = forms.BooleanField(required=False)
@@ -17,7 +18,7 @@ class BatchUploadForm(forms.Form):
     is_public = forms.BooleanField(required=False)
     description = forms.CharField(max_length=140, required=False)
     img_batch = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    # tags = forms.CharField(max_length=512)
+    tags = forms.CharField(max_length=512)
 
 
 
