@@ -35,7 +35,7 @@
             </div>
             <div id="navbar">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="">Home</a></li>
+                    <li class="active"><a href="home">Home</a></li>
                     <li><a href="{%url 'pool'%}">Pool</a></li>
                     <li><a href="{%url 'filter'%}">Filter</a></li>
                     <li class="dropdown">
@@ -63,13 +63,14 @@
                 <ul class="nav navbar-nav navbar-right">
 				{% if user.is_authenticated %}
                     <li class="dropdown">
-                        <a href="{%url 'logout'%}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Log out(<b>{{user.username}}</b>) <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><b>{{user.username}}</b><span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">Upload Image</a></li>
                             <li><a href="#">Manage Image</a></li>
                             <li><a href="{%url 'changeinfo'%}">Modify Info</a></li>
 							<li><a href="{%url 'manage-relationship'%}">Manage Relationship</a></li>
-                        </ul>
+                            <li><a href="{%url 'logout'%}">Log Out</a></li>
+						</ul>
                     </li>
 				{% else %}
 					<li><a href="{%url 'login'%}">Log In</a></li>
