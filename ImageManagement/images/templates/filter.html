@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container">
+
+    <div class="table">
+        <table data-toggle="table" id="table_filter"
+               class="table table-striped table-bordered" data-sort-order="desc"
+               data-search="true" data-filter-control="true">
+            <thead>
+            <tr>
+                <th data-field="class" data-sortable="true" width="20%"
+                    data-filter-control="select">Class</th>
+                <th data-field="name" data-sortable="true"
+                    data-filter-control="input" width="30%">Name</th>
+                <th data-field="date" data-sortable="true" width="30%"
+                    data-filter-control="select">Date</th>
+                <th data-field="src" data-sortable="false" width="40%">Source</th>
+            </tr>
+            </thead>
+            <tr>
+                <td>Class0</td>
+                <td>Img1</td>
+                <td>1958:1:1</td>
+                <td>XXX.XXX.XX.XX</td>
+            </tr>
+            <tr>
+                <td>Class1</td>
+                <td>Img2</td>
+                <td>1989:4:26</td>
+                <td>XXX.XXX.XX.XX</td>
+            </tr>
+            <tr>
+                <td>Class0</td>
+                <td>Img3</td>
+                <td>1989:6:4</td>
+                <td>XXX.XXX.XX.XX</td>
+            </tr>
+        </table>
+    </div>
+</div><!-- /.container -->
+{% endblock %}
+
