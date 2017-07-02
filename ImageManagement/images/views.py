@@ -23,21 +23,37 @@ def img_pool(request):
     pub_imgs = pub_imgs[:6]
     return render(request, 'pool.html', {'imgs': pub_imgs})
 
+def add_tag(post, tag_line):
+    tags = tag_line.split()
+    for tag in tags:
+        tag = tag.lower()
+        tag_ins = None
+        tag_set = ImageTag.objects.filter(name=tag)
+        if tag_set:
+            tag_ins = tag_set[0]
+        else:
+            tag_ins = ImageTag(name=tag)
+            tag_ins.save()
+        post.tags.add(tag_ins)
+
 def upload(request):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if True: # lazy to delete this line
-            post = form.save(commit=False)
+            post = form.save()
+            add_tag(post, form['tags'].value())
             # need to add user info here
             post.save()
             return redirect('process', post.id)
     return render(request, 'upload.html', {'form': UploadForm()})
 
-def create_post_entry(is_public, description, img):
+def create_post_entry(is_public, description, img, tags):
     new_post = ImagePost()
+    new_post.save()
     new_post.img = img
     new_post.is_public = is_public
     new_post.description = description
+    add_tag(new_post, tags)
     new_post.save()
 
 def upload_batch(request):
@@ -46,12 +62,11 @@ def upload_batch(request):
         if True: # lazy to delete this line
             is_public = bool(form['description'].value())
             description = form['description'].value()
+            tags = form['tags'].value()
             imgs = request.FILES.getlist('img_batch')
             for img in imgs:
-                create_post_entry(is_public, description, img)
+                create_post_entry(is_public, description, img, tags)
             return render(request, 'success.html')
-        else:
-            return HttpResponse('The form is not valid')
     return render(request, 'upload_batch.html', {'form': BatchUploadForm()})
 
 def create_img(img_post, method, **kwargs):
