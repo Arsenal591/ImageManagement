@@ -36,7 +36,11 @@
     <Compile Include="images\forms.py" />
     <Compile Include="images\migrations\__init__.py" />
     <Compile Include="images\models.py" />
+    <Compile Include="images\slave.py" />
     <Compile Include="images\tests.py" />
+    <Compile Include="images\timeline_processer.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="images\urls.py" />
     <Compile Include="images\views.py" />
     <Compile Include="images\__init__.py" />
@@ -72,27 +76,42 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="images\static\.gitignore" />
     <Content Include="images\static\bootstrap\css\bootstrap-responsive.css" />
     <Content Include="images\static\bootstrap\css\bootstrap-responsive.min.css" />
+    <Content Include="images\static\bootstrap\css\bootstrap-table.css" />
+    <Content Include="images\static\bootstrap\css\bootstrap-table.min.css" />
+    <Content Include="images\static\bootstrap\css\bootstrap-theme.css" />
+    <Content Include="images\static\bootstrap\css\bootstrap-theme.css.map" />
+    <Content Include="images\static\bootstrap\css\bootstrap-theme.min.css" />
+    <Content Include="images\static\bootstrap\css\bootstrap-theme.min.css.map" />
     <Content Include="images\static\bootstrap\css\bootstrap.css" />
+    <Content Include="images\static\bootstrap\css\bootstrap.css.map" />
     <Content Include="images\static\bootstrap\css\bootstrap.min.css" />
+    <Content Include="images\static\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="images\static\bootstrap\css\vica.css" />
+    <Content Include="images\static\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="images\static\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="images\static\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="images\static\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="images\static\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="images\static\bootstrap\img\glyphicons-halflings-white.png" />
     <Content Include="images\static\bootstrap\img\glyphicons-halflings.png" />
+    <Content Include="images\static\bootstrap\js\bootstrap-table.js" />
+    <Content Include="images\static\bootstrap\js\bootstrap-table.min.js" />
     <Content Include="images\static\bootstrap\js\bootstrap.js" />
     <Content Include="images\static\bootstrap\js\bootstrap.min.js" />
-    <Content Include="images\static\images\14987463227656848360.jpg" />
-    <Content Include="images\static\samples\0.jpg" />
-    <Content Include="images\static\samples\1.jpg" />
-    <Content Include="images\static\samples\2.jpg" />
-    <Content Include="images\static\samples\3.jpg" />
-    <Content Include="images\static\samples\4.jpg" />
-    <Content Include="images\static\samples\5.jpg" />
-    <Content Include="images\static\samples\6.jpg" />
-    <Content Include="images\static\samples\7.jpg" />
+    <Content Include="images\static\bootstrap\js\jquery.min.js" />
+    <Content Include="images\static\bootstrap\js\npm.js" />
+    <Content Include="images\tags.list" />
     <Content Include="images\templates\base.html" />
     <Content Include="images\templates\edit.html" />
     <Content Include="images\templates\fail.html" />
+    <Content Include="images\templates\filter.html" />
+    <Content Include="images\templates\home.html" />
     <Content Include="images\templates\index.html" />
+    <Content Include="images\templates\pool.html" />
+    <Content Include="images\templates\process.html" />
     <Content Include="images\templates\success.html" />
     <Content Include="images\templates\upload.html" />
     <Content Include="requirements.txt" />
@@ -161,7 +180,7 @@
     <Content Include="static_html\doc\example\vica\upload.html" />
     <Content Include="timeline\templates\index.html" />
     <Content Include="timeline\timeline_generator.py" />
-    <Content Include="users\templates\basic.html" />
+    <Content Include="users\templates\base.html" />
     <Content Include="users\templates\changeinfo.html" />
     <Content Include="users\templates\changepassword.html" />
     <Content Include="users\templates\managerelationship.html" />
@@ -178,10 +197,9 @@
     <Folder Include="images\static\" />
     <Folder Include="images\static\bootstrap\" />
     <Folder Include="images\static\bootstrap\css\" />
+    <Folder Include="images\static\bootstrap\fonts\" />
     <Folder Include="images\static\bootstrap\img\" />
     <Folder Include="images\static\bootstrap\js\" />
-    <Folder Include="images\static\images\" />
-    <Folder Include="images\static\samples\" />
     <Folder Include="images\templates\" />
     <Folder Include="static_html\" />
     <Folder Include="static_html\doc\" />

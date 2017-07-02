@@ -22,7 +22,7 @@ def manage_relationship(request, search_result = None):
     followings = user.followings.values()
     blacklist = user.blacklist.values()
 
-    if search_result == None or len(search_result) == 0:
+    if search_result is not None and len(search_result) == 0:
         messages.info(request, '对不起，找不到该用户！')
     return render(request, 'managerelationship.html', {'search_form': search_form,
                                                        'search_result': search_result, 
