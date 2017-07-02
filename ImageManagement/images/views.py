@@ -14,7 +14,7 @@ import random
 from .forms import *
 from .slave import *
 from scipy import misc
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 
 def img_pool(request):
@@ -32,6 +32,27 @@ def upload(request):
             post.save()
             return redirect('process', post.id)
     return render(request, 'upload.html', {'form': UploadForm()})
+
+def create_post_entry(is_public, description, img):
+    new_post = ImagePost()
+    new_post.img = img
+    new_post.is_public = is_public
+    new_post.description = description
+    new_post.save()
+
+def upload_batch(request):
+    if request.method == 'POST':
+        form = BatchUploadForm(request.POST)
+        if True: # lazy to delete this line
+            is_public = bool(form['description'].value())
+            description = form['description'].value()
+            imgs = request.FILES.getlist('img_batch')
+            for img in imgs:
+                create_post_entry(is_public, description, img)
+            return render(request, 'success.html')
+        else:
+            return HttpResponse('The form is not valid')
+    return render(request, 'upload_batch.html', {'form': BatchUploadForm()})
 
 def create_img(img_post, method, **kwargs):
     img_dir = os.getcwd() + '/images/' + settings.MEDIA_DIR

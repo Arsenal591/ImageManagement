@@ -3,6 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^upload$', views.upload, name='upload'),
+    url(r'upload_batch', views.upload_batch, name='upload_batch'),
     url(r'^pool$', views.img_pool, name='pool'),
     url(r'process/([1-9][0-9]*)$', views.process, name='process'),
     url(r'^filter$', views.filtershow, name='filter'),    
