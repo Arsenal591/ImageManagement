@@ -67,4 +67,8 @@ def process(request, img_id):
     
     return render(request, 'process.html', {'img': img_post, 'form': ProcessForm()})
         
+def filtershow(request):
+    return render(request, 'filter.html')
 
+def home(request):
+    return render(request, 'home.html')
