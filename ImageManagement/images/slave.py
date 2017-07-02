@@ -1,4 +1,3 @@
-import matplotlib.pyplot as plt
 import numpy as np
 import cv2 as cv
 from scipy.misc import *
@@ -7,8 +6,9 @@ from scipy.misc import *
 
 
 def gray(img):
-    chan =  np.dot(img[:,:], [0.299, 0.587, 0.114])
-    return np.concatenate((chan, chan, chan), axis=2)
+    chan = np.dot(img, [0.299, 0.587, 0.114])
+    chan = np.uint8(chan)
+    return chan
 
 def blur(img, degree=0.5):
     ksize_h = int(degree * img.shape[0])
