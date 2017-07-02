@@ -38,6 +38,9 @@
     <Compile Include="images\models.py" />
     <Compile Include="images\slave.py" />
     <Compile Include="images\tests.py" />
+    <Compile Include="images\timeline_processer.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="images\urls.py" />
     <Compile Include="images\views.py" />
     <Compile Include="images\__init__.py" />
@@ -177,7 +180,7 @@
     <Content Include="static_html\doc\example\vica\upload.html" />
     <Content Include="timeline\templates\index.html" />
     <Content Include="timeline\timeline_generator.py" />
-    <Content Include="users\templates\basic.html" />
+    <Content Include="users\templates\base.html" />
     <Content Include="users\templates\changeinfo.html" />
     <Content Include="users\templates\changepassword.html" />
     <Content Include="users\templates\managerelationship.html" />
