@@ -6,6 +6,8 @@ from django.utils import timezone
 class MyUser(User):
     nickname = models.CharField(max_length=20, blank=True)
     gender = models.BooleanField(default=True)
-    followings = models.ManyToManyField('self', blank=True)
-    blacklist = models.ManyToManyField('self', blank=True)
+    followings = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='followers')
+    blacklist = models.ManyToManyField('self', blank=True, symmetrical=False, related_name='blacked')
     created_at = models.DateTimeField(default=timezone.now)
+    def __str__(self):
+        return self.username
