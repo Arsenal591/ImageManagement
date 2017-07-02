@@ -11,4 +11,5 @@ class ProcessForm(forms.Form):
     blur = forms.FloatField(min_value=0,  max_value=1, required=False)
     binaryzation = forms.BooleanField(required=False)
     rescale = forms.FloatField(min_value=0.001, max_value=5)
+    rotate = forms.IntegerField(min_value=0, max_value=360)
     
