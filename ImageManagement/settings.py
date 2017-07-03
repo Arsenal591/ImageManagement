@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'images.apps.imagesConfig',
     'users.apps.usersConfig',
+    'timeline.apps.timelineConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,8 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'IM',
         'USER': 'root',
-        'PASSWORD': 'JfNXGD^ncmUCs4O3Hpzc%#LzOc81Gdnj',
-        'HOST': '*',
+        'PASSWORD': 'JfNXGD^ncmUCs4O3Hpzc%#LzOc81Gdnj's4O3Hpzc%#LzOc81Gdnj
         'PORT': '3306',
         'TIME_ZONE': 'Asia/Shanghai',
     }

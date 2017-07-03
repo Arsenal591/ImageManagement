@@ -36,8 +36,8 @@ class FilterForm(forms.Form):
     username = forms.CharField(max_length=128, required=False)
     auth_filter = forms.ChoiceField(choices=auth_choices)
     between_date = forms.BooleanField(required=False)
-    date_start = forms.DateField(required=False, widget=forms.SelectDateWidget)
-    date_end = forms.DateField(required=False, widget=forms.SelectDateWidget)
+    date_start = forms.DateField(required=False, widget=forms.SelectDateWidget, disabled=True)
+    date_end = forms.DateField(required=False, widget=forms.SelectDateWidget, disabled=True)
     tags = forms.CharField(max_length=512, required=False)
 
 class DetailForm(forms.Form):

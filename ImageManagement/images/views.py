@@ -20,7 +20,8 @@ from django.conf import settings
 
 def img_pool(request):
     pub_imgs = ImagePost.objects.filter(is_public=True).order_by('-created_at')[:6]
-    return render(request, 'pool.html', {'imgs': pub_imgs})
+    pub_imgs2 = ImagePost.objects.filter(is_public=True).order_by('-created_at')[:30]
+    return render(request, 'pool.html', {'imgs': pub_imgs, 'imgs2': pub_imgs2})
 
 def add_tag(post, tag_line):
     tags = tag_line.split()
@@ -205,7 +206,9 @@ def filtershow(request):
 def home(request):
     return render(request, 'home.html')
 
-
+def pic(request, pic_id):
+    pic = get_object_or_404(ImagePost, pk=pic_id)
+    return render(request, 'pic.html', {'img': pic})
 
 
 
