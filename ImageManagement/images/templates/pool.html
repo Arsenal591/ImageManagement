@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{% load static %}
 <div class="container">
     <div class="images-wall">
         <a href="friendsPic.html"><h2>Friends' Pictures</h2></a>
@@ -12,7 +12,6 @@
                 <p>name</p>
             </div>
             -->
-            {% load static %}
             {% for img in imgs %}
             <div class="col-sm-2 placeholder">
                 <img src="{% static 'img_pool/'%}{{ img.img }} "
@@ -31,8 +30,15 @@
         <div class="row placeholders">
             <!-- for image in random 30 images-->
             <div class="col-sm-2 placeholder">
-                <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-                <p>name</p>
+                <!--{% for img in imgs2 %}
+                <div class="col-sm-2 placeholder">
+                    <img src="{% static 'img_pool/'%}{{ img.img }} "
+                         width="200"
+                         height="200"
+                         class="img-responsive"
+                         alt="Generic placeholder thumbnail">
+                    <p><a href="{% url 'pic' img.id %}">name</a></p>
+                </div>{% endfor %}-->
             </div>
         </div>
     </div>

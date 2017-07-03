@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'bootstrap3',
     'images.apps.imagesConfig',
     'users.apps.usersConfig',
+    'timeline.apps.timelineConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

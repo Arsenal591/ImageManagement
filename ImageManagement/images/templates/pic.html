@@ -1,28 +1,40 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+{% load bootstrap3 %}
 
 <div class="container">
-        <div id="pic">
-        <a href="{{img.id|add:1}} "
-           class="btn btn-info btn-lg" >
-            <span class="glyphicon glyphicon-arrow-left"></span> Prev
-        </a>
-         <img
-                 src="{% static 'img_pool/'%}{{ img.img }}" width="600"
-                 height="600" class="img-rounded" alt="Generic placeholder thumbnail"  >
-
-        <a href="{{img.id|add:-1}}"
-           class="btn btn-info btn-lg">
-            <span class="glyphicon glyphicon-arrow-right"></span> Next
-        </a>
-        </div>
-    <div id="pictags" class="media-middle">
-        <a class="btn btn-default" href="#" role="button">Tag1</a>
-        <a class="btn btn-default" href="#" role="button">Tag2</a>
-        <a class="btn btn-default" href="#" role="button">Tag3</a>
-        <a class="btn btn-default" href="#" role="button">Tag4</a>
+    <div id="pic-info" class="text-center">
+    <h2>{{img.img}}</h2>
+    <h3>Post by {{img.author}}</h3>
+    <p>{{img.like_num}} people like(s) this image, {{img.collect_num}} people
+        collect(s) this imase</p>
     </div>
+    <div id="pic">
+    <img class="img-responsive center-block"
+        src="{% static 'img_pool/'%}{{ img.img }}"
+         width="800" height="800" class="img-rounded"
+        alt="Generic placeholder thumbnail">
+    <p>{{img.description}}</p>
+    <a href="{{img.id|add:1}} " class="btn btn-info btn-lg" >
+        <span class="glyphicon glyphicon-arrow-left"></span>Prev</a>
+    <a href="{{img.id|add:-1}}" class="btn btn-info btn-lg">
+        <span class="glyphicon glyphicon-arrow-right"></span> Next</a>
+    </div>
+    <div id="pictags">
+        {% for tag in img.tag_set %}
+            <a class="btn btn-default" href="#" role="button">Tag1</a>
+        {% endfor %}
+    </div>
+    {% if user.is_authenticated %}
+    <div class="center-block">
+        <button type="button" class="btn btn-primary btn-lg active">Like
+        </button>
+        <button type="button" class="btn btn-primary btn-lg active">Collect
+        </button>
+        <a href="{% url 'process' img.id %}">More process</a>
+    </div>
+    {% endif %}
     <h2>Comments</h2>
     <div class="users-comment">
         <p>user name comment date</p>

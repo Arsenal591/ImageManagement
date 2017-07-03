@@ -38,21 +38,6 @@
                     <li class="active"><a href="home">Home</a></li>
                     <li><a href="{%url 'pool'%}">Pool</a></li>
                     <li><a href="{%url 'filter'%}">Filter</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Class <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#class0">Class0</a></li>
-                            <li><a href="#class1">Class1</a></li>
-                            <li><a href="#class2">Class2</a></li>
-                            <li><a href="#class3">Class3</a></li>
-                            <li><a href="#class4">Class4</a></li>
-                            <li><a href="#class5">Class5</a></li>
-                            <li><a href="#class6">Class6</a></li>
-                            <li><a href="#class7">Class7</a></li>
-                            <li><a href="#class8">Class8</a></li>
-                            <li><a href="#class9">Class9</a></li>
-                        </ul>
-                    </li>
                 </ul>
                 <form class="navbar-form navbar-left">
                     <div class="form-group">
@@ -65,7 +50,9 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><b>{{user.username}}</b><span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Upload Image</a></li>
+                            <li><a href="{%url 'upload'%}">Upload Image</a></li>
+                            <li><a href="{%url 'upload_batch'%}">Upload
+                                Batch Images</a></li>
                             <li><a href="#">Manage Image</a></li>
                             <li><a href="{%url 'changeinfo'%}">Modify Info</a></li>
 							<li><a href="{%url 'manage-relationship'%}">Manage Relationship</a></li>
@@ -100,4 +87,24 @@
 	<script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
 	<script src="{% static 'bootstrap/js/bootstrap-table.min.js' %}"></script>
 </body>
+<script>
+    $("#id_between_date").click(function () {
+        if($("#id_between_date")[0].checked == false) {
+            $("#id_date_start_day")[0].setAttribute('disabled', 'disabled');
+            $("#id_date_end_day")[0].setAttribute('disabled', 'disabled');
+            $("#id_date_start_month")[0].setAttribute('disabled', 'disabled');
+            $("#id_date_end_month")[0].setAttribute('disabled', 'disabled');
+            $("#id_date_start_year")[0].setAttribute('disabled', 'disabled');
+            $("#id_date_end_year")[0].setAttribute('disabled', 'disabled');
+        }
+        else {
+            $("#id_date_start_day")[0].removeAttribute('disabled');
+            $("#id_date_end_day")[0].removeAttribute('disabled');
+            $("#id_date_start_month")[0].removeAttribute('disabled');
+            $("#id_date_end_month")[0].removeAttribute('disabled');
+            $("#id_date_start_year")[0].removeAttribute('disabled');
+            $("#id_date_end_year")[0].removeAttribute('disabled');
+        }
+    })
+</script>
 </html>
