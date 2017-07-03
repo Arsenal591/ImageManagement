@@ -40,7 +40,9 @@ class FilterForm(forms.Form):
     date_end = forms.DateField(required=False, widget=forms.SelectDateWidget)
     tags = forms.CharField(max_length=512, required=False)
 
-
+class DetailForm(forms.Form):
+    like = forms.BooleanField(required=False)
+    collect = forms.BooleanField(required=False)
 
 
 

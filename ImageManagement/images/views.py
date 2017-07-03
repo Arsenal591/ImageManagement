@@ -137,9 +137,18 @@ def process(request, img_id):
 
     return render(request, 'process.html', {'img': img_post, 'form': ProcessForm()})
 
+@login_required
 def detail(request, img_id):
     img_post = get_object_or_404(ImagePost, pk=img_id)
-    return render(request, 'detail.html', {'img': img_post})
+    relatives = []
+#    It's said the ImagePost doesn't have attribute 'parent_set', that's strange
+#    relatives = img_post.parent_set.all()
+#    if img_post.parent != None:
+#        relatives.union(img_post.parent.parent_set.all())
+    if request.method == 'POST':
+        form = DetailForm(request.POST)
+        # things about timeline
+    return render(request, 'detail.html', {'img': img_post, 'relatives': relatives, 'form': DetailForm()})
 
 def filtershow(request):
     form = FilterForm(request.POST)
