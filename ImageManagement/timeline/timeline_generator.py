@@ -2,14 +2,16 @@
 from users.models import MyUser
 
 def select_object_timeline_by_user(request_user, target_user):
+    # 互相不在对方的黑名单中
     flag1 = (target_user in request_user.blacklist.all()) 
-    flag2 = (target_user in request_user.blacklist.all())
+    flag2 = (request_user in target_user.blacklist.all())
 
-    if flag1 > 0 or flag2 > 0:
+    #如果一方被另一方拉黑
+    if flag1 or flag2:
         print("blacked")
         return Timeline.objects.none()
-    else:
-        result = Timeline.objects.filter(sender_id=request_user, image_id__is_public=1)
+    else: # 否则
+        result = target_user.sends.filter(image_id__is_public=1).order_by('occur_time').reverse()
         return result
 
 def select_object_timeline_by_name(request_name, target_name):
@@ -22,6 +24,7 @@ def select_object_timeline_by_name(request_name, target_name):
 
 
 def select_subject_timeline_by_user(user):
+    # 找到关注列表
     followings = user.followings.all()
     timelines = Timeline.objects.none()
 
