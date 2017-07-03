@@ -12,3 +12,6 @@ class Timeline(models.Model):
     receiver_id = models.ForeignKey(MyUser, related_name='receives', null=True)
     occur_time = models.TimeField(default=timezone.now)
     comment_text = models.CharField(default='', max_length=140, blank=True)
+
+    def __str__(self):
+        return 'type' + self.type

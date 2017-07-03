@@ -11,7 +11,7 @@ def select_object_timeline_by_user(request_user, target_user):
         print("blacked")
         return Timeline.objects.none()
     else: # 否则
-        result = target_user.sends.filter(image_id__is_public=1).orderby('occur_time')
+        result = target_user.sends.filter(image_id__is_public=1).order_by('occur_time').reverse()
         return result
 
 def select_object_timeline_by_name(request_name, target_name):

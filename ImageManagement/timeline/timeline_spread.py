@@ -6,6 +6,7 @@ def create_post_timeline(user, image):
     new_timeline = Timeline.objects.create(type='post', sender_id=user, image_id=image)
     new_timeline.original = new_timeline
     new_timeline.save()
+    return new_timeline
 
 # user给timeline点了赞
 def create_like_timeline(user, timeline):
@@ -17,6 +18,7 @@ def create_like_timeline(user, timeline):
                                            image_id=timeline.original.image_id, 
                                            receiver_id=receiver)
     new_timeline.save()
+    return new_timeline
 
 # user收藏了timeline上的图片
 def create_collect_timeline(user, timeline):
@@ -27,6 +29,7 @@ def create_collect_timeline(user, timeline):
                                            image_id=timeline.original.image_id, 
                                            receiver_id=receiver)
     new_timeline.save()
+    return new_timeline
 
 # user给timeline上的图片评论了comment
 def create_comment_timeline(user, timeline, comment):
@@ -38,3 +41,4 @@ def create_comment_timeline(user, timeline, comment):
                                            receiver_id=receiver,
                                            comment_text=comment)
     new_timeline.save()
+    return new_timeline
