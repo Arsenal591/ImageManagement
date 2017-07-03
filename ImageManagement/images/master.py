@@ -5,8 +5,9 @@ from scipy import misc
 
 def recognize(img_path):
     model = SqueezeNet()
- 
-    x = misc.imread(img_path).resize((227, 227))
+    x = misc.imread(img_path)
+    x = misc.imresize(x, (227,227))
+    x = x.astype('float64')
     x = np.expand_dims(x, axis=0)
     x = preprocess_input(x)
 
