@@ -14,6 +14,7 @@ import os
 import random
 from .forms import *
 from .slave import *
+from .master import *
 from scipy import misc
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
