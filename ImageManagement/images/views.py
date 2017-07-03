@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from PIL import Image
 from django.core.files import File
+from django.contrib.auth.models import User
 import time
 import os
 import random
@@ -18,9 +19,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 
 def img_pool(request):
-    imgs = ImagePost.objects.order_by('-created_at')
-    pub_imgs = [img for img in imgs if img.is_public]
-    pub_imgs = pub_imgs[:6]
+    pub_imgs = ImagePost.objects.filter(is_public=True).order_by('-created_at')[:6]
     return render(request, 'pool.html', {'imgs': pub_imgs})
 
 def add_tag(post, tag_line):
@@ -143,7 +142,83 @@ def detail(request, img_id):
     return render(request, 'detail.html', {'img': img_post})
 
 def filtershow(request):
-    return render(request, 'filter.html')
+    form = FilterForm(request.POST)
+    img_set = None
+    user = None
+    if form.is_valid():
+        is_pub = None
+       
+        if form['user_filter'].value() == 'Mine':
+            user = request.user
+        elif form['user_filter'].value() == 'All':
+            user = None
+        else:
+            try:
+                user = User.objects.get(
+                  username=form['username'].value()
+                )
+            except Exception as e:
+                return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'user': 'NotFound'})
+
+        if user == None:
+            img_set = ImagePost.objects.all()
+        else:
+            img_set = ImagePost.objects.filter(author=user)
+
+        if form['auth_filter'].value() == 'Public':
+            is_pub = True
+        elif form['auth_filter'].value() == 'Private':
+            is_pub = False
+        else:
+            pass
+        
+        if user == request.user:
+            if is_pub != None:
+                img_set = img_set.filter(is_public=is_pub)
+        else:
+            img_set = img_set.filter(is_public=True)
+
+        tags = form['tags'].value()
+        if len(tags) != 0:
+            tags = tags.split()
+            # Trying to query the posts that have at least on of the tags
+            # We can also query the posts with all the tags, but I don't like it
+            # Can be discussed later, if necessary
+            img_set = img_set.filter(tags__name__in=tags)
+
+        if bool(form['between_date'].value()):
+            img_set = img_set.filter(created_at__range=(form['date_start'].value(), form['date_end'].value()))
+            
+        return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'user': user})
+     
+    return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'user': user})
 
 def home(request):
     return render(request, 'home.html')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
