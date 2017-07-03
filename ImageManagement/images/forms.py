@@ -20,5 +20,27 @@ class BatchUploadForm(forms.Form):
     img_batch = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     tags = forms.CharField(max_length=512)
 
+class FilterForm(forms.Form):
+    user_choices = (
+        ('All', 'All'),
+        ('Mine', 'Mine'),
+        ('Specified user', 'Specified user')
+    )
+    auth_choices = (
+        ('All', 'All'),
+        ('Public', 'Public'),
+        ('Private', 'Private')
+    )
+    
+    user_filter = forms.ChoiceField(choices=user_choices)
+    username = forms.CharField(max_length=128, required=False)
+    auth_filter = forms.ChoiceField(choices=auth_choices)
+    between_date = forms.BooleanField(required=False)
+    date_start = forms.DateField(required=False, widget=forms.SelectDateWidget)
+    date_end = forms.DateField(required=False, widget=forms.SelectDateWidget)
+    tags = forms.CharField(max_length=512, required=False)
+
+
+
 
 
