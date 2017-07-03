@@ -15,6 +15,7 @@ import random
 from .forms import *
 from .slave import *
 from .master import *
+from timeline import timeline_spread as ts
 from scipy import misc
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
@@ -44,8 +45,10 @@ def upload(request):
             post = form.save()
             post.author = request.user
             add_tag(post, form['tags'].value())
+            ts.create_post_timeline(post.author, post.id)
             # need to add user info here
             post.save()
+
             return redirect('process', post.id)
     return render(request, 'upload.html', {'form': UploadForm()})
 
