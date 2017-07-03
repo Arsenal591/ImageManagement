@@ -15,8 +15,8 @@ import random
 from .forms import *
 from .slave import *
 from .master import *
-from users import MyUser
-from timeline import timeline_spread as ts
+#from users import MyUser
+#from timeline import timeline_spread as ts
 from scipy import misc
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
@@ -41,6 +41,8 @@ def add_tag(post, tag_line):
 
 @login_required
 def upload(request):
+    from timeline import timeline_spread as ts
+    from users import MyUser
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if True: # lazy to delete this line
@@ -122,6 +124,7 @@ def process(request, img_id):
             create_img(img_post, 'gray')
         
         blur = form['blur'].value()
+
         if len(blur) != 0:
             blur = float(blur)
             create_img(img_post, 'blur', degree=blur)
