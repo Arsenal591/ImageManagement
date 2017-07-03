@@ -1,11 +1,18 @@
 body {
-  padding-top: 50px;
+ padding-top: 50px;
 }
 .images-wall {
   padding: 40px 15px;
   text-align: center;
 }
 #pic {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+#pictags {
+    margin-left: auto;
+    margin-right: auto;
     text-align: center;
 }
 
