@@ -206,7 +206,9 @@ def filtershow(request):
 def home(request):
     return render(request, 'home.html')
 
-
+def pic(request, pic_id):
+    pic = get_object_or_404(ImagePost, pk=pic_id)
+    return render(request, 'pic.html', {'img': pic})
 
 
 

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container">
+        <div id="pic">
+        <a href="{{img.id|add:1}} "
+           class="btn btn-info btn-lg" >
+            <span class="glyphicon glyphicon-arrow-left"></span> Prev
+        </a>
+         <img
+                 src="{% static 'img_pool/'%}{{ img.img }}" width="600"
+                 height="600" class="img-rounded" alt="Generic placeholder thumbnail"  >
+
+        <a href="{{img.id|add:-1}}"
+           class="btn btn-info btn-lg">
+            <span class="glyphicon glyphicon-arrow-right"></span> Next
+        </a>
+        </div>
+    <div id="pictags" class="media-middle">
+        <a class="btn btn-default" href="#" role="button">Tag1</a>
+        <a class="btn btn-default" href="#" role="button">Tag2</a>
+        <a class="btn btn-default" href="#" role="button">Tag3</a>
+        <a class="btn btn-default" href="#" role="button">Tag4</a>
+    </div>
+    <h2>Comments</h2>
+    <div class="users-comment">
+        <p>user name comment date</p>
+        <p>content</p>
+    </div>
+</div><!-- /.container -->
+{% endblock %}
+
