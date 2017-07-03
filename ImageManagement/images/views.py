@@ -15,6 +15,7 @@ import random
 from .forms import *
 from .slave import *
 from .master import *
+from users import MyUser
 from timeline import timeline_spread as ts
 from scipy import misc
 from django.http import HttpResponse, HttpResponseRedirect
@@ -45,8 +46,9 @@ def upload(request):
         if True: # lazy to delete this line
             post = form.save()
             post.author = request.user
+            myuser_instance = MyUser.objects.get(pk=user.id)
             add_tag(post, form['tags'].value())
-            ts.create_post_timeline(post.author, post.id)
+            ts.create_post_timeline(myuser_instance, post.id)
             # need to add user info here
             post.save()
 
