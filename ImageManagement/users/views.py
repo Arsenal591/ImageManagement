@@ -13,15 +13,32 @@ from timeline.timeline_analysis import *
 
 # Create your views here.
 
+def get_timelines_details(user, timelines):
+    result = list()
+    for timeline in timelines:
+        data = dict()
+        data['id'] = timeline.id
+        data['type'] = timeline.type
+        data['sender_id'] = timeline.sender_id
+        data['image_id'] = timeline.image_id
+        data['receiver_id'] = timeline.receiver_id
+        data['occur_time'] = timeline.occur_time
+        data['comment_text'] = timeline.comment_text
+        data['if_liked'] = (Timeline.objects.filter(username=user.username, type='like', image_id=timeline.image_id) > 0)
+        data['if_collected'] = (Timeline.objects.filter(username=user.username, type='collect', image_id=timeline.image_id) > 0)
+        result.append(data)
+    return result
+
 @login_required(login_url='login')
 def index(request):
     user = MyUser.objects.get(username=request.user.username)
-    imgs = ImagePost.objects.filter(author__username=request.user.username).values()
-    timelines = select_subject_timeline_by_user(user).values()
-    followings = user.followings.values()
-    followers = user.followers.values()
-    blocks = user.blacklist.values()
-    collection = get_image_collection(user).values()
+    imgs = ImagePost.objects.filter(author__username=request.user.username)
+    timelines = select_subject_timeline_by_user(user)
+    timelines = get_timeline_details(user, timelines)
+    followings = user.followings
+    followers = user.followers
+    blocks = user.blacklist
+    collection = get_image_collection(user)
 
     return render(request, 'welcome.html', {'user':user,
                                             'imgs':imgs,
@@ -33,28 +50,39 @@ def index(request):
 
 @login_required(login_url='login')
 def visit_user(request, visited_username):
-    user = MyUser.objects.get(username=visited_username)
-    imgs = ImagePost.objects.filter(author__username=request.user.username).values()
-    timelines = get_object_timeline_by_name(request.user.username, visited_username)
+    this_user = MyUser.objects.get(username=request.user.username)
+    visit_user = MyUser.objects.get(username=visited_username)
+
+    timelines = get_object_timeline_by_user(request.user.username, visited_username)
+    timelines = get_timeline_details(this_user, timelines)
+    imgs = ImagePost.objects.filter(author__username=request.user.username, image_id__is_public=1).values()
     followings = user.followings.values()
     followers = user.followers.values()
-    collection = get_image_collection(user).values()
+    collection = get_image_collection(user)
 
-    return render(request, 'userinfo.html', {'user':user,
-                                            'imgs':imgs,
-                                            'timelines':timelines,
-                                            'followings':followings,
-                                            'followers':followers,
-                                            'collection':collection})
+    if_following = visit_user in this_user.followings.all()
+    if_blocked = visit_user in this_user.blacklist.all()
+    hidden = if_blocked or this_user in visit_user.blacklist.all()
+
+    return render(request, 'userinfo.html', {'user':visit_user,
+                                             'if_following':if_following,
+                                             'if_blocked':if_blocked,
+                                             'hidden':hidden,
+                                             'imgs':imgs,
+                                             'timelines':timelines,
+                                             'followings':followings,
+                                             'followers':followers,
+                                             'collection':collection})
 @login_required(login_url='login')
 def profile(request):
     user = MyUser.objects.get(username=request.user.username)
-    imgs = ImagePost.objects.filter(author__username=request.user.username).values()
-    timelines = select_object_timeline_by_user(user, user).values()
-    followings = user.followings.values()
-    followers = user.followers.values()
-    blocks = user.blacklist.values()
-    collection = get_image_collection(user).values()
+    imgs = ImagePost.objects.filter(author__username=request.user.username)
+    timelines = select_object_timeline_by_user(user, user)
+    timelines = get_timeline_details(user, timelines)
+    followings = user.followings.all()
+    followers = user.followers.all()
+    blocks = user.blacklist.all()
+    collection = get_image_collection(user)
 
     return render(request, 'userinfo.html', {'user':user,
                                             'imgs':imgs,

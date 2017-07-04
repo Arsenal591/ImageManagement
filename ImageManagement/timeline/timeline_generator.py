@@ -6,10 +6,12 @@ def select_object_timeline_by_user(request_user, target_user):
     flag2 = (request_user in target_user.blacklist.all())
 
     if flag1 or flag2:
-        print("blacked")
         return Timeline.objects.none()
     else:
-        result = target_user.sends.filter(image_id__is_public=1).order_by('occur_time').reverse()
+        if request_user == target_user:
+            result = target_user.sends.filter().order_by('occur_time').reverse()
+        else:
+            result = target_user.sends.filter(image_id__is_public=1).order_by('occur_time').reverse()
         return result
 
 def select_object_timeline_by_name(request_name, target_name):
