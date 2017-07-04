@@ -36,8 +36,9 @@
             <div id="navbar">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="home">Home</a></li>
-                    <li><a href="{%url 'pool'%}">Pool</a></li>
-                    <li><a href="{%url 'filter'%}">Filter</a></li>
+                    <li><a href="{%url 'pool' %}">Pool</a></li>
+                    <li><a href="{%url 'filter' %}">Filter</a></li>i
+                    <li><a href="{%url 'searchimg' %}">Search by Image</a></li>
                 </ul>
                 <form class="navbar-form navbar-left" action="{% url 'searchbar' %}" method="POST">
                     {% csrf_token %}
@@ -51,6 +52,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><b>{{user.username}}</b><span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li><a href="#">Profile</a></li>
                             <li><a href="{%url 'upload'%}">Upload Image</a></li>
                             <li><a href="{%url 'upload_batch'%}">Upload
                                 Batch Images</a></li>
