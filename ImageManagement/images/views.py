@@ -44,16 +44,12 @@ def add_tag(post, tag_line):
 
 @login_required
 def upload(request):
-    from timeline import timeline_spread as ts
-    from users import MyUser
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if True: # lazy to delete this line
             post = form.save()
             post.author = request.user
-            myuser_instance = MyUser.objects.get(pk=user.id)
             add_tag(post, form['tags'].value())
-            ts.create_post_timeline(myuser_instance, post.id)
             # need to add user info here
             post.save()
 
