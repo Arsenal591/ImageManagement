@@ -113,12 +113,10 @@
     <Content Include="images\tags.list" />
     <Content Include="images\templates\base.html" />
     <Content Include="images\templates\detail.html" />
-    <Content Include="images\templates\edit.html" />
     <Content Include="images\templates\fail.html" />
     <Content Include="images\templates\filter.html" />
     <Content Include="images\templates\home.html" />
     <Content Include="images\templates\img_srch.html" />
-    <Content Include="images\templates\index.html" />
     <Content Include="images\templates\pic.html" />
     <Content Include="images\templates\pool.html" />
     <Content Include="images\templates\process.html" />

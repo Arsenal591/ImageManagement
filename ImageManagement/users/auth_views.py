@@ -28,16 +28,16 @@ def signup(request):
 
 def signup_submit(request):
     params = request.POST if request.method == 'POST' else None
+    username = request.POST['username']
+    find_user = MyUser.objects.filter(username=username).count()
+    if find_user > 0:
+        messages.info(request, '用户已经存在！')
+        return redirect('signup')
     form = SignupForm(params)
     if form.is_valid():
-        username = form.cleaned_data['username']
-        find_user = MyUser.objects.filter(username=username).count()
-        if find_user > 0:
-            messages.info('用户已经存在！')
-            return redirect('signup')
         form.save()
         return redirect('login')
-    messages.info('您输入的密码不匹配！')
+    messages.info(request, '您输入的密码不匹配！')
     return redirect('signup')
 
 @login_required(login_url='login')

@@ -5,9 +5,10 @@ from django.http import HttpResponse
 from .models import MyUser
 from .forms import SearchForm
 
+
 # Create your views here.
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def index(request):
     return render(request, 'welcome.html')
 
