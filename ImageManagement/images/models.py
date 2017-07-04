@@ -1,20 +1,28 @@
 from django.db import models
 from django.utils import timezone
 
+
+# explanation:
+# originally, one TagNo maps to one ImageTag
+# but this mapping is too detailed
+# for example, one TagNo maybe 'salmon', while another TagNo is 'shark'
+# for simplity, we all link the two TagNo to ImageTag 'fish'
+
 class ImageTag(models.Model):
     name = models.CharField(max_length=20)
 
     def __str__(self):
         return self.name
 
-#class ImageHeat(models.Model):
-#    author = models.ForeignKey(auth.User, null=True)
-#    image = models.ForeignKey('ImagePost')
-#
-#    def __str__(self):
-#        return "%s_%s" % (author.__str__, image.__str__)
+class TagNo(models.Model):
+    no = models.CharField(max_length=32)
+    tag = models.ForeignKey(ImageTag)
+
+    def __str__(self):
+        return self.no
 
 class ImagePost(models.Model):
+
     # basic info
     author = models.ForeignKey('auth.User', null=True)
     tags = models.ManyToManyField(ImageTag)
@@ -29,14 +37,4 @@ class ImagePost(models.Model):
 
     def __str__(self):
         return str(self.id)
-
-#class ImageComment(models.Model):
-#    image = models.ForeignKey(ImagePost, on_delete=models.CASCADE)
-#    content = models.CharField(max_length=140)
-#    author = models.ForeignKey('auth.User')
-#    previous = models.ForeignKey('ImageComment', null=True)
-#    pub_time = models.DateTimeField(default=timezone.now)
-#    
-#    def __str__(self):
-#        return content
 

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-from .models import ImageTag, ImagePost
+from .models import *
 from django.contrib.auth.models import User
 from django.utils import timezone
 from PIL import Image
@@ -23,6 +23,8 @@ from django.conf import settings
 
 def home(request):
     return render(request, 'home.html')
+from timeline.timeline_spread import *
+from users.models import MyUser
 
 def img_pool(request):
     pub_imgs = ImagePost.objects.filter(is_public=True).order_by('-created_at')[:6]
@@ -44,18 +46,17 @@ def add_tag(post, tag_line):
 
 @login_required
 def upload(request):
-    from timeline import timeline_spread as ts
-    from users import MyUser
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if True: # lazy to delete this line
             post = form.save()
             post.author = request.user
-            # myuser_instance = MyUser.objects.get(pk=user.id)
             add_tag(post, form['tags'].value())
-            #ts.create_post_timeline(myuser_instance, post.id)
             # need to add user info here
             post.save()
+
+            find_user = MyUser.objects.get(username=request.user.username)
+            create_post_timeline(find_user, post)
 
             return redirect('process', post.id)
     return render(request, 'upload.html', {'form': UploadForm()})
@@ -168,20 +169,24 @@ def filtershow(request):
     form = FilterForm(request.POST)
     img_set = None
     user = None
+    info = ''
     if form.is_valid():
         is_pub = None
        
         if form['user_filter'].value() == 'Mine':
             user = request.user
+            info += 'My images'
         elif form['user_filter'].value() == 'All':
             user = None
+            info += 'All public images'
         else:
             try:
                 user = User.objects.get(
                   username=form['username'].value()
                 )
+                info += "%s's images"
             except Exception as e:
-                return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'user': 'NotFound'})
+                return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': 'Not found specified user'})
 
         if user == None:
             img_set = ImagePost.objects.all()
@@ -203,6 +208,7 @@ def filtershow(request):
 
         tags = form['tags'].value()
         if len(tags) != 0:
+            info += ', tags: %s' % tags
             tags = tags.split()
             # Trying to query the posts that have at least on of the tags
             # We can also query the posts with all the tags, but I don't like it
@@ -211,19 +217,16 @@ def filtershow(request):
 
         if bool(form['between_date'].value()):
             img_set = img_set.filter(created_at__range=(form['date_start'].value(), form['date_end'].value()))
-            
-        return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'user': user})
+        
+
+        return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info})
      
-    return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'user': user})
+    return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info})
 
 
 def pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
     return render(request, 'pic.html', {'img': pic})
-
-def map_tag(raw_tag):
-    # more operations later
-    return raw_tag;
 
 # search image by given image
 # It's not quite decent to use this function name
@@ -231,6 +234,7 @@ def map_tag(raw_tag):
 def searchimg(request):
     '''Simple and dirty method: auto-tag the image, and search imgs with same tags'''
     tags = None
+    info = 'All public images, tags: '
     if request.method == 'POST':
         src_img = misc.imread(request.FILES['img'])
         # it's meaningless to try to unserstand detail operations below =)
@@ -239,13 +243,21 @@ def searchimg(request):
         tags = []
         img_set = None
         for bag in raw_tags:
-            if bag[2] > 0.5:
-                real_tag = map_tag(bag[0])
-                tags.append(real_tag)
+            # info += bag[0]
+            if True:
+                try:
+                    tag_instance = TagNo.objects.get(no=bag[0]).tag
+                    if tag_instance not in tags:
+                        tags.append(tag_instance)
+                        info += '%s ' % tag_instance.name
+                except Exception as e:
+                    print(e)
+                    pass
         if len(tags) != 0:
-            img_set = ImagePost.objects.filter(tags__name__in=tags)
+            img_set = ImagePost.objects.filter(tags__in=tags)
         else:
             pass
+        return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info})
         
     return render(request, 'img_srch.html', {'tags': tags, 'form': ImgSrchForm()})
 
@@ -254,6 +266,7 @@ def searchimg(request):
 def searchbar(request):
     # can't be None, because None can't be iterated
     img_set = []
+    info = ''
     if request.method == 'POST':
         keywords = request.POST['keywords'].split()
         img_set = ImagePost.objects.filter(tags__name__in=keywords)
@@ -264,8 +277,8 @@ def searchbar(request):
                 # img_set = ImagePost.objects.filter(author=user)
             except Exception as e:
                 pass
-        
-    return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'user': None})
+        info = 'search keywords: %s' % request.POST['keywords']
+    return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info})
 
 
 
