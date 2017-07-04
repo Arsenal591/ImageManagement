@@ -14,6 +14,9 @@ import os
 import random
 from .forms import *
 from .slave import *
+from .master import *
+#from users import MyUser
+#from timeline import timeline_spread as ts
 from scipy import misc
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
@@ -41,16 +44,23 @@ def add_tag(post, tag_line):
 
 @login_required
 def upload(request):
+    from timeline import timeline_spread as ts
+    from users import MyUser
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if True: # lazy to delete this line
             post = form.save()
             post.author = request.user
+            myuser_instance = MyUser.objects.get(pk=user.id)
             add_tag(post, form['tags'].value())
+            ts.create_post_timeline(myuser_instance, post.id)
             # need to add user info here
             post.save()
+
             find_user = MyUser.objects.get(username=request.user.username)
             create_post_timeline(find_user, post)
+
+
             return redirect('process', post.id)
     return render(request, 'upload.html', {'form': UploadForm()})
 
@@ -121,6 +131,7 @@ def process(request, img_id):
             create_img(img_post, 'gray')
         
         blur = form['blur'].value()
+
         if len(blur) != 0:
             blur = float(blur)
             create_img(img_post, 'blur', degree=blur)
@@ -215,7 +226,32 @@ def pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
     return render(request, 'pic.html', {'img': pic})
 
+def map_tag(raw_tag):
+    # more operations later
+    return raw_tag;
 
+# It's not quite decent to use this function name
+# but search_by_image will raise an error and I don't know why
+def searchimg(request):
+    '''Simple and dirty method: auto-tag the image, and search imgs with same tags'''
+    tags = None
+    if request.method == 'POST':
+        src_img = misc.imread(request.FILES['img'])
+        # it's meaningless to try to unserstand detail operations below =)
+        # just know the tags are the tags
+        raw_tags = recognize(src_img)[0]
+        tags = []
+        img_set = None
+        for bag in raw_tags:
+            if bag[2] > 0.5:
+                real_tag = map_tag(bag[0])
+                tags.append(real_tag)
+        if len(tags) != 0:
+            img_set = ImagePost.objects.filter(tags__name__in=tags)
+        else:
+            pass
+        
+    return render(request, 'img_srch.html', {'tags': tags, 'form': ImgSrchForm()})
 
 
 

@@ -44,5 +44,7 @@ class DetailForm(forms.Form):
     like = forms.BooleanField(required=False)
     collect = forms.BooleanField(required=False)
 
+class ImgSrchForm(forms.Form):
+    img = forms.ImageField(required=True)
 
 
