@@ -21,6 +21,9 @@ from scipy import misc
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 
+def home(request):
+    return render(request, 'home.html')
+
 def img_pool(request):
     pub_imgs = ImagePost.objects.filter(is_public=True).order_by('-created_at')[:6]
     pub_imgs2 = ImagePost.objects.filter(is_public=True).order_by('-created_at')[:30]
@@ -48,9 +51,9 @@ def upload(request):
         if True: # lazy to delete this line
             post = form.save()
             post.author = request.user
-            myuser_instance = MyUser.objects.get(pk=user.id)
+            # myuser_instance = MyUser.objects.get(pk=user.id)
             add_tag(post, form['tags'].value())
-            ts.create_post_timeline(myuser_instance, post.id)
+            #ts.create_post_timeline(myuser_instance, post.id)
             # need to add user info here
             post.save()
 
@@ -78,7 +81,7 @@ def upload_batch(request):
             imgs = request.FILES.getlist('img_batch')
             for img in imgs:
                 create_post_entry(is_public, description, img, tags, request.user)
-            return render(request, 'success.html')
+            return home(request)
     return render(request, 'upload_batch.html', {'form': BatchUploadForm()})
 
 def create_img(img_post, method, **kwargs):
@@ -118,32 +121,33 @@ def create_img(img_post, method, **kwargs):
 def process(request, img_id):
     img_post = get_object_or_404(ImagePost, pk=img_id)
     form = ProcessForm(request.POST)
-    if form.is_valid():
+    if request.method=='POST' and form.is_valid():
 
         if bool(form['gray'].value()):
             create_img(img_post, 'gray')
         
-        blur = form['blur'].value()
-
-        if len(blur) != 0:
-            blur = float(blur)
-            create_img(img_post, 'blur', degree=blur)
+        if bool(form['to_blur'].value()):
+            blur = form['blur'].value()
+            if len(blur) != 0:
+                blur = float(blur)
+                create_img(img_post, 'blur', degree=blur)
         
         if bool(form['binaryzation'].value()):
             create_img(img_post, 'binary')
         
-        percent = float(form['rescale'].value())
-        if percent != 1:
+        if bool(form['to_rescale'].value()):
+            percent = float(form['rescale'].value())
             # for convience set the height and width percentage the same
             create_img(img_post, 'rescale', percentage=[percent, percent])
         
-        rotate = form['rotate'].value()
-        if len(rotate) != 0:
-            rotate = int(rotate)
-            if rotate != 0 and rotate != 360:
-                create_img(img_post, 'rotate', angle=rotate)
+        if bool(form['to_rotate'].value()):
+            rotate = form['rotate'].value()
+            if len(rotate) != 0:
+                rotate = int(rotate)
+                if rotate != 0 and rotate != 360:
+                    create_img(img_post, 'rotate', angle=rotate)
         
-        return render(request, 'success.html')
+        return home(request)
 
     return render(request, 'process.html', {'img': img_post, 'form': ProcessForm()})
 
@@ -212,8 +216,6 @@ def filtershow(request):
      
     return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'user': user})
 
-def home(request):
-    return render(request, 'home.html')
 
 def pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
@@ -223,6 +225,7 @@ def map_tag(raw_tag):
     # more operations later
     return raw_tag;
 
+# search image by given image
 # It's not quite decent to use this function name
 # but search_by_image will raise an error and I don't know why
 def searchimg(request):
@@ -247,7 +250,22 @@ def searchimg(request):
     return render(request, 'img_srch.html', {'tags': tags, 'form': ImgSrchForm()})
 
 
-
+# the search in the navi-bar
+def searchbar(request):
+    # can't be None, because None can't be iterated
+    img_set = []
+    if request.method == 'POST':
+        keywords = request.POST['keywords'].split()
+        img_set = ImagePost.objects.filter(tags__name__in=keywords)
+        for keyword in keywords:
+            try:
+                user = User.objects.get(username=keyword)
+                img_set = img_set.union(ImagePost.objects.filter(author=user, is_public=True))
+                # img_set = ImagePost.objects.filter(author=user)
+            except Exception as e:
+                pass
+        
+    return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'user': None})
 
 
 

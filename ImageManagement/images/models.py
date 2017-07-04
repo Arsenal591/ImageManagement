@@ -18,12 +18,12 @@ class ImagePost(models.Model):
     # basic info
     author = models.ForeignKey('auth.User', null=True)
     tags = models.ManyToManyField(ImageTag)
-    is_public = models.BooleanField(default=True)
+    is_public = models.BooleanField(default=True, verbose_name='public')
     created_at = models.DateTimeField(default=timezone.now)
     like_num = models.IntegerField(default=0)
     collect_num = models.IntegerField(default=0)
     description = models.CharField(max_length=140, null=True)
-    img = models.ImageField(null=True)
+    img = models.ImageField(null=True, verbose_name='image')
     # edit from some picture?
     parent = models.ForeignKey('self', null=True)
 
