@@ -194,10 +194,11 @@
     <Content Include="users\templates\changepassword.html" />
     <Content Include="users\templates\managerelationship.html" />
     <Content Include="users\templates\messages.html" />
+    <Content Include="users\templates\profile.html" />
     <Content Include="users\templates\signup.html" />
+    <Content Include="users\templates\userinfo.html" />
     <Content Include="users\templates\welcome.html" />
     <Content Include="users\templates\login.html" />
-    <Content Include="users\templates\shit.html" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ImageManagement\" />
