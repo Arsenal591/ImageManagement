@@ -9,7 +9,7 @@ from .forms import SearchForm
 
 #@login_required(login_url='login')
 def index(request):
-    return render(request, 'welcome.html')
+    return render(request, 'index.html')
 
 @login_required(login_url='login')
 def visit_user(request, visited_username):

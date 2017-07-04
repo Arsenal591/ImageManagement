@@ -4,7 +4,6 @@ from . import views, auth_views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-
     url(r'^login[/]?$', auth_views.login, name='login'),
     url(r'^authenticate[/]?$', auth_views.authenticate, name='authenticate'),
     url(r'^signup[/]?$', auth_views.signup, name='signup'),

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% if user.is_authenticated %}
+<h1>Welcome! <strong>{{user.username}}</strong></h1>
+{% else %}
+<h1><a href="{%url 'login'%}">Log In</a> to Manage your images!</h1>
+{% endif %}
 
-<div class="container">
-    <h1>If you have not log in, There is a button for you to log in</h1>
-    <h1>Otherwise, There are your time line and you recentest images</h1>
-
-</div><!-- /.container -->
 {% endblock %}
 

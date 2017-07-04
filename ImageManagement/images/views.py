@@ -20,16 +20,17 @@ from .master import *
 from scipy import misc
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
-
-def home(request):
-    return render(request, 'home.html')
 from timeline.timeline_spread import *
 from users.models import MyUser
 
+def home(request):
+    return render(request, 'home.html')
 def img_pool(request):
-    pub_imgs = ImagePost.objects.filter(is_public=True).order_by('-created_at')[:6]
-    pub_imgs2 = ImagePost.objects.filter(is_public=True).order_by('-created_at')[:30]
-    return render(request, 'pool.html', {'imgs': pub_imgs, 'imgs2': pub_imgs2})
+    pub_imgs = ImagePost.objects.filter(is_public=True).order_by('-created_at')
+    row1 = pub_imgs[:6]
+    row2 = pub_imgs[6:12]
+    row3 = pub_imgs[12:18]
+    return render(request, 'pool.html', {'row1':row1, 'row2':row2, 'row3':row3})
 
 def add_tag(post, tag_line):
     tags = tag_line.split()
