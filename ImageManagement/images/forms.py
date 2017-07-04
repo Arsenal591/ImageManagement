@@ -18,9 +18,9 @@ class ProcessForm(forms.Form):
     rotate = forms.IntegerField(min_value=0, max_value=360, required=False, label='rotate angle(anticlockwise, 0~360)')
 
 class BatchUploadForm(forms.Form):
-    is_public = forms.BooleanField(required=False, label='public')
     description = forms.CharField(max_length=140, required=False)
-    img_batch = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    is_public = forms.BooleanField(required=False, label='Public')
+    img_batch = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}), label='Images')
     tags = forms.CharField(max_length=512)
 
 class FilterForm(forms.Form):
@@ -33,8 +33,7 @@ class FilterForm(forms.Form):
         ('All', 'All'),
         ('Public', 'Public'),
         ('Private', 'Private')
-    )
-    
+    ) 
     user_filter = forms.ChoiceField(choices=user_choices, label='Author of the images')
     username = forms.CharField(max_length=128, required=False, label='Specified username(not required)')
     auth_filter = forms.ChoiceField(choices=auth_choices, label='Authority settings')
