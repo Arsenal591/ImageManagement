@@ -15,8 +15,8 @@ import random
 from .forms import *
 from .slave import *
 from .master import *
-from users import MyUser
-from timeline import timeline_spread as ts
+#from users import MyUser
+#from timeline import timeline_spread as ts
 from scipy import misc
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
@@ -46,9 +46,9 @@ def upload(request):
         if True: # lazy to delete this line
             post = form.save()
             post.author = request.user
-            myuser_instance = MyUser.objects.get(pk=user.id)
+            # myuser_instance = MyUser.objects.get(pk=user.id)
             add_tag(post, form['tags'].value())
-            ts.create_post_timeline(myuser_instance, post.id)
+            #ts.create_post_timeline(myuser_instance, post.id)
             # need to add user info here
             post.save()
 
@@ -116,29 +116,31 @@ def create_img(img_post, method, **kwargs):
 def process(request, img_id):
     img_post = get_object_or_404(ImagePost, pk=img_id)
     form = ProcessForm(request.POST)
-    if form.is_valid():
+    if request.method=='POST' and form.is_valid():
 
         if bool(form['gray'].value()):
             create_img(img_post, 'gray')
         
-        blur = form['blur'].value()
-        if len(blur) != 0:
-            blur = float(blur)
-            create_img(img_post, 'blur', degree=blur)
+        if bool(form['to_blur'].value()):
+            blur = form['blur'].value()
+            if len(blur) != 0:
+                blur = float(blur)
+                create_img(img_post, 'blur', degree=blur)
         
         if bool(form['binaryzation'].value()):
             create_img(img_post, 'binary')
         
-        percent = float(form['rescale'].value())
-        if percent != 1:
+        if bool(form['to_rescale'].value()):
+            percent = float(form['rescale'].value())
             # for convience set the height and width percentage the same
             create_img(img_post, 'rescale', percentage=[percent, percent])
         
-        rotate = form['rotate'].value()
-        if len(rotate) != 0:
-            rotate = int(rotate)
-            if rotate != 0 and rotate != 360:
-                create_img(img_post, 'rotate', angle=rotate)
+        if bool(form['to_rotate'].value()):
+            rotate = form['rotate'].value()
+            if len(rotate) != 0:
+                rotate = int(rotate)
+                if rotate != 0 and rotate != 360:
+                    create_img(img_post, 'rotate', angle=rotate)
         
         return render(request, 'success.html')
 

@@ -23,7 +23,7 @@ class ImagePost(models.Model):
     like_num = models.IntegerField(default=0)
     collect_num = models.IntegerField(default=0)
     description = models.CharField(max_length=140, null=True)
-    img = models.ImageField(null=True)
+    img = models.ImageField(null=True, verbose_name='image')
     # edit from some picture?
     parent = models.ForeignKey('self', null=True)
 
