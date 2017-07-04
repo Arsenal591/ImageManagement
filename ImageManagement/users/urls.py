@@ -21,5 +21,8 @@ urlpatterns = [
     url(r'^black/(?P<black_username>[A-Za-z0-9\@\.\+\-\_]+)[/]?$',views.black_user, name='black-user'),
     url(r'^unblack/(?P<unblack_username>[A-Za-z0-9\@\.\+\-\_]+)[/]?$',views.unblack_user, name='unblack-user'),
     url(r'^search_user[/]?$',views.search_user, name='search-user'),
-    #url(r'^profile$', views.profile, name='profile'),
+    url(r'^(?P<url>.*)/like/(?P<timeline_id>\d+)[/]?$', views.like, name='like'),
+    url(r'^(?P<url>.*)/collect/(?P<timeline_id>\d+)[/]?$', views.collect, name='collect'),
+    url(r'^(?P<url>.*)/comment/(?P<timeline_id>\d+)[/]?$', views.comment, name='comment'),
+    url(r'^profile[/]?$', views.profile, name='profile'),
 ]
