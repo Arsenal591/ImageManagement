@@ -34,6 +34,7 @@
     <Compile Include="images\admin.py" />
     <Compile Include="images\apps.py" />
     <Compile Include="images\forms.py" />
+    <Compile Include="images\master.py" />
     <Compile Include="images\migrations\__init__.py" />
     <Compile Include="images\models.py" />
     <Compile Include="images\slave.py" />
@@ -111,15 +112,19 @@
     <Content Include="images\static\bootstrap\js\npm.js" />
     <Content Include="images\tags.list" />
     <Content Include="images\templates\base.html" />
+    <Content Include="images\templates\detail.html" />
     <Content Include="images\templates\edit.html" />
     <Content Include="images\templates\fail.html" />
     <Content Include="images\templates\filter.html" />
     <Content Include="images\templates\home.html" />
+    <Content Include="images\templates\img_srch.html" />
     <Content Include="images\templates\index.html" />
+    <Content Include="images\templates\pic.html" />
     <Content Include="images\templates\pool.html" />
     <Content Include="images\templates\process.html" />
     <Content Include="images\templates\success.html" />
     <Content Include="images\templates\upload.html" />
+    <Content Include="images\templates\upload_batch.html" />
     <Content Include="requirements.txt" />
     <Content Include="static_html\doc\assets\brand\bootstrap-outline.svg" />
     <Content Include="static_html\doc\assets\brand\bootstrap-punchout.svg" />
