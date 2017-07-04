@@ -21,6 +21,9 @@ from scipy import misc
 from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 
+from timeline.timeline_spread import *
+from users.models import MyUser
+
 def img_pool(request):
     pub_imgs = ImagePost.objects.filter(is_public=True).order_by('-created_at')[:6]
     pub_imgs2 = ImagePost.objects.filter(is_public=True).order_by('-created_at')[:30]
@@ -53,6 +56,10 @@ def upload(request):
             ts.create_post_timeline(myuser_instance, post.id)
             # need to add user info here
             post.save()
+
+            find_user = MyUser.objects.get(username=request.user.username)
+            create_post_timeline(find_user, post)
+
 
             return redirect('process', post.id)
     return render(request, 'upload.html', {'form': UploadForm()})
