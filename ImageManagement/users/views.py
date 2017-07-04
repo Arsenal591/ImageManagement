@@ -30,7 +30,6 @@ def index(request):
                                             'followers':followers,
                                             'blocks':blocks,
                                             'collection':collection})
-    # return render(request, 'welcome.html')
 
 @login_required(login_url='login')
 def visit_user(request, visited_username):
@@ -69,8 +68,8 @@ def profile(request):
 def manage_relationship(request, search_result = None):
     search_form = SearchForm(None)
     user = MyUser.objects.get(username=request.user.username)
-    followings = user.followings.values()
-    blacklist = user.blacklist.values()
+    followings = user.followings.all()
+    blacklist = user.blacklist.all()
 
     if search_result is not None and len(search_result) == 0:
         messages.info(request, 'User not found!')
@@ -83,7 +82,8 @@ def manage_relationship(request, search_result = None):
 
 
 @login_required(login_url='login')
-def follow_user(request, follow_username):
+def follow_user(request, follow_username, url):
+    url = '/index/' + url
     if request.user.username == follow_username:
         return manage_relationship(request)
 
@@ -95,10 +95,12 @@ def follow_user(request, follow_username):
         this_user.save()
     else:
         messages.info(request,"sorry this user is already in my followings")
+    return redirect(url)
     return redirect('manage-relationship')
 
 @login_required(login_url='login')
-def unfollow_user(request, unfollow_username):
+def unfollow_user(request, unfollow_username, url):
+    url = '/index/' + url
     if request.user.username == unfollow_username:
         return manage_relationship(request)
 
@@ -111,10 +113,12 @@ def unfollow_user(request, unfollow_username):
         this_user.save()
     else:
         messages.info(request, "sorry you haven NOT followed this user")
+    return redirect(url)
     return redirect('manage-relationship')
 
 @login_required(login_url='login')
-def black_user(request, black_username):
+def black_user(request, black_username, url):
+    url = '/index/' + url
     if request.user.username == black_username:
         return manage_relationship(request)
 
@@ -128,10 +132,12 @@ def black_user(request, black_username):
     else:
         messages.info(request, "sorry already in your blacklist")
 
-    return redirect('manage-relationship')
+    return redirect(url)
+    #return redirect('manage-relationship')
 
 @login_required(login_url='login')
-def unblack_user(request, unblack_username):
+def unblack_user(request, unblack_username, url):
+    url = '/index/' + url
     if request.user.username == unblack_username:
         return manage_relationship(request)
 
@@ -145,12 +151,15 @@ def unblack_user(request, unblack_username):
     else:
         messages.info(request,"sorry NOT in my blacklist")
 
+    return redirect(url)
     return redirect('manage-relationship')
 
 
 @login_required(login_url='login')
 def search_user(request):
     params = request.POST if request.method == 'POST' else None
+    if params is None:
+        return manage_relationship(request)
     form = SearchForm(params)
 
     if form.is_valid():
