@@ -2,12 +2,12 @@
 {% load bootstrap3 %}
 {% block content %}
 {% include 'messages.html'%}
-<h3>请登录</h3>
+<h3>Please login</h3>
 <div>
     <form method="post", action="{%url 'authenticate'%}">
         {% csrf_token %}
         {% bootstrap_form login_form %}
-        {% buttons submit='登录' %}{% endbuttons %}
+        {% buttons submit='login' %}{% endbuttons %}
     </form>
 </div>
 {% endblock %}

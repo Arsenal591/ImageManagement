@@ -17,7 +17,7 @@ def authenticate(request):
     password = request.POST['password']
     user = auth.authenticate(request, username=username, password=password)
     if not user:
-        messages.info(request, '用户名或密码错误！')
+        messages.info(request, 'Either username or password is incorrect!')
         return redirect('login')
     auth.login(request, user)
     return redirect('index')
@@ -28,16 +28,16 @@ def signup(request):
 
 def signup_submit(request):
     params = request.POST if request.method == 'POST' else None
+    username = request.POST['username']
+    find_user = MyUser.objects.filter(username=username).count()
+    if find_user > 0:
+        messages.info(request, 'Username exists!')
+        return redirect('signup')
     form = SignupForm(params)
     if form.is_valid():
-        username = form.cleaned_data['username']
-        find_user = MyUser.objects.filter(username=username).count()
-        if find_user > 0:
-            messages.info('用户已经存在！')
-            return redirect('signup')
         form.save()
         return redirect('login')
-    messages.info('您输入的密码不匹配！')
+    messages.info(request, 'Two passwords do not match!')
     return redirect('signup')
 
 @login_required(login_url='login')
@@ -60,11 +60,14 @@ def changepassword_submit(request):
         auth.update_session_auth_hash(request, user)
         return redirect('login')
     else:
+        messages.info("Two passwords do not match!")
         return redirect('changepassword')
 
 @login_required(login_url='login')
 def changeinfo(request):
-    form = ChangeinfoForm(None)
+    user = MyUser.objects.get(username=request.user.username)
+    form = ChangeinfoForm(initial={'email':user.email, 'nickname':user.nickname, 'gender':user.gender})
+    form.initial['gender'] = int(user.gender)
     return render(request, 'changeinfo.html', {'form':form})
 
 @login_required(login_url='login')
@@ -75,6 +78,7 @@ def changeinfo_submit(request):
 
     if form.is_valid():
         form.save()
-        return redirect('/')
+        return redirect('changeinfo')
     else:
+        messages.info(request, 'Incorrect infomation!')
         return redirect('changeinfo')

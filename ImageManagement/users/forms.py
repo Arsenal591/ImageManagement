@@ -8,9 +8,9 @@ class LoginForm(AuthenticationForm):
         fields = ['username', 'password']
 
 class SignupForm(UserCreationForm):
-    email = forms.EmailField(label='电子邮箱')
-    nickname = forms.CharField(label='昵称')
-    gender = forms.ChoiceField(label='性别', choices=[(0, '男'), (1, '女')])
+    email = forms.EmailField(label='Email')
+    nickname = forms.CharField(label='nickname')
+    gender = forms.ChoiceField(label='gender', choices=[(False, 'male'), (True, 'female')])
     class Meta:
         model = MyUser
         fields = ['username', 'email', 'nickname', 'gender']
@@ -24,9 +24,9 @@ class SignupForm(UserCreationForm):
         return new_user
 
 class ChangeinfoForm(forms.Form):
-    email = forms.EmailField(label='电子邮箱')
-    nickname = forms.CharField(label='新昵称')
-    gender = forms.ChoiceField(label='性别', choices=[(0, '男'), (1, '女')])
+    email = forms.EmailField(label='email')
+    nickname = forms.CharField(label='nickname')
+    gender = forms.ChoiceField(label='gender', choices=[(0, 'male'), (1, 'female')])
 
     def set_username(self, username):
         self.username = username
@@ -44,4 +44,4 @@ class ChangeinfoForm(forms.Form):
         return tar_user
 
 class SearchForm(forms.Form):
-    username = forms.CharField(label = '请输入用户名称')
+    username = forms.CharField(label = 'Please enter the username')
