@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+<h1><strong>{{user.username}}</strong></h1>
+{% if user.is_authenticated %}
+<div class="center-block">
+    <button type="button" class="btn btn-primary btn-lg active">Follow
+    </button>
+    <button type="button" class="btn btn-primary btn-lg active">Block
+    </button>
+</div>
+{% endif %}
+<hr>
+<!--
+<div class="row placeholders">
+    {% for img in imgs %}
+    <div class="col-sm-2 placeholder">
+        <img src="{% static 'img_pool/'%}{{ img.img }} "
+             width="200"
+             height="200"
+             class="img-responsive"
+             alt="Generic placeholder thumbnail">
+        <p><a href="{% url 'pic' img.id %}">name</a></p>
+    </div>
+    {% endfor %}
+</div>
+-->
+<hr>
+<h2><strong><a href="#">TimeLines</a></strong></h2>
+<!--
+<div class="row placeholders">
+    {% for timeline in timelines %}
+    <div class="col-sm-2 placeholder">
+
+    </div>
+    {% endfor %}
+</div>
+-->
+<div class="row placeholders">
+    {% for following in folowings %}
+    <div class="col-sm-2 placeholder">
+        <a href="">User1</a>
+        <a href="">User1</a>
+        <a href="">User1</a>
+        <a href="">User1</a>
+        <a href="">User1</a>
+        <a href="">User1</a>
+    </div>
+    {% endfor %}
+</div>
+<hr>
+<h2><strong><a href="#">Following</a></strong></h2>
+<!--
+<div class="row placeholders">
+    {% for following in folowings %}
+    <div class="col-sm-2 placeholder">
+
+    </div>
+    {% endfor %}
+</div>
+-->
+<hr>
+<h2><strong><a href="#">Followers</a></strong></h2>
+<!--
+<div class="row placeholders">
+    {% for follower in followers %}
+    <div class="col-sm-2 placeholder">
+
+    </div>
+    {% endfor %}
+</div>
+-->
+<hr>
+<h2><strong><a href="#">Block</a></strong></h2>
+<!--
+<div class="row placeholders">
+    {% for block in blocks %}
+    <div class="col-sm-2 placeholder">
+
+    </div>
+    {% endfor %}
+</div>
+-->
+{% endblock %}

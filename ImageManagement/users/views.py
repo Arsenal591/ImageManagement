@@ -111,3 +111,4 @@ def search_user(request):
     else:
         messages.info(request, '您的输入不合法！')
         return manage_relationship(request)
+
