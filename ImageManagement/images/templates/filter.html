@@ -11,7 +11,8 @@
         {% buttons submit='Submit' %}{% endbuttons %}
 </form>
 
-<p>{{ info }}</p>
+<p>Images of user: {{ user }}</p>
+
 
 <div class="container">
     <div class="table">
@@ -22,26 +23,28 @@
                data-pagination="true" data-side-pagination="client">
             <thead>
             <tr>
-                <th data-field="class" data-sortable="true" width="20%"
+                <th data-field="author" data-sortable="true"
                     data-filter-control="select">Author</th>
                 <th data-field="name" data-sortable="true"
-                    data-filter-control="input" width="30%">Name</th>
-                <th data-field="date" data-sortable="true" width="30%"
+                    data-filter-control="input" >Name</th>
+                <th data-field="date" data-sortable="true"
                     data-filter-control="select">Date</th>
-                <th data-field="heat" data-sortable="false" width="40%">Heat
-                </th>
-                <th data-field="src" data-sortable="false" width="40%">src</th>
+                <th data-field="heat" data-sortable="true">Heat</th>
+                <!--<th data-field="tags" data-sortable="false">Tags</th>-->
+                <th data-field="is_public" data-sortable="true">Public?</th>
+
             </tr>
             </thead>
             {% for img in imgs %}
                 <tr>
                     <td>{{ img.author.username }}</td>
-                    <td>{{ img.id }}</td>
+                    <td><a href="{% static 'img_pool/'%}{{ img.img }} ">
+                        {{img.id}}</a>
+                    </td>
                     <td>{{ img.created_at }}</td>
                     <td>{{ img.like_num }}</td>
-                    <td><a
-                            href="{% static 'img_pool/'%}{{ img.img }} ">{{img.img}}
-                    </a></td>
+                    <!--<td>{{img.tags}}</td>-->
+                    <td>{{ img.is_public }}</td>
                 </tr>
             {% endfor %}
  
