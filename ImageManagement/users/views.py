@@ -53,12 +53,12 @@ def visit_user(request, visited_username):
     this_user = MyUser.objects.get(username=request.user.username)
     visit_user = MyUser.objects.get(username=visited_username)
 
-    timelines = get_object_timeline_by_user(request.user.username, visited_username)
+    timelines = select_object_timeline_by_user(this_user, visit_user)
     timelines = get_timeline_details(this_user, timelines)
-    imgs = ImagePost.objects.filter(author__username=request.user.username, image_id__is_public=1).all()
-    followings = user.followings.all()
-    followers = user.followers.all()
-    collection = get_image_collection(user).all()
+    imgs = ImagePost.objects.filter(author__username=request.user.username, is_public=1).all()
+    followings = visit_user.followings.all()
+    followers = visit_user.followers.all()
+    collection = get_image_collection(visit_user).all()
 
     if_following = visit_user in this_user.followings.all()
     if_blocked = visit_user in this_user.blacklist.all()
@@ -142,7 +142,6 @@ def unfollow_user(request, unfollow_username, url):
     else:
         messages.info(request, "sorry you haven NOT followed this user")
     return redirect(url)
-    return redirect('manage-relationship')
 
 @login_required(login_url='login')
 def black_user(request, black_username, url):
@@ -161,7 +160,6 @@ def black_user(request, black_username, url):
         messages.info(request, "sorry already in your blacklist")
 
     return redirect(url)
-    #return redirect('manage-relationship')
 
 @login_required(login_url='login')
 def unblack_user(request, unblack_username, url):
@@ -180,8 +178,6 @@ def unblack_user(request, unblack_username, url):
         messages.info(request,"sorry NOT in my blacklist")
 
     return redirect(url)
-    return redirect('manage-relationship')
-
 
 @login_required(login_url='login')
 def search_user(request):
@@ -197,24 +193,42 @@ def search_user(request):
         return manage_relationship(request, results)
     else:
         messages.info(request, 'Invalid input!')
-        #redirect('manage-relationship')
         return manage_relationship(request)
 
 def like(request, timeline_id, url):
+    url = '/index/' + url
     user = MyUser.objects.get(username=request.user.username)
     timeline = Timeline.objects.get(id=timeline_id)
     create_like_timeline(user, timeline)
-    redirect(url)
+    return redirect(url)
     
 def collect(request, timeline_id, url):
+    url = '/index/' + url
     user = MyUser.objects.get(username=request.user.username)
     timeline = Timeline.objects.get(id=timeline_id)
     create_collect_timeline(user, timeline)
-    redirect(url)
+    return redirect(url)
 
 def comment(request, timeline_id, url):
+    url = '/index/' + url
     user = MyUser.objects.get(username=request.user.username)
     timeline = Timeline.objects.get(id=timeline_id)
     comment = request.POST['comment']
     create_collect_timeline(user, timeline, comment)
-    redirect(url)
+    return redirect(url)
+
+def unlike(request, timeline_id, url):
+    url = '/index/' + url
+    user = MyUser.objects.get(username=request.user.username)
+    this_timeline = Timeline.objects.get(id=timeline_id)
+    target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='like', sender_id=user)
+    target_timeline.delete()
+    return redirect(url)
+
+def uncollect(request, timeline_id, url):
+    url = '/index/' + url
+    user = MyUser.objects.get(username=request.user.username)
+    this_timeline = Timeline.objects.get(id=timeline_id)
+    target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='collect', sender_id=user)
+    target_timeline.delete()
+    return redirect(url)
