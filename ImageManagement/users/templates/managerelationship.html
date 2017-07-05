@@ -12,34 +12,21 @@
     </form>
 </div>
 {%if search_result %}
+<h3>Search Result</h3>
     {%for user in search_result%}
         {%if user.username != username %}
-            <li>{{user.nickname}}</li>
-            <a href="homepage"></a>
-            <a href="{{"follow/"|add:user.username}}">follow</a>
-            <a href="{{'unfollow/'|add:user.username}}">unfollow</a>
-            <a href="{{'black/'|add:user.username}}">block</a>
-            <a href="{{'unblack/'|add:user.username}}">unblock</a>
+        <h4><a href="/index/users/{{user.nickname}}/">{{user.nickname}}</a></h4>
         {%endif%}
     {%endfor%}
 {%endif%}
-<h4>followings:</h4>
+<h3>followings:</h3>
 {% for user in followings %}
-<li>{{user.nickname}}</li>
-<a href="">homepage</a>
-<a href="{{"follow/"|add:user.username}}">follow</a>
-<a href="{{'unfollow/'|add:user.username}}">unfollow</a>
-<a href="{{'black/'|add:user.username}}">block</a>
-<a href="{{'unblack/'|add:user.username}}">unblock</a>
+<h4><a href="/index/users/{{user.nickname}}/">{{user.nickname}}</a></h4>
 {% endfor %}
 
-<h4>blacklist:</h4>
+<h3>blacklist:</h3>
 {% for user in blacklist %}
-<li>{{user.nickname}}</li>
-<a href="">homepage</a>
-<a href="{{"follow/"|add:user.username}}">follow</a>
-<a href="{{'unfollow/'|add:user.username}}">unfollow</a>
-<a href="{{'black/'|add:user.username}}">block</a>
-<a href="{{'unblack/'|add:user.username}}">unblock</a>
+<h4><a href="/index/users/{{user.nickname}}/">{{user.nickname}}</a></h4>
+
 {% endfor %}
 {% endblock %}
