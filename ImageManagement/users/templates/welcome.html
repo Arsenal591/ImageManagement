@@ -9,11 +9,11 @@
     {% for img in imgs %}
     <div class="col-sm-2 placeholder">
         <a href="{% url 'pic' img.id %}">
-                   <img src="{% static 'img_pool/'%}{{ img.img }} "
-                        width="200"
-                        height="200"
-                        class="img-responsive"
-                        alt="{{img.description}}">
+            <img src="{% static 'img_pool/'%}{{ img.img }} "
+                 width="200"
+                 height="200"
+                 class="img-responsive"
+                 alt="{{img.description}}">
         </a>
     </div>
     {% endfor %}
@@ -22,32 +22,38 @@
 <h3>Timelines</h3>
 <div class="container">
     {% for tl in timelines %}
-    <p>{{tl.image_id}}</p>
+    <a href="{% url 'pic' img.id %}">
+        <img src="{% static 'img_pool/'%}{{ img.img }} "
+             width="200"
+             height="200"
+             class="img-responsive"
+             alt="{{img.description}}">
+    </a>
     {% if tl.type == 'like' %}
-    <p>><strong>{{tl.sender_id}}</strong> likes this image. </p>
+        <p>><strong>{{tl.sender_id}}</strong> likes this image. </p>
     {% else %}
-    {% if tl.type == 'collect' %}
-    <p><strong>{{tl.sender_id}}</strong> collects this image. </p>
-    {% else %}
-    {% if tl.type == 'comment' %}
-    <p><strong>{{tl.sender_id}}</strong> comments this image. </p>
-    <div class="well">
-        <p>{{tl.comment_text}}</p>
-    </div>
-    {% else %}
-    <p><strong>{{tl.sender_id}}</strong> uploads this image. </p>
-    {% endif %}
-    {% endif %}
+        {% if tl.type == 'collect' %}
+            <p><strong>{{tl.sender_id}}</strong> collects this image. </p>
+        {% else %}
+            {% if tl.type == 'comment' %}
+                <p><strong>{{tl.sender_id}}</strong> comments this image. </p>
+                <div class="well">
+                    <p>{{tl.comment_text}}</p>
+                </div>
+            {% else %}
+                <p><strong>{{tl.sender_id}}</strong> uploads this image. </p>
+            {% endif %}
+        {% endif %}
     {% endif %}
     {% endfor %}
     <p>{{tl.occur_time}}</p>
 </div>
 <hr>
-<h3>Collection</h3>
+<h3>Collections</h3>
 <div class="container container-fluid">
     {% for img in collection %}
     <div class="col-sm-2 placeholder">
-      <a href="{% url 'pic' img.id %}">
+        <a href="{% url 'pic' img.id %}">
             <img src="{% static 'img_pool/'%}{{ img.img }} "
                  width="200"
                  height="200"
@@ -61,7 +67,7 @@
 <h3>Followings</h3>
 <div class="container">
     {% for man in followings %}
-    <p><strong>{{man.username}}</strong></p>
+        <p><strong>{{man.username}}</strong></p>
     {% endfor %}
 </div>
 <hr>

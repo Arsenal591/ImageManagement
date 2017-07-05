@@ -27,10 +27,11 @@ def home(request):
     return render(request, 'home.html')
 def img_pool(request):
     pub_imgs = ImagePost.objects.filter(is_public=True).order_by('-created_at')
-    row1 = pub_imgs[:6]
-    row2 = pub_imgs[6:12]
-    row3 = pub_imgs[12:18]
-    return render(request, 'pool.html', {'row1':row1, 'row2':row2, 'row3':row3})
+    return render(request, 'pool.html', {'imgs':pub_imgs[:30]})
+#    row1 = pub_imgs[:6]
+#    row2 = pub_imgs[6:12]
+#    row3 = pub_imgs[12:18]
+#    return render(request, 'pool.html', {'row1':row1, 'row2':row2, 'row3':row3})
 
 def add_tag(post, tag_line):
     tags = tag_line.split()
@@ -53,6 +54,7 @@ def upload(request):
             post = form.save()
             post.author = request.user
             add_tag(post, form['tags'].value())
+            is_public = bool(form['is_public'].value())
             # need to add user info here
             post.save()
 
@@ -77,12 +79,14 @@ def upload_batch(request):
     if request.method == 'POST':
         form = BatchUploadForm(request.POST)
         if True: # lazy to delete this line
-            is_public = bool(form['description'].value())
+            is_public = bool(form['is_public'].value())
             description = form['description'].value()
             tags = form['tags'].value()
             imgs = request.FILES.getlist('img_batch')
             for img in imgs:
                 create_post_entry(is_public, description, img, tags, request.user)
+                find_user = MyUser.objects.get(username=request.user.username)
+                create_post_timeline(find_user, post)
             return home(request)
     return render(request, 'upload_batch.html', {'form': BatchUploadForm()})
 
