@@ -49,8 +49,17 @@
         {% endif %}
     {% endif %}
     <p>{{tl.occur_time}}</p>
-    <p>tl.if_liked</p>
-    <a class="btn btn-default" href="#">Like</a>
+    {% if tl.if_liked %}
+        <a class="btn btn-default" href="#" role="button">Unlike</a>
+    {% else %}
+        <a class="btn btn-default" href="#" role="button">Like</a>
+    {% endif %}
+    {% if tl.if_collected %}
+        <a class="btn btn-default" href="#" role="button">Uncollected</a>
+    {% else %}
+        <a class="btn btn-default" href="#" role="button">Collected</a>
+    {% endif %}
+    <a class="btn btn-default" href="#" role="button">Comment</a>
     {% endfor %}
 
 </div>

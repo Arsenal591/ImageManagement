@@ -24,7 +24,8 @@ from timeline.timeline_spread import *
 from users.models import MyUser
 
 def home(request):
-    return render(request, 'home.html')
+    return redirect('index')
+#    return render(request, 'home.html')
 def img_pool(request):
     pub_imgs = ImagePost.objects.filter(is_public=True).order_by('-created_at')
     return render(request, 'pool.html', {'imgs':pub_imgs[:30]})
