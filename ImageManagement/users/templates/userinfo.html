@@ -1,84 +1,102 @@
 {% extends 'base.html' %}
 {% load bootstrap3 %}
+{% load static %}
 {% block content %}
-<h1><strong>{{user.username}}</strong></h1>
-{% if user.is_authenticated %}
-<div class="center-block">
-    <button type="button" class="btn btn-primary btn-lg active">Follow
-    </button>
-    <button type="button" class="btn btn-primary btn-lg active">Block
-    </button>
-</div>
+<h2>{{user.username}}</h2>
+{% if is_following %}
+<a class="btn btn-default" href="#" role="button">Unfollow</a>
+{% else %}
+<a class="btn btn-default" href="#" role="button">Follow</a>
 {% endif %}
+{% if is_blocked %}
+<a class="btn btn-default" href="#" role="button">Unblock</a>
+{% else %}
+<a class="btn btn-default" href="#" role="button">Block</a>
+{% endif %}
+{% if is_hidden %}
+<h2>Sorry, you cannnot see anything about the {{user.username}} because
+    you are blocked.</h2>
+{% else %}
 <hr>
-<!--
-<div class="row placeholders">
+<h3>His/Her Images</h3>
+<div class="container container-fluid">
     {% for img in imgs %}
     <div class="col-sm-2 placeholder">
-        <img src="{% static 'img_pool/'%}{{ img.img }} "
+        <a href="{% url 'pic' img.id %}">
+            <img src="{% static 'img_pool/'%}{{ img.img }} "
+                 width="200"
+                 height="200"
+                 class="img-responsive"
+                 alt="{{img.description}}">
+        </a>
+    </div>
+    {% endfor %}
+</div>
+<hr>
+<h3>Timelines</h3>
+<div class="container">
+    {% for tl in timelines %}
+    <a href="{% url 'pic' tl.image_id.id %}">
+        <img src="{% static 'img_pool/'%}{{ tl.image_id.img }} "
              width="200"
              height="200"
              class="img-responsive"
-             alt="Generic placeholder thumbnail">
-        <p><a href="{% url 'pic' img.id %}">name</a></p>
+             alt="{{img.description}}">
+    </a>
+    {% if tl.type == 'like' %}
+    <p>><strong>{{tl.sender_id.nickname}}</strong> likes <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
+    {% else %}
+    {% if tl.type == 'collect' %}
+    <p><strong>{{tl.sender_id.nickname}}</strong> collects <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
+    {% else %}
+    {% if tl.type == 'comment' %}
+    <p><strong>{{tl.sender_id.nickname}}</strong> comments <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
+    <div class="well">
+        <p>{{tl.comment_text}}</p>
     </div>
-    {% endfor %}
-</div>
--->
-<hr>
-<h2><strong><a href="#">TimeLines</a></strong></h2>
-<!--
-<div class="row placeholders">
-    {% for timeline in timelines %}
-    <div class="col-sm-2 placeholder">
-
-    </div>
-    {% endfor %}
-</div>
--->
-<div class="row placeholders">
-    {% for following in folowings %}
-    <div class="col-sm-2 placeholder">
-        <a href="">User1</a>
-        <a href="">User1</a>
-        <a href="">User1</a>
-        <a href="">User1</a>
-        <a href="">User1</a>
-        <a href="">User1</a>
-    </div>
+    {% else %}
+    <p><strong>{{tl.sender_id.nickname}}</strong> uploads this image. </p>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    <p>{{tl.occur_time}}</p>
     {% endfor %}
 </div>
 <hr>
-<h2><strong><a href="#">Following</a></strong></h2>
-<!--
-<div class="row placeholders">
-    {% for following in folowings %}
+<h3>Collection</h3>
+<div class="container container-fluid">
+    {% for img in collection %}
     <div class="col-sm-2 placeholder">
-
+        <a href="{% url 'pic' img.id %}">
+            <img src="{% static 'img_pool/'%}{{ img.img }} "
+                 width="200"
+                 height="200"
+                 class="img-responsive"
+                 alt="{{img.description}}">
+        </a>
     </div>
     {% endfor %}
 </div>
--->
 <hr>
-<h2><strong><a href="#">Followers</a></strong></h2>
-<!--
-<div class="row placeholders">
-    {% for follower in followers %}
-    <div class="col-sm-2 placeholder">
-
-    </div>
+<h3>Followings</h3>
+<div class="container">
+    {% for man in followings %}
+    <p><strong>{{man.username}}</strong></p>
     {% endfor %}
 </div>
--->
 <hr>
-<h2><strong><a href="#">Block</a></strong></h2>
-<!--
-<div class="row placeholders">
-    {% for block in blocks %}
-    <div class="col-sm-2 placeholder">
-
-    </div>
+<h3>Followers</h3>
+<div class="container">
+    {% for man in followers %}
+    <p><strong>{{man.username}}</strong></p>
     {% endfor %}
 </div>
--->
+<hr>
+<h3>Blocks</h3>
+<div class="container">
+    {% for man in blocks %}
+    <p><strong>{{man.username}}</strong></p>
+    {% endfor %}
+</div>
+{% endif %}
 {% endblock %}

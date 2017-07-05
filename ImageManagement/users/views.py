@@ -84,7 +84,7 @@ def profile(request):
     blocks = user.blacklist.all()
     collection = get_image_collection(user).all()
 
-    return render(request, 'userinfo.html', {'user':user,
+    return render(request, 'profile.html', {'user':user,
                                             'imgs':imgs,
                                             'timelines':timelines,
                                             'followings':followings,
