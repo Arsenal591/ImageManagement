@@ -218,3 +218,17 @@ def comment(request, timeline_id, url):
     comment = request.POST['comment']
     create_collect_timeline(user, timeline, comment)
     redirect(url)
+
+def unlike(request, timeline_id, url):
+    user = MyUser.objects.get(username=request.user.username)
+    this_timeline = Timeline.objects.get(id=timeline_id)
+    target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='like')
+    target_timeline.delete()
+    redirect(url)
+
+def uncollect(request, timeline_id, url):
+    user = MyUser.objects.get(username=request.user.username)
+    this_timeline = Timeline.objects.get(id=timeline_id)
+    target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='collect')
+    target_timeline.delete()
+    redirect(url)

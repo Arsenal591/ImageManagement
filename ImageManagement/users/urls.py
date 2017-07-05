@@ -22,6 +22,8 @@ urlpatterns = [
     url(r'^search_user/$',views.search_user, name='search-user'),
     url(r'^(?P<url>.*)/like/(?P<timeline_id>\d+)/$', views.like, name='like'),
     url(r'^(?P<url>.*)/collect/(?P<timeline_id>\d+)/$', views.collect, name='collect'),
+    url(r'^(?P<url>.*)/unlike/(?P<timeline_id>\d+)/$', views.unlike, name='unlike'),
+    url(r'^(?P<url>.*)/uncollect/(?P<timeline_id>\d+)/$', views.uncollect, name='uncollect'),
     url(r'^(?P<url>.*)/comment/(?P<timeline_id>\d+)/$', views.comment, name='comment'),
     url(r'^profile/$', views.profile, name='profile'),
 ]
