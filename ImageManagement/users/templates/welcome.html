@@ -30,20 +30,20 @@
              alt="{{img.description}}">
     </a>
     {% if tl.type == 'like' %}
-        <p><strong><a href="/index/users/{{tl.sender_id.nickname}}/">{{tl.sender_id.nickname}}</a></strong> likes
-            <strong><a href="/index/users/{{tl.receiver_id.nickname}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
+        <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> likes
+            <strong><a href="/index/users/{{tl.receiver_id.username}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
     {% endif %}
     {% if tl.type == 'collect' %}
-        <p><strong><a href="/index/users/{{tl.sender_id.nickname}}/">{{tl.sender_id.nickname}}</a></strong> collects
-            <strong><a href="/index/users/{{tl.receiver_id.nickname}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
+        <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> collects
+            <strong><a href="/index/users/{{tl.receiver_id.username}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
     {% endif %}
     {% if tl.type == 'comment' %}
-    <p><strong><a href="/index/users/{{tl.sender_id.nickname}}/">{{tl.sender_id.nickname}}</a></strong> comments
-        <strong><a href="/index/users/{{tl.receiver_id.nickname}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
+    <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> comments
+        <strong><a href="/index/users/{{tl.receiver_id.username}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
     <div class="well"><p>{{tl.comment_text}}</p></div>
     {% endif %}
     {% if tl.type == 'post' %}
-     <p><strong><a href="/index/users/{{tl.sender_id.nickname}}/">{{tl.sender_id.nickname}}</a></strong> uploads this image. </p>
+     <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> uploads this image. </p>
     {% endif %}
     <p>{{tl.occur_time}}</p>
     {% if tl.if_liked %}

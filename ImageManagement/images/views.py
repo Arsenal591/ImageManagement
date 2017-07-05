@@ -232,7 +232,9 @@ def filtershow(request):
 
 def pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
-    return render(request, 'pic.html', {'img': pic})
+    if_liked = False
+    if_collected = False
+    return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected})
 
 # search image by given image
 # It's not quite decent to use this function name

@@ -15,18 +15,18 @@
 <h3>Search Result</h3>
     {%for user in search_result%}
         {%if user.username != username %}
-        <h4><a href="/index/users/{{user.nickname}}/">{{user.nickname}}</a></h4>
+        <h4><a href="/index/users/{{user.username}}/">{{user.nickname}}</a></h4>
         {%endif%}
     {%endfor%}
 {%endif%}
 <h3>followings:</h3>
 {% for user in followings %}
-<h4><a href="/index/users/{{user.nickname}}/">{{user.nickname}}</a></h4>
+<h4><a href="/index/users/{{user.username}}/">{{user.nickname}}</a></h4>
 {% endfor %}
 
 <h3>blacklist:</h3>
 {% for user in blacklist %}
-<h4><a href="/index/users/{{user.nickname}}/">{{user.nickname}}</a></h4>
+<h4><a href="/index/users/{{user.username}}/">{{user.nickname}}</a></h4>
 
 {% endfor %}
 {% endblock %}
