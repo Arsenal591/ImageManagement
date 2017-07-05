@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -35,18 +35,11 @@
             </div>
             <div id="navbar">
                 <ul class="nav navbar-nav">
-<<<<<<< HEAD
                     <li class="active"><a href="{%url 'index' %}">Home</a></li>
                     <li class="active"><a href="{%url 'pool' %}">Pool</a></li>
                     <li class="active"><a href="{%url 'filter' %}">Filter</a></li>
                     <li class="active"
                     ><a href="{%url 'searchimg' %}">Search by Image</a></li>
-=======
-                    <li ><a href="/home/">Ho24rme</a></li>
-                    <li><a href="{%url 'pool' %}">Pool</a></li>
-                    <li><a href="{%url 'filter' %}">Filter</a></li>i
-                    <li><a href="{%url 'searchimg' %}">Search by Image</a></li>
->>>>>>> Arsenal591
                 </ul>
                 <form action='/searchbar' class="navbar-form navbar-left">
                     <div class="form-group">
@@ -96,25 +89,6 @@
     <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'bootstrap/js/jquery.min.js' %}"></script>
 	<script src="{% static 'bootstrap/js/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/vica.js' %}"></script>
 </body>
-<script>
-    $("#id_between_date").click(function () {
-        if($("#id_between_date")[0].checked == false) {
-            $("#id_date_start_day")[0].setAttribute('disabled', 'disabled');
-            $("#id_date_end_day")[0].setAttribute('disabled', 'disabled');
-            $("#id_date_start_month")[0].setAttribute('disabled', 'disabled');
-            $("#id_date_end_month")[0].setAttribute('disabled', 'disabled');
-            $("#id_date_start_year")[0].setAttribute('disabled', 'disabled');
-            $("#id_date_end_year")[0].setAttribute('disabled', 'disabled');
-        }
-        else {
-            $("#id_date_start_day")[0].removeAttribute('disabled');
-            $("#id_date_end_day")[0].removeAttribute('disabled');
-            $("#id_date_start_month")[0].removeAttribute('disabled');
-            $("#id_date_end_month")[0].removeAttribute('disabled');
-            $("#id_date_start_year")[0].removeAttribute('disabled');
-            $("#id_date_end_year")[0].removeAttribute('disabled');
-        }
-    })
-</script>
 </html>

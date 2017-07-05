@@ -59,10 +59,6 @@ def upload(request):
             # need to add user info here
             post.save()
             create_post_timeline(find_user, post)
-<<<<<<< HEAD
-
-=======
->>>>>>> Arsenal591
             return redirect('process', post.id)
     return render(request, 'upload.html', {'form': UploadForm()})
 

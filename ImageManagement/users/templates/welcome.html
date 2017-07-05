@@ -22,31 +22,37 @@
 <h3>Timelines</h3>
 <div class="container">
     {% for tl in timelines %}
-    <a href="{% url 'pic' img.id %}">
-        <img src="{% static 'img_pool/'%}{{ img.img }} "
+    <a href="{% url 'pic' tl.image_id.id %}">
+        <img src=" {% static 'img_pool/' %}{{ tl.image_id.img }} "
              width="200"
              height="200"
              class="img-responsive"
              alt="{{img.description}}">
     </a>
     {% if tl.type == 'like' %}
-        <p>><strong>{{tl.sender_id}}</strong> likes this image. </p>
+        <p>><strong>{{tl.sender_id.nickname}}</strong> likes <strong>{{tl
+            .receiver_id.nickname}}</strong> image. </p>
     {% else %}
         {% if tl.type == 'collect' %}
-            <p><strong>{{tl.sender_id}}</strong> collects this image. </p>
+            <p><strong>{{tl.sender_id.nickname}}</strong> collects <strong>{{tl
+                .receiver_id.nickname}}</strong> image. </p>
         {% else %}
             {% if tl.type == 'comment' %}
-                <p><strong>{{tl.sender_id}}</strong> comments this image. </p>
+                <p><strong>{{tl.sender_id.nickname}}</strong> comments <strong>{{tl
+                    .receiver_id.nickname}}</strong> image. </p>
                 <div class="well">
                     <p>{{tl.comment_text}}</p>
                 </div>
             {% else %}
-                <p><strong>{{tl.sender_id}}</strong> uploads this image. </p>
+                <p><strong>{{tl.sender_id.nickname}}</strong> uploads this image. </p>
             {% endif %}
         {% endif %}
     {% endif %}
-    {% endfor %}
     <p>{{tl.occur_time}}</p>
+    <p>tl.if_liked</p>
+    <a class="btn btn-default" href="#">Like</a>
+    {% endfor %}
+
 </div>
 <hr>
 <h3>Collections</h3>
