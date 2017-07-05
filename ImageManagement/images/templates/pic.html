@@ -2,7 +2,11 @@
 {% block content %}
 {% load static %}
 {% load bootstrap3 %}
-
+<style>
+    #btndiv {
+        margin: 15px;
+    }
+</style>
 <div class="container">
     <div id="pic-info" class="text-center">
     <h2>{{img.img}}</h2>
@@ -26,21 +30,22 @@
             <a class="btn btn-default" href="#" role="button">Tag1</a>
         {% endfor %}
     </div>
-    <!--
+
     {% if user.is_authenticated %}
-    <div class="center-block">
-        <button type="button" class="btn btn-primary btn-lg active">Like
+    <div class="text-center" id="btndiv">
+        <button type="button"  class="btn btn-primary btn-lg">Like
         </button>
-        <button type="button" class="btn btn-primary btn-lg active">Collect
+        <button type="button" class="btn btn-primary btn-lg">Collect
         </button>
-        <a href="{% url 'process' img.id %}">More process</a>
+        <a class="btn btn-primary btn-lg " href="{% url 'process' img.id %}"
+           role="button">More Process</a>
     </div>
     {% endif %}
     <h2>Comments</h2>
     <div class="users-comment">
         <p>user name comment date</p>
         <p>content</p>
-    </div>-->
+    </div>
 </div><!-- /.container -->
 {% endblock %}
 

@@ -9,11 +9,11 @@
     {% for img in imgs %}
     <div class="col-sm-2 placeholder">
         <a href="{% url 'pic' img.id %}">
-                   <img src="{% static 'img_pool/'%}{{ img.img }} "
-                        width="200"
-                        height="200"
-                        class="img-responsive"
-                        alt="{{img.description}}">
+            <img src="{% static 'img_pool/'%}{{ img.img }} "
+                 width="200"
+                 height="200"
+                 class="img-responsive"
+                 alt="{{img.description}}">
         </a>
     </div>
     {% endfor %}
@@ -23,54 +23,52 @@
 <div class="container">
     {% for tl in timelines %}
     <a href="{% url 'pic' tl.image_id.id %}">
-        <img src="{% static 'img_pool/'%}{{ tl.image_id.img }} "
+        <img src=" {% static 'img_pool/' %}{{ tl.image_id.img }} "
              width="200"
              height="200"
              class="img-responsive"
              alt="{{img.description}}">
     </a>
     {% if tl.type == 'like' %}
-    <p>><strong>{{tl.sender_id.nickname}}</strong> likes <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
+        <p>><strong>{{tl.sender_id.nickname}}</strong> likes <strong>{{tl
+            .receiver_id.nickname}}</strong> image. </p>
     {% else %}
-    {% if tl.type == 'collect' %}
-    <p><strong>{{tl.sender_id.nickname}}</strong> collects <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
-    {% else %}
-    {% if tl.type == 'comment' %}
-    <p><strong>{{tl.sender_id.nickname}}</strong> comments <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
-    <div class="well">
-        <p>{{tl.comment_text}}</p>
-    </div>
-    {% else %}
-    <p><strong>{{tl.sender_id.nickname}}</strong> uploads this image. </p>
-    {% endif %}
-    {% endif %}
+        {% if tl.type == 'collect' %}
+            <p><strong>{{tl.sender_id.nickname}}</strong> collects <strong>{{tl
+                .receiver_id.nickname}}</strong> image. </p>
+        {% else %}
+            {% if tl.type == 'comment' %}
+                <p><strong>{{tl.sender_id.nickname}}</strong> comments <strong>{{tl
+                    .receiver_id.nickname}}</strong> image. </p>
+                <div class="well">
+                    <p>{{tl.comment_text}}</p>
+                </div>
+            {% else %}
+                <p><strong>{{tl.sender_id.nickname}}</strong> uploads this image. </p>
+            {% endif %}
+        {% endif %}
     {% endif %}
     <p>{{tl.occur_time}}</p>
-    <!-- href should be like , but something error
-    happen -->
     {% if tl.if_liked %}
-    <a class="btn btn-default" href="#" role="button">Unlike</a>
+        <a class="btn btn-default" href="#" role="button">Unlike</a>
     {% else %}
-    <a class="btn btn-default" href="#"
-       role="button">Like</a>
+        <a class="btn btn-default" href="#" role="button">Like</a>
     {% endif %}
     {% if tl.if_collected %}
-    <a class="btn btn-default" href="#" role="button">Uncollected</a>
+        <a class="btn btn-default" href="#" role="button">Uncollected</a>
     {% else %}
-    <a class="btn btn-default" href="#"
-       role="button">Collected</a>
+        <a class="btn btn-default" href="#" role="button">Collected</a>
     {% endif %}
-    <a class="btn btn-default" href="#"
-       role="button">Comment</a>
+    <a class="btn btn-default" href="#" role="button">Comment</a>
     {% endfor %}
 
 </div>
 <hr>
-<h3>Collection</h3>
+<h3>Collections</h3>
 <div class="container container-fluid">
     {% for img in collection %}
     <div class="col-sm-2 placeholder">
-      <a href="{% url 'pic' img.id %}">
+        <a href="{% url 'pic' img.id %}">
             <img src="{% static 'img_pool/'%}{{ img.img }} "
                  width="200"
                  height="200"
@@ -84,7 +82,7 @@
 <h3>Followings</h3>
 <div class="container">
     {% for man in followings %}
-    <p><strong>{{man.username}}</strong></p>
+        <p><strong>{{man.username}}</strong></p>
     {% endfor %}
 </div>
 <hr>
