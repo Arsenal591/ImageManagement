@@ -1,0 +1,45 @@
+﻿{% extends 'base.html'%}
+{% load bootstrap3 %}
+{% block content %}
+
+<h3>Manage your relationship</h3>
+{% include 'messages.html'%}
+<div>
+    <form method="post" action="{%url 'search-user'%}">
+        {% csrf_token %}
+        {% bootstrap_form search_form%}
+        {% buttons submit='search'%}{% endbuttons%}
+    </form>
+</div>
+{%if search_result %}
+    {%for user in search_result%}
+        {%if user.username != username %}
+            <li>{{user.nickname}}</li>
+            <a href="homepage"></a>
+            <a href="{{"/index/follow/"|add:user.username}}">follow</a>
+            <a href="{{'/index/unfollow/'|add:user.username}}">unfollow</a>
+            <a href="{{'/index/black/'|add:user.username}}">block</a>
+            <a href="{{'/index/unblack/'|add:user.username}}">unblock</a>
+        {%endif%}
+    {%endfor%}
+{%endif%}
+<h4>followings:</h4>
+{% for user in followings %}
+<li>{{user.nickname}}</li>
+<a href="">homepage</a>
+<a href="{{"/index/follow/"|add:user.username}}">follow</a>
+<a href="{{'/index/unfollow/'|add:user.username}}">unfollow</a>
+<a href="{{'/index/black/'|add:user.username}}">block</a>
+<a href="{{'/index/unblack/'|add:user.username}}">unblock</a>
+{% endfor %}
+
+<h4>blacklist:</h4>
+{% for user in blacklist %}
+<li>{{user.nickname}}</li>
+<a href="">homepage</a>
+<a href="{{"/index/follow/"|add:user.username}}">follow</a>
+<a href="{{'/index/unfollow/'|add:user.username}}">unfollow</a>
+<a href="{{'/index/black/'|add:user.username}}">block</a>
+<a href="{{'/index/unblack/'|add:user.username}}">unblock</a>
+{% endfor %}
+{% endblock %}

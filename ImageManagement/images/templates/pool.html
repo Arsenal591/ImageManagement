@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="images-wall">
+        <h2>Public Pictures</h2></a>
+        <!-- <button type="button" class="btn btn-primary ">Another 30
+            Pictures</button>-->
+        <div class="row placeholders">
+            {% for img in row1 %}
+            <div class="col-sm-2 placeholder">
+                <a href="{% url 'pic' img.id %}">
+                    <img src="{% static 'img_pool/'%}{{ img.img }} "
+                         width="200"
+                         height="200"
+                         class="img-responsive"
+                         alt="Generic placeholder thumbnail">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row placeholders">
+            {% for img in row2 %}
+            <div class="col-sm-2 placeholder">
+                <a href="{% url 'pic' img.id %}">
+                <img src="{% static 'img_pool/'%}{{ img.img }} "
+                     width="200"
+                     height="200"
+                     class="img-responsive"
+                     alt="Generic placeholder thumbnail">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row placeholders">
+            {% for img in row3 %}
+            <div class="col-sm-2 placeholder">
+                <a href="{% url 'pic' img.id %}">
+                    <img src="{% static 'img_pool/'%}{{ img.img }} "
+                         width="200"
+                         height="200"
+                         class="img-responsive"
+                         alt="Generic placeholder thumbnail">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}
