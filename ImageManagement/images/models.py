@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from users.models import MyUser
 
 
 # explanation:
@@ -24,7 +25,7 @@ class TagNo(models.Model):
 class ImagePost(models.Model):
 
     # basic info
-    author = models.ForeignKey('auth.User', null=True)
+    author = models.ForeignKey(MyUser, null=True)
     tags = models.ManyToManyField(ImageTag)
     is_public = models.BooleanField(default=True, verbose_name='public')
     created_at = models.DateTimeField(default=timezone.now)

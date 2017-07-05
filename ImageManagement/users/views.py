@@ -13,15 +13,32 @@ from timeline.timeline_analysis import *
 
 # Create your views here.
 
+def get_timeline_details(user, timelines):
+    result = list()
+    for timeline in timelines:
+        data = dict()
+        data['id'] = timeline.id
+        data['type'] = timeline.type
+        data['sender_id'] = timeline.sender_id
+        data['image_id'] = timeline.image_id
+        data['receiver_id'] = timeline.receiver_id
+        data['occur_time'] = timeline.occur_time
+        data['comment_text'] = timeline.comment_text
+        data['if_liked'] = (Timeline.objects.filter(sender_id__username=user.username, type='like', image_id=timeline.image_id).count() > 0)
+        data['if_collected'] = (Timeline.objects.filter(sender_id__username=user.username, type='collect', image_id=timeline.image_id).count() > 0)
+        result.append(data)
+    return result
+
 @login_required(login_url='login')
 def index(request):
     user = MyUser.objects.get(username=request.user.username)
-    imgs = ImagePost.objects.filter(author__username=request.user.username).values()
-    timelines = select_subject_timeline_by_user(user).values()
-    followings = user.followings.values()
-    followers = user.followers.values()
-    blocks = user.blacklist.values()
-    collection = get_image_collection(user).values()
+    imgs = ImagePost.objects.filter(author__username=request.user.username).all()
+    timelines = select_subject_timeline_by_user(user)
+    timelines = get_timeline_details(user, timelines)
+    followings = user.followings.all()
+    followers = user.followers.all()
+    blocks = user.blacklist.all()
+    collection = get_image_collection(user).all()
 
     return render(request, 'welcome.html', {'user':user,
                                             'imgs':imgs,
@@ -30,32 +47,42 @@ def index(request):
                                             'followers':followers,
                                             'blocks':blocks,
                                             'collection':collection})
-    # return render(request, 'welcome.html')
 
 @login_required(login_url='login')
 def visit_user(request, visited_username):
-    user = MyUser.objects.get(username=visited_username)
-    imgs = ImagePost.objects.filter(author__username=request.user.username).values()
-    timelines = get_object_timeline_by_name(request.user.username, visited_username)
-    followings = user.followings.values()
-    followers = user.followers.values()
-    collection = get_image_collection(user).values()
+    this_user = MyUser.objects.get(username=request.user.username)
+    visit_user = MyUser.objects.get(username=visited_username)
 
-    return render(request, 'userinfo.html', {'user':user,
-                                            'imgs':imgs,
-                                            'timelines':timelines,
-                                            'followings':followings,
-                                            'followers':followers,
-                                            'collection':collection})
+    timelines = get_object_timeline_by_user(request.user.username, visited_username)
+    timelines = get_timeline_details(this_user, timelines)
+    imgs = ImagePost.objects.filter(author__username=request.user.username, image_id__is_public=1).all()
+    followings = user.followings.all()
+    followers = user.followers.all()
+    collection = get_image_collection(user).all()
+
+    if_following = visit_user in this_user.followings.all()
+    if_blocked = visit_user in this_user.blacklist.all()
+    hidden = if_blocked or this_user in visit_user.blacklist.all()
+
+    return render(request, 'userinfo.html', {'user':visit_user,
+                                             'if_following':if_following,
+                                             'if_blocked':if_blocked,
+                                             'hidden':hidden,
+                                             'imgs':imgs,
+                                             'timelines':timelines,
+                                             'followings':followings,
+                                             'followers':followers,
+                                             'collection':collection})
 @login_required(login_url='login')
 def profile(request):
     user = MyUser.objects.get(username=request.user.username)
-    imgs = ImagePost.objects.filter(author__username=request.user.username).values()
-    timelines = select_object_timeline_by_user(user, user).values()
-    followings = user.followings.values()
-    followers = user.followers.values()
-    blocks = user.blacklist.values()
-    collection = get_image_collection(user).values()
+    imgs = ImagePost.objects.filter(author__username=request.user.username).all()
+    timelines = select_object_timeline_by_user(user, user)
+    timelines = get_timeline_details(user, timelines)
+    followings = user.followings.all()
+    followers = user.followers.all()
+    blocks = user.blacklist.all()
+    collection = get_image_collection(user).all()
 
     return render(request, 'userinfo.html', {'user':user,
                                             'imgs':imgs,
@@ -69,8 +96,8 @@ def profile(request):
 def manage_relationship(request, search_result = None):
     search_form = SearchForm(None)
     user = MyUser.objects.get(username=request.user.username)
-    followings = user.followings.values()
-    blacklist = user.blacklist.values()
+    followings = user.followings.all()
+    blacklist = user.blacklist.all()
 
     if search_result is not None and len(search_result) == 0:
         messages.info(request, 'User not found!')
@@ -83,7 +110,8 @@ def manage_relationship(request, search_result = None):
 
 
 @login_required(login_url='login')
-def follow_user(request, follow_username):
+def follow_user(request, follow_username, url):
+    url = '/index/' + url
     if request.user.username == follow_username:
         return manage_relationship(request)
 
@@ -95,10 +123,12 @@ def follow_user(request, follow_username):
         this_user.save()
     else:
         messages.info(request,"sorry this user is already in my followings")
+    return redirect(url)
     return redirect('manage-relationship')
 
 @login_required(login_url='login')
-def unfollow_user(request, unfollow_username):
+def unfollow_user(request, unfollow_username, url):
+    url = '/index/' + url
     if request.user.username == unfollow_username:
         return manage_relationship(request)
 
@@ -111,10 +141,12 @@ def unfollow_user(request, unfollow_username):
         this_user.save()
     else:
         messages.info(request, "sorry you haven NOT followed this user")
+    return redirect(url)
     return redirect('manage-relationship')
 
 @login_required(login_url='login')
-def black_user(request, black_username):
+def black_user(request, black_username, url):
+    url = '/index/' + url
     if request.user.username == black_username:
         return manage_relationship(request)
 
@@ -128,10 +160,12 @@ def black_user(request, black_username):
     else:
         messages.info(request, "sorry already in your blacklist")
 
-    return redirect('manage-relationship')
+    return redirect(url)
+    #return redirect('manage-relationship')
 
 @login_required(login_url='login')
-def unblack_user(request, unblack_username):
+def unblack_user(request, unblack_username, url):
+    url = '/index/' + url
     if request.user.username == unblack_username:
         return manage_relationship(request)
 
@@ -145,12 +179,15 @@ def unblack_user(request, unblack_username):
     else:
         messages.info(request,"sorry NOT in my blacklist")
 
+    return redirect(url)
     return redirect('manage-relationship')
 
 
 @login_required(login_url='login')
 def search_user(request):
     params = request.POST if request.method == 'POST' else None
+    if params is None:
+        return manage_relationship(request)
     form = SearchForm(params)
 
     if form.is_valid():

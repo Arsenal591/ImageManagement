@@ -50,15 +50,17 @@ def upload(request):
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if True: # lazy to delete this line
+            find_user = MyUser.objects.get(username=request.user.username)
             post = form.save()
-            post.author = request.user
+            post.author = find_user
             add_tag(post, form['tags'].value())
             # need to add user info here
             post.save()
-
-            find_user = MyUser.objects.get(username=request.user.username)
             create_post_timeline(find_user, post)
+<<<<<<< HEAD
 
+=======
+>>>>>>> Arsenal591
             return redirect('process', post.id)
     return render(request, 'upload.html', {'form': UploadForm()})
 

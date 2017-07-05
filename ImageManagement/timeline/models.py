@@ -10,7 +10,7 @@ class Timeline(models.Model):
     sender_id = models.ForeignKey(MyUser, related_name='sends')
     image_id = models.ForeignKey(ImagePost)
     receiver_id = models.ForeignKey(MyUser, related_name='receives', null=True)
-    occur_time = models.TimeField(default=timezone.now)
+    occur_time = models.DateTimeField(default=timezone.now)
     comment_text = models.CharField(default='', max_length=140, blank=True)
 
     def __str__(self):
