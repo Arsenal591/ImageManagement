@@ -31,6 +31,7 @@
     <Compile Include="ImageManagement\settings.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="images\add_tags.py" />
     <Compile Include="images\admin.py" />
     <Compile Include="images\apps.py" />
     <Compile Include="images\forms.py" />
@@ -39,9 +40,6 @@
     <Compile Include="images\models.py" />
     <Compile Include="images\slave.py" />
     <Compile Include="images\tests.py" />
-    <Compile Include="images\timeline_processer.py">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="images\urls.py" />
     <Compile Include="images\views.py" />
     <Compile Include="images\__init__.py" />
