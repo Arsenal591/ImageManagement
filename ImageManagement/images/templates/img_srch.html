@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+<h1>Upload your image</h1>
+<form action="{% url 'searchimg' %}" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% bootstrap_form_errors form %}
+    {% bootstrap_form form %}
+    {% buttons submit='Submit' %}{% endbuttons %}
+</form>
+<p>{{ tags }}<p>
+{% endblock %}

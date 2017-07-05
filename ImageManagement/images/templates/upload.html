@@ -1,5 +1,55 @@
-<form action="/upload_img" method="POST" enctype="multipart/form-data">
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+<h1>Step 1: Upload your image</h1>
+<form action="{% url 'upload' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <input name="image" type="file" id="uploadImage">
-    <button id="uploadImageBtn" class="btn" type="submit">Upload</button>
+    {% bootstrap_form_errors form %}
+    {% bootstrap_form form %}
+    {% buttons submit='Submit' %}{% endbuttons %}
 </form>
+{% endblock %}
+<!--
+<form action="/upload_img" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input name="image" type="file" id="uploadImage">
+
+    <div id="options">
+        <div class="make_private">
+            <button id="uploadImageBtn" class="btn" type="submit">Upload</button>
+            <label>
+                <input type="checkbox" value="">
+                Make this image private.
+            </label>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" id="cutout-check" value="">
+                Cut out
+            </label>
+            <input type="text" id="cutout-value" disabled>
+        </div>
+        <div>
+            <label>
+                <input type="checkbox" id="rotate-check" value="">
+                Rotate
+            </label>
+            <input type="text" id="rotate-value" disabled>
+        </div>
+    </div>
+    </form>
+	<script>
+    $("#cutout-check").click(function () {
+        if($("#cutout-check")[0].checked == false)
+            $("#cutout-value")[0].setAttribute('disabled', 'disabled');
+        else
+            $("#cutout-value")[0].removeAttribute('disabled');
+    })
+    $("#rotate-check").click(function () {
+        if($("#rotate-check")[0].checked == false)
+            $("#rotate-value")[0].setAttribute('disabled', 'disabled');
+        else
+            $("#rotate-value")[0].removeAttribute('disabled');
+    })
+</script>
+-->

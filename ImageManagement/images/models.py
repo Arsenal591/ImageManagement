@@ -1,36 +1,41 @@
 from django.db import models
 from django.utils import timezone
+from users.models import MyUser
+
+
+# explanation:
+# originally, one TagNo maps to one ImageTag
+# but this mapping is too detailed
+# for example, one TagNo maybe 'salmon', while another TagNo is 'shark'
+# for simplity, we all link the two TagNo to ImageTag 'fish'
 
 class ImageTag(models.Model):
     name = models.CharField(max_length=20)
-    images = models.ManyToManyField('ImagePost')
 
     def __str__(self):
         return self.name
 
+class TagNo(models.Model):
+    no = models.CharField(max_length=32)
+    tag = models.ForeignKey(ImageTag)
+
+    def __str__(self):
+        return self.no
+
 class ImagePost(models.Model):
+
     # basic info
-    author = models.ForeignKey('auth.User', null=True)
+    author = models.ForeignKey(MyUser, null=True)
     tags = models.ManyToManyField(ImageTag)
-    path = models.CharField(max_length=128)
-    is_public = models.BooleanField(default=True)
+    is_public = models.BooleanField(default=True, verbose_name='public')
     created_at = models.DateTimeField(default=timezone.now)
-    heat = models.IntegerField(default=0)
+    like_num = models.IntegerField(default=0)
+    collect_num = models.IntegerField(default=0)
     description = models.CharField(max_length=140, null=True)
-    # relationships
-    siblings = models.ManyToManyField('ImagePost')
-    comments = models.ManyToManyField('ImageComment')
+    img = models.ImageField(null=True, verbose_name='image')
+    # edit from some picture?
+    parent = models.ForeignKey('self', null=True)
 
     def __str__(self):
-        return self.path
-
-class ImageComment(models.Model):
-    image = models.ForeignKey(ImagePost, on_delete=models.CASCADE)
-    content = models.CharField(max_length=140)
-    author = models.ForeignKey('auth.User')
-    previous = models.ForeignKey('ImageComment', null=True)
-    pub_time = models.DateTimeField(default=timezone.now)
-    
-    def __str__(self):
-        return content
+        return str(self.id)
 

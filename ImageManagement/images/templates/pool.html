@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<div class="container container-fluid">
+    <div class="images-wall">
+        <h2>Public Pictures</h2></a>
+        <!-- <button type="button" class="btn btn-primary ">Another 30
+            Pictures</button>-->
+        {% for img in imgs %}
+        <div class="col-sm-2 placeholder">
+            <a href="{% url 'pic' img.id %}">
+                <img src="{% static 'img_pool/'%}{{ img.img }} "
+                     width="200"
+                     height="200"
+                     class="img-responsive"
+                     alt="{{img.description}}">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

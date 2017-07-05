@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% load static %}
+{% block content %}
+<h2>Welcome！{{user.username}}</h2>
+<hr>
+<h3>My Images</h3>
+<div class="container container-fluid">
+    {% for img in imgs %}
+    <div class="col-sm-2 placeholder">
+        <a href="{% url 'pic' img.id %}">
+            <img src="{% static 'img_pool/'%}{{ img.img }} "
+                 width="200"
+                 height="200"
+                 class="img-responsive"
+                 alt="{{img.description}}">
+        </a>
+    </div>
+    {% endfor %}
+</div>
+<hr>
+<h3>Timelines</h3>
+<div class="container">
+    {% for tl in timelines %}
+    <a href="{% url 'pic' tl.image_id.id %}">
+        <img src=" {% static 'img_pool/' %}{{ tl.image_id.img }} "
+             width="200"
+             height="200"
+             class="img-responsive"
+             alt="{{img.description}}">
+    </a>
+    {% if tl.type == 'like' %}
+        <p>><strong>{{tl.sender_id.nickname}}</strong> likes <strong>{{tl
+            .receiver_id.nickname}}</strong> image. </p>
+    {% else %}
+        {% if tl.type == 'collect' %}
+            <p><strong>{{tl.sender_id.nickname}}</strong> collects <strong>{{tl
+                .receiver_id.nickname}}</strong> image. </p>
+        {% else %}
+            {% if tl.type == 'comment' %}
+                <p><strong>{{tl.sender_id.nickname}}</strong> comments <strong>{{tl
+                    .receiver_id.nickname}}</strong> image. </p>
+                <div class="well">
+                    <p>{{tl.comment_text}}</p>
+                </div>
+            {% else %}
+                <p><strong>{{tl.sender_id.nickname}}</strong> uploads this image. </p>
+            {% endif %}
+        {% endif %}
+    {% endif %}
+    <p>{{tl.occur_time}}</p>
+    {% if tl.if_liked %}
+        <a class="btn btn-default" href="{{"unlike/"}}{{tl.id}}/" role="button">Unlike</a>
+    {% else %}
+        <a class="btn btn-default" href="{{"like/"}}{{tl.id}}/" role="button">Like</a>
+    {% endif %}
+    {% if tl.if_collected %}
+        <a class="btn btn-default" href="{{"uncollect/"}}{{tl.id}}/" role="button">Uncollected</a>
+    {% else %}
+        <a class="btn btn-default" href="{{"collect/"}}{{tl.id}}/" role="button">Collected</a>
+    {% endif %}
+    <a class="btn btn-default" href="#" role="button">Comment</a>
+    {% endfor %}
+
+</div>
+<hr>
+<h3>Collections</h3>
+<div class="container container-fluid">
+    {% for img in collection %}
+    <div class="col-sm-2 placeholder">
+        <a href="{% url 'pic' img.id %}">
+            <img src="{% static 'img_pool/'%}{{ img.img }} "
+                 width="200"
+                 height="200"
+                 class="img-responsive"
+                 alt="{{img.description}}">
+        </a>
+    </div>
+    {% endfor %}
+</div>
+<hr>
+<h3>Followings</h3>
+<div class="container">
+    {% for man in followings %}
+        <p><strong>{{man.username}}</strong></p>
+    {% endfor %}
+</div>
+<hr>
+<h3>Followers</h3>
+<div class="container">
+    {% for man in followers %}
+    <p><strong>{{man.username}}</strong></p>
+    {% endfor %}
+</div>
+<hr>
+<h3>Blocks</h3>
+<div class="container">
+    {% for man in blocks %}
+    <p><strong>{{man.username}}</strong></p>
+    {% endfor %}
+</div>
+
+{% endblock %}

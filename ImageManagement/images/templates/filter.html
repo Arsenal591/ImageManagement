@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load bootstrap3 %}
+{% block content %}
+{% load static %}
+<!--The info to be shown here require further discussion, here is only a simple example-->
+
+<form action="{% url 'filter' %}" method="POST">
+        {% csrf_token %}
+        {% bootstrap_form_errors form %}
+        {% bootstrap_form form %}
+        {% buttons submit='Submit' %}{% endbuttons %}
+</form>
+
+<p>Images of user: {{ user }}</p>
+
+
+<div class="container">
+    <div class="table">
+        <table data-toggle="table" id="table_filter"
+               class="table table-striped table-bordered" data-sort-order="desc"
+               data-search="true" data-filter-control="true"
+               data-page-list="[10, 25, 50, 100, ALL]"
+               data-pagination="true" data-side-pagination="client">
+            <thead>
+            <tr>
+                <th data-field="author" data-sortable="true"
+                    data-filter-control="select">Author</th>
+                <th data-field="name" data-sortable="true"
+                    data-filter-control="input" >Name</th>
+                <th data-field="date" data-sortable="true"
+                    data-filter-control="select">Date</th>
+                <th data-field="heat" data-sortable="true">Heat</th>
+                <!--<th data-field="tags" data-sortable="false">Tags</th>-->
+                <th data-field="is_public" data-sortable="true">Public?</th>
+
+            </tr>
+            </thead>
+            {% for img in imgs %}
+                <tr>
+                    <td>{{ img.author.username }}</td>
+                    <td><a href="{% static 'img_pool/'%}{{ img.img }} ">
+                        {{img.id}}</a>
+                    </td>
+                    <td>{{ img.created_at }}</td>
+                    <td>{{ img.like_num }}</td>
+                    <!--<td>{{img.tags}}</td>-->
+                    <td>{{ img.is_public }}</td>
+                </tr>
+            {% endfor %}
+ 
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}
+

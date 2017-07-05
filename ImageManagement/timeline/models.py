@@ -3,18 +3,15 @@ from images.models import ImagePost
 from django.db import models
 from django.utils import timezone
 
-class TimelineComment(models.Model):
-    sender_id = models.ForeignKey(MyUser, related_name='sender')
-    timeline_id = models.ForeignKey('Timeline')
-    receiver_id = models.ForeignKey(MyUser, related_name='receiver')
-    occur_time = models.TimeField(default=timezone.now)
-
-
+TIMELINE_TYPE = [('like', 'like'), ('collect', 'collect'), ('comment', 'comment'), ('post', 'post')]
 class Timeline(models.Model):
-    user_id = models.ForeignKey(MyUser)
+    type = models.CharField(max_length=10, choices=TIMELINE_TYPE)
+    original = models.ForeignKey('self', null=True)
+    sender_id = models.ForeignKey(MyUser, related_name='sends')
+    image_id = models.ForeignKey(ImagePost)
+    receiver_id = models.ForeignKey(MyUser, related_name='receives', null=True)
     occur_time = models.DateTimeField(default=timezone.now)
-    image_ids = models.ManyToManyField(ImagePost, blank=True)
-    like_num = models.IntegerField(default=0)
-    collected_num = models.IntegerField(default=0)
-    comments_num = models.IntegerField(default=0)
-    comments_id = models.ManyToManyField(TimelineComment, blank=True)
+    comment_text = models.CharField(default='', max_length=140, blank=True)
+
+    def __str__(self):
+        return 'type' + self.type
