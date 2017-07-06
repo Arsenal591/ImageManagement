@@ -212,7 +212,7 @@ def collect(request, image_id, url):
     user = MyUser.objects.get(username=request.user.username)
     #timeline = Timeline.objects.get(id=timeline_id)
     image = ImagePost.objects.get(id=image_id)
-    imgae.collect_num += 1
+    image.collect_num += 1
     create_collect_timeline(user, image)
     return redirect(url)
 
