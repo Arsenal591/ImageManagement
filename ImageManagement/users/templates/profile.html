@@ -46,22 +46,21 @@
     <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> uploads this image. </p>
     {% endif %}
     <p>{{tl.occur_time}}</p>
-    <!-- href should be like , but something error
-    happen -->
     {% if tl.if_liked %}
     <a class="btn btn-default" href="{{'unlike/'}}{{tl.image_id.id}}/" role="button">Unlike</a>
     {% else %}
-    <a class="btn btn-default" href="{{'like/'}}{{tl.image_id.id}}/"
-       role="button">Like</a>
+    <a class="btn btn-default" href="{{'like/'}}{{tl.image_id.id}}/" role="button">Like</a>
     {% endif %}
     {% if tl.if_collected %}
     <a class="btn btn-default" href="{{'uncollect/'}}{{tl.image_id.id}}/" role="button">Uncollected</a>
     {% else %}
-    <a class="btn btn-default" href="{{'collect/'}}{{tl.image_id.id}}/"
-       role="button">Collected</a>
+    <a class="btn btn-default" href="{{'collect/'}}{{tl.image_id.id}}/" role="button">Collected</a>
     {% endif %}
-    <a class="btn btn-default" href="#"
-       role="button">Comment</a>
+    <form method="POST" action="{{'comment/'}}{{tl.image_id.id}}/" class="form-inline">
+        {% csrf_token %}
+        <input name="comment" class="form-control" type="text" placeholder="Comment">
+        <button type="submit" class="btn btn-default">Comment</button>
+    </form>
     <hr>
     {% endfor %}
 
