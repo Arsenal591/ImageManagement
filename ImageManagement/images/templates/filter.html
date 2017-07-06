@@ -34,15 +34,15 @@
             </thead>
             {% for img in imgs %}
                 <tr>
-                    <td>{{ img.author.username }}</td>
-                    <td><a href="{% static 'img_pool/'%}{{ img.img }} ">
+                    <td><a href="/index/users/{{img.author.username}}">{{ img.author.username }}</a></td>
+                    <td><a href="{% url 'pic' img.id %} ">
                         {{img.id}}</a>
                     </td>
                     <td>{{ img.created_at }}</td>
                     <td>{{ img.like_num }}</td>
                     <td>
                         {% for tag in img.tags.all %}
-                            {{tag}}
+                        <a href="/tag/{{tag.id}}">{{tag}}</a>
                         {% endfor %}
                     </td>
                     <td>{{ img.is_public }}</td>
