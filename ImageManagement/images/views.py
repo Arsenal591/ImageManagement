@@ -22,6 +22,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from timeline.timeline_spread import *
 from users.models import MyUser
+from timeline.models import Timeline
 
 def home(request):
     return redirect('index')
@@ -228,17 +229,15 @@ def filtershow(request):
 
 def pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
-    # here need to check user's info
-    if_liked = False
-    if_collected = False
+    if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
+    if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
     return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected})
 
 def del_pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
-    if_liked = False
-    if_collected = False
     if request.user.id != pic.author.id:
-        messages.info(request, "This image wasn't posted by you!")
+        if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
+        if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
         return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected})
       
     pre_pic = None
@@ -256,6 +255,8 @@ def del_pic(request, pic_id):
             pic.delete()
             return redirect('index.html')
     pic.delete()
+    if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
+    if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
     return render(request, 'pic.html', {'img': pre_pic, 'if_liked': if_liked, 'if_collected': if_collected})
 
 

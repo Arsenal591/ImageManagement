@@ -49,15 +49,15 @@
     <!-- href should be like , but something error
     happen -->
     {% if tl.if_liked %}
-    <a class="btn btn-default" href="{{'unlike/'}}{{tl.id}}/" role="button">Unlike</a>
+    <a class="btn btn-default" href="{{'unlike/'}}{{tl.image_id.id}}/" role="button">Unlike</a>
     {% else %}
-    <a class="btn btn-default" href="{{'like/'}}{{tl.id}}/"
+    <a class="btn btn-default" href="{{'like/'}}{{tl.image_id.id}}/"
        role="button">Like</a>
     {% endif %}
     {% if tl.if_collected %}
-    <a class="btn btn-default" href="{{'uncollect/'}}{{tl.id}}/" role="button">Uncollected</a>
+    <a class="btn btn-default" href="{{'uncollect/'}}{{tl.image_id.id}}/" role="button">Uncollected</a>
     {% else %}
-    <a class="btn btn-default" href="{{'collect/'}}{{tl.id}}/"
+    <a class="btn btn-default" href="{{'collect/'}}{{tl.image_id.id}}/"
        role="button">Collected</a>
     {% endif %}
     <a class="btn btn-default" href="#"
