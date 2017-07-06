@@ -1,3 +1,27 @@
+
+$(function () {
+    if ($("#id_date_start_day")[0] != undefined) {
+        $("#id_date_start_day")[0].setAttribute('disabled', 'disabled');
+    }
+    if ($("#id_date_start_month")[0] != undefined) {
+        $("#id_date_start_month")[0].setAttribute('disabled', 'disabled');
+    }
+    if ($("#id_date_start_year")[0] != undefined) {
+        $("#id_date_start_year")[0].setAttribute('disabled', 'disabled');
+    }
+    if ($("#id_date_end_day")[0] != undefined) {
+        $("#id_date_end_day")[0].setAttribute('disabled', 'disabled');
+    }
+    if ($("#id_date_end_month")[0] != undefined) {
+        $("#id_date_end_month")[0].setAttribute('disabled', 'disabled');
+    }
+    if ($("#id_date_end_year")[0] != undefined) {
+        $("#id_date_end_year")[0].setAttribute('disabled', 'disabled');
+    }
+    $("#id_blur")[0].setAttribute('disabled', 'disabled');
+    $("#id_rescale")[0].setAttribute('disabled', 'disabled');
+    $("#id_rotate")[0].setAttribute('disabled', 'disabled');
+});
 $("#id_between_date").click(function () {
         if($("#id_between_date")[0].checked == false) {
             $("#id_date_start_day")[0].setAttribute('disabled', 'disabled');

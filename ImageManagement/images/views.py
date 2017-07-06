@@ -243,11 +243,6 @@ def tag(request, tag_id):
 
 def del_pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
-    if request.user.id != pic.author.id:
-        if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
-        if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
-        return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected})
-      
     pre_pic = None
     try: # try to find the previous public post
         # PLEASE hit the next line during presentation
@@ -263,9 +258,11 @@ def del_pic(request, pic_id):
             pic.delete()
             return redirect('index.html')
     pic.delete()
-    if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
-    if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
-    return render(request, 'pic.html', {'img': pre_pic, 'if_liked': if_liked, 'if_collected': if_collected})
+    return redirect('/pic/'+str(pre_pic.id))
+    #if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
+    #if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
+    #can_del = (pre_pic.author.id == request.user.id)
+    #return render(request, 'pic.html', {'img': pre_pic, 'if_liked': if_liked, 'if_collected': if_collected, 'can_del': can_del, 'comments':comments})
 
 # search image by given image
 # It's not quite decent to use this function name

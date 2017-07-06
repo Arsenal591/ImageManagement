@@ -52,7 +52,15 @@
         </table>
     </div>
 </div>
-
-
+<script>
+    $(function () {
+        $("#id_date_start_day")[0].setAttribute('disabled', 'disabled');
+        $("#id_date_end_day")[0].setAttribute('disabled', 'disabled');
+        $("#id_date_start_month")[0].setAttribute('disabled', 'disabled');
+        $("#id_date_end_month")[0].setAttribute('disabled', 'disabled');
+        $("#id_date_start_year")[0].setAttribute('disabled', 'disabled');
+        $("#id_date_end_year")[0].setAttribute('disabled', 'disabled');
+    });
+</script>
 {% endblock %}
 

@@ -10,12 +10,12 @@ class UploadForm(forms.ModelForm):
 class ProcessForm(forms.Form):
     gray = forms.BooleanField(required=False, label='generate a gray copy')
     to_blur = forms.BooleanField(required=False, label='generate a blur copy')
-    blur = forms.FloatField(min_value=0,  max_value=1, required=False, disabled=True, label='blur level(0~1)')
+    blur = forms.FloatField(min_value=0,  max_value=1, required=False, label='blur level(0~1)')
     binaryzation = forms.BooleanField(required=False, label='generate a binary copy')
     to_rescale = forms.BooleanField(required=False, label='generate a rescaled copy')
-    rescale = forms.FloatField(required=False, min_value=0.1, max_value=5, disabled=True, label='ratio(0.001~5)')
+    rescale = forms.FloatField(required=False, min_value=0.1, max_value=5, label='ratio(0.1~5)')
     to_rotate = forms.BooleanField(required=False, label='generate a rotated copy')
-    rotate = forms.IntegerField(min_value=0, max_value=360, required=False, disabled=True, label='rotate angle(anticlockwise, 0~360)')
+    rotate = forms.IntegerField(min_value=0, max_value=360, required=False, label='rotate angle(anticlockwise, 0~360)')
 
 class BatchUploadForm(forms.Form):
     description = forms.CharField(max_length=140, required=False)
@@ -38,8 +38,8 @@ class FilterForm(forms.Form):
     username = forms.CharField(max_length=128, required=False, label='Specified username(not required)')
     auth_filter = forms.ChoiceField(choices=auth_choices, label='Authority settings')
     between_date = forms.BooleanField(required=False, label='During date range')
-    date_start = forms.DateField(required=False, widget=forms.SelectDateWidget, disabled=True, label='')
-    date_end = forms.DateField(required=False, widget=forms.SelectDateWidget, disabled=True, label='')
+    date_start = forms.DateField(required=False, widget=forms.SelectDateWidget, label='')
+    date_end = forms.DateField(required=False, widget=forms.SelectDateWidget, label='')
     tags = forms.CharField(max_length=512, required=False)
 
 class DetailForm(forms.Form):
