@@ -22,6 +22,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from timeline.timeline_spread import *
 from users.models import MyUser
+from timeline.models import Timeline
 
 def home(request):
     return redirect('index')
@@ -232,8 +233,8 @@ def filtershow(request):
 
 def pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
-    if_liked = False
-    if_collected = False
+    if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
+    if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
     return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected})
 
 # search image by given image

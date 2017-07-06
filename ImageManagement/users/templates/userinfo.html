@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 {% load static %}
 {% block content %}
-<h2>{{user.nickname}}</h2>
+<h2>{{target.nickname}}</h2>
 {% if if_following %}
 <a class="btn btn-default" href="{{'unfollow/'}}{{user.username}}/" role="button">
     Unfollow</a>
@@ -16,7 +16,7 @@
 <a class="btn btn-default" href="{{'black/'}}{{user.username}}/" role="button">Block
 </a>
 {% endif %}
-{% if is_hidden %}
+{% if hidden %}
 <h2>Sorry, you cannnot see anything about the {{user.username}} because
     you are blocked.</h2>
 {% else %}
