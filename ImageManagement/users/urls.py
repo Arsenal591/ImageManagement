@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
 from . import views, auth_views
+from images.views import pic
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -25,5 +26,6 @@ urlpatterns = [
     url(r'^(?P<url>.*)like/(?P<image_id>\d+)/$', views.like, name='like'),
     url(r'^(?P<url>.*)collect/(?P<image_id>\d+)/$', views.collect, name='collect'),
     url(r'^(?P<url>.*)comment/(?P<image_id>\d+)/$', views.comment, name='comment'),
+    url(r'^pic/([1-9][0-9]*)/$', pic, name='pic'),
     url(r'^profile/$', views.profile, name='profile'),
 ]
