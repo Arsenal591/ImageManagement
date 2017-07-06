@@ -226,12 +226,38 @@ def filtershow(request):
      
     return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info})
 
-
 def pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
+    # here need to check user's info
     if_liked = False
     if_collected = False
     return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected})
+
+def del_pic(request, pic_id):
+    pic = get_object_or_404(ImagePost, pk=pic_id)
+    if_liked = False
+    if_collected = False
+    if request.user.id != pic.author.id:
+        messages.info(request, "This image wasn't posted by you!")
+        return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected})
+      
+    pre_pic = None
+    try: # try to find the previous public post
+        # PLEASE hit the next line during presentation
+        # without executing 'while not ...' loop
+        pre_pic = get_previous_by_created_at(pic)
+        while not pre_pic.is_public:
+            pre_pic = get_previous_by_created_at(pre_pic)
+    except Exception as e: # if there is no public post before it
+        all_posts = ImagePost.objects.filter(is_public=True).exclude(pk=pic.id)
+        if all_posts:
+            pre_pic = all_posts[0]
+        else:
+            pic.delete()
+            return redirect('index.html')
+    pic.delete()
+    return render(request, 'pic.html', {'img': pre_pic, 'if_liked': if_liked, 'if_collected': if_collected})
+
 
 # search image by given image
 # It's not quite decent to use this function name

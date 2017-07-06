@@ -10,9 +10,9 @@
 <div class="container">
     <div id="pic-info" class="text-center">
     <h2>{{img.img}}</h2>
-    <h3>Post by {{img.author}}</h3>
+    <h3>Posted by {{img.author}}</h3>
     <p>{{img.like_num}} people like(s) this image, {{img.collect_num}} people
-        collect(s) this imase</p>
+        collect(s) this image</p>
     </div>
     <div id="pic">
     <img class="img-responsive center-block"
@@ -39,6 +39,8 @@
         </button>
         <a class="btn btn-primary btn-lg " href="{% url 'process' img.id %}"
            role="button">More Process</a>
+        <a class="btn btn-primary btn-lg " href="{% url 'del_pic' img.id %}"
+           role="button">Delete</a>
     </div>
     {% endif %}
     <h2>Comments</h2>

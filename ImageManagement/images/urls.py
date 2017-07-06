@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^pic/([1-9][0-9]*)$', views.pic, name='pic'),
     url(r'^search_img$', views.searchimg, name='searchimg'),
     url(r'^searchbar$', views.searchbar, name='searchbar'),
+    url(r'^del_pic/([1-9][0-9]*)$', views.del_pic, name='del_pic'),
 ]
