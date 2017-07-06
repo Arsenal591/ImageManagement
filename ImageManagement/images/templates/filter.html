@@ -41,10 +41,8 @@
                     <td>{{ img.created_at }}</td>
                     <td>{{ img.like_num }}</td>
                     <td>
-                        {% for tags in tag_set %}
-                            {% for tag in tags %}
-                                {{tag}}
-                            {% endfor %}
+                        {% for tag in img.tags.all %}
+                            {{tag}}
                         {% endfor %}
                     </td>
                     <td>{{ img.is_public }}</td>
