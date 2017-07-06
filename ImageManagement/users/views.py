@@ -220,7 +220,7 @@ def comment(request, image_id, url):
     #timeline = Timeline.objects.get(id=timeline_id)
     image = ImagePost.objects.get(id=image_id)
     comment = request.POST['comment']
-    create_collect_timeline(user, image, comment)
+    create_comment_timeline(user, image, comment)
     return redirect(url)
 
 def unlike(request, image_id, url):
