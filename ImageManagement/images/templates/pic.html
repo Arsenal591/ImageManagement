@@ -6,45 +6,58 @@
     #btndiv {
         margin: 15px;
     }
+    #tagdiv {
+        margin: 15px;
+    }
 </style>
 <div class="container">
     <div id="pic-info" class="text-center">
     <h2>{{img.img}}</h2>
-    <h3>Post by {{img.author}}</h3>
+    <h3>Posted by {{img.author}}</h3>
     <p>{{img.like_num}} people like(s) this image, {{img.collect_num}} people
-        collect(s) this imase</p>
+        collect(s) this image</p>
     </div>
     <div id="pic">
     <img class="img-responsive center-block"
         src="{% static 'img_pool/'%}{{ img.img }}"
          width="800" height="800" class="img-rounded"
         alt="Generic placeholder thumbnail">
-    <p>{{img.description}}</p>
-    <a href="{{img.id|add:1}} " class="btn btn-info btn-lg" >
+    <div class="well"> <p>{{img.description}}</p></div>
+    <a href="/pic/{{img.get_previous_by_created_at}} " class="btn btn-info btn-lg" >
         <span class="glyphicon glyphicon-arrow-left"></span>Prev</a>
-    <a href="{{img.id|add:-1}}" class="btn btn-info btn-lg">
+    <a href="/pic/{{img.get_next_by_created_at}}" class="btn btn-info btn-lg">
         <span class="glyphicon glyphicon-arrow-right"></span> Next</a>
     </div>
-    <div id="pictags">
-        {% for tag in img.tag_set %}
-            <a class="btn btn-default" href="#" role="button">Tag1</a>
+    <div class="text-center" id="tagdiv">
+        <span>Tags:</span>
+        {% for tag in tags %}
+        <a class="btn btn-default" href="/tag/{{tag.id}}" role="button">{{tag}}</a>
         {% endfor %}
     </div>
 
     {% if user.is_authenticated %}
     <div class="text-center" id="btndiv">
-        <button type="button"  class="btn btn-primary btn-lg">Like
-        </button>
-        <button type="button" class="btn btn-primary btn-lg">Collect
-        </button>
-        <a class="btn btn-primary btn-lg " href="{% url 'process' img.id %}"
-           role="button">More Process</a>
+        {% if if_liked %}
+        <a class="btn btn-primary btn-lg" href="{{'unlike/'}}{{img.id}}/" role="button">Unlike</a>
+        {% else %}
+        <a class="btn btn-primary btn-lg" href="{{'like/'}}{{img.id}}/" role="button">Like</a>
+        {% endif %}
+        {% if if_collected %}
+        <a class="btn btn-primary btn-lg" href="{{'uncollect/'}}{{img.id}}/" role="button">Uncollected</a>
+        {% else %}
+        <a class="btn btn-primary btn-lg" href="{{'collect/'}}{{img.id}}/" role="button">Collected</a>
+        {% endif %}
+        <a class="btn btn-primary btn-lg " href="{% url 'process' img.id %}" role="button">More Process</a>
+        {% if can_del %}
+        <a class="btn btn-primary btn-lg " href="{% url 'del_pic' img.id %}" role="button">Delete</a>
+        {% endif %}
     </div>
     {% endif %}
     <h2>Comments</h2>
-    <div class="users-comment">
-        <p>user name comment date</p>
-        <p>content</p>
+    <div class="well">
+        {% for comment in comments %}
+        <p><strong><a href="/index/users/{{comment.sender_id.username}}/">{{comment.sender_id.nickname}}</a></strong> comments : {{comment.comment_text}}</p>
+        {% endfor %}
     </div>
 </div><!-- /.container -->
 {% endblock %}

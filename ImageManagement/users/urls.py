@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
 from . import views, auth_views
+from images.views import pic
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -20,10 +21,11 @@ urlpatterns = [
     url(r'^(?P<url>.*)unblack/(?P<unblack_username>[A-Za-z0-9\@\.\+\-\_]+)/$',views.unblack_user, name='unblack-user'),
     url(r'^(?P<url>.*)black/(?P<black_username>[A-Za-z0-9\@\.\+\-\_]+)/$',views.black_user, name='black-user'),
     url(r'^search_user/$',views.search_user, name='search-user'),
-    url(r'^(?P<url>.*)unlike/(?P<timeline_id>\d+)/$', views.unlike, name='unlike'),
-    url(r'^(?P<url>.*)uncollect/(?P<timeline_id>\d+)/$', views.uncollect, name='uncollect'),
-    url(r'^(?P<url>.*)like/(?P<timeline_id>\d+)/$', views.like, name='like'),
-    url(r'^(?P<url>.*)collect/(?P<timeline_id>\d+)/$', views.collect, name='collect'),
-    url(r'^(?P<url>.*)comment/(?P<timeline_id>\d+)/$', views.comment, name='comment'),
+    url(r'^(?P<url>.*)unlike/(?P<image_id>\d+)/$', views.unlike, name='unlike'),
+    url(r'^(?P<url>.*)uncollect/(?P<image_id>\d+)/$', views.uncollect, name='uncollect'),
+    url(r'^(?P<url>.*)like/(?P<image_id>\d+)/$', views.like, name='like'),
+    url(r'^(?P<url>.*)collect/(?P<image_id>\d+)/$', views.collect, name='collect'),
+    url(r'^(?P<url>.*)comment/(?P<image_id>\d+)/$', views.comment, name='comment'),
+    url(r'^pic/([1-9][0-9]*)/$', pic, name='pic'),
     url(r'^profile/$', views.profile, name='profile'),
 ]

@@ -40,7 +40,8 @@ def index(request):
     blocks = user.blacklist.all()
     collection = get_image_collection(user).all()
 
-    return render(request, 'welcome.html', {'user':user,
+    return render(request, 'welcome.html', {'target':user,
+                                            'user':user,
                                             'imgs':imgs,
                                             'timelines':timelines,
                                             'followings':followings,
@@ -55,7 +56,7 @@ def visit_user(request, visited_username):
 
     timelines = select_object_timeline_by_user(this_user, visit_user)
     timelines = get_timeline_details(this_user, timelines)
-    imgs = ImagePost.objects.filter(author__username=request.user.username, is_public=1).all()
+    imgs = ImagePost.objects.filter(author__username=visited_username, is_public=1).all()
     followings = visit_user.followings.all()
     followers = visit_user.followers.all()
     collection = get_image_collection(visit_user).all()
@@ -64,7 +65,8 @@ def visit_user(request, visited_username):
     if_blocked = visit_user in this_user.blacklist.all()
     hidden = if_blocked or this_user in visit_user.blacklist.all()
 
-    return render(request, 'userinfo.html', {'user':visit_user,
+    return render(request, 'userinfo.html', {'user':this_user,
+                                             'target':visit_user,
                                              'if_following':if_following,
                                              'if_blocked':if_blocked,
                                              'hidden':hidden,
@@ -85,6 +87,7 @@ def profile(request):
     collection = get_image_collection(user).all()
 
     return render(request, 'profile.html', {'user':user,
+                                            'target':user,
                                             'imgs':imgs,
                                             'timelines':timelines,
                                             'followings':followings,
@@ -195,40 +198,57 @@ def search_user(request):
         messages.info(request, 'Invalid input!')
         return manage_relationship(request)
 
-def like(request, timeline_id, url):
+def like(request, image_id, url):
     url = '/index/' + url
     user = MyUser.objects.get(username=request.user.username)
-    timeline = Timeline.objects.get(id=timeline_id)
-    create_like_timeline(user, timeline)
+    #timeline = Timeline.objects.get(id=timeline_id)
+    image = ImagePost.objects.get(id=image_id)
+    image.like_num += 1
+    image.save()
+    create_like_timeline(user, image)
     return redirect(url)
     
-def collect(request, timeline_id, url):
+def collect(request, image_id, url):
     url = '/index/' + url
     user = MyUser.objects.get(username=request.user.username)
-    timeline = Timeline.objects.get(id=timeline_id)
-    create_collect_timeline(user, timeline)
+    #timeline = Timeline.objects.get(id=timeline_id)
+    image = ImagePost.objects.get(id=image_id)
+    image.collect_num += 1
+    image.save()
+    create_collect_timeline(user, image)
     return redirect(url)
 
-def comment(request, timeline_id, url):
+def comment(request, image_id, url):
     url = '/index/' + url
     user = MyUser.objects.get(username=request.user.username)
-    timeline = Timeline.objects.get(id=timeline_id)
+    #timeline = Timeline.objects.get(id=timeline_id)
+    image = ImagePost.objects.get(id=image_id)
     comment = request.POST['comment']
-    create_collect_timeline(user, timeline, comment)
+    create_comment_timeline(user, image, comment)
     return redirect(url)
 
-def unlike(request, timeline_id, url):
+def unlike(request, image_id, url):
     url = '/index/' + url
     user = MyUser.objects.get(username=request.user.username)
-    this_timeline = Timeline.objects.get(id=timeline_id)
-    target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='like', sender_id=user)
-    target_timeline.delete()
+    timeline = Timeline.objects.get(image_id=image_id, sender_id=user, type='like')
+    timeline.delete()
+    image = ImagePost.objects.get(id=image_id)
+    image.like_num -= 1
+    image.save()
+    #this_timeline = Timeline.objects.get(id=timeline_id)
+    #target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='like', sender_id=user)
+    #target_timeline.delete()
     return redirect(url)
 
-def uncollect(request, timeline_id, url):
+def uncollect(request, image_id, url):
     url = '/index/' + url
     user = MyUser.objects.get(username=request.user.username)
-    this_timeline = Timeline.objects.get(id=timeline_id)
-    target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='collect', sender_id=user)
-    target_timeline.delete()
+    timeline = Timeline.objects.get(image_id=image_id, sender_id=user, type='collect')
+    image = ImagePost.objects.get(id=image_id)
+    image.collect_num -= 1
+    image.save()
+    #this_timeline = Timeline.objects.get(id=timeline_id)
+    #this_timeline = Timeline.objects.get(id=timeline_id)
+    #target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='collect', sender_id=user)
+    timeline.delete()
     return redirect(url)

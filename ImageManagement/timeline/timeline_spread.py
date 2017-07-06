@@ -7,32 +7,32 @@ def create_post_timeline(user, image):
     new_timeline.save()
     return new_timeline
 
-def create_like_timeline(user, timeline):
-    receiver = timeline.original.sender_id if timeline.original.type == 'post'else timeline.original.receiver_id
+def create_like_timeline(user, image):
+    receiver = image.author
+    #receiver = timeline.original.sender_id if timeline.original.type == 'post'else timeline.original.receiver_id
     new_timeline = Timeline.objects.create(type='like', 
-                                           original=timeline.original, 
                                            sender_id=user, 
-                                           image_id=timeline.original.image_id, 
+                                           image_id=image, 
                                            receiver_id=receiver)
     new_timeline.save()
     return new_timeline
 
-def create_collect_timeline(user, timeline):
-    receiver = timeline.original.sender_id if timeline.original.type == 'post'else timeline.original.receiver_id
-    new_timeline = Timeline.objects.create(type='collect', 
-                                           original=timeline.original, 
+def create_collect_timeline(user, image):
+    receiver = image.author
+    #receiver = timeline.original.sender_id if timeline.original.type == 'post'else timeline.original.receiver_id
+    new_timeline = Timeline.objects.create(type='collect',  
                                            sender_id=user, 
-                                           image_id=timeline.original.image_id, 
+                                           image_id=image, 
                                            receiver_id=receiver)
     new_timeline.save()
     return new_timeline
 
-def create_comment_timeline(user, timeline, comment):
-    receiver = timeline.original.sender_id if timeline.original.type == 'post'else timeline.original.receiver_id
+def create_comment_timeline(user, image, comment):
+    receiver = image.author
+    #receiver = timeline.original.sender_id if timeline.original.type == 'post'else timeline.original.receiver_id
     new_timeline = Timeline.objects.create(type='comment', 
-                                           original=timeline.original, 
                                            sender_id=user, 
-                                           image_id=timeline.original.image_id, 
+                                           image_id=image,
                                            receiver_id=receiver,
                                            comment_text=comment)
     new_timeline.save()

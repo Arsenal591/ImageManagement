@@ -11,9 +11,6 @@
         {% buttons submit='Submit' %}{% endbuttons %}
 </form>
 
-<p>Images of user: {{ user }}</p>
-
-
 <div class="container">
     <div class="table">
         <table data-toggle="table" id="table_filter"
@@ -30,20 +27,24 @@
                 <th data-field="date" data-sortable="true"
                     data-filter-control="select">Date</th>
                 <th data-field="heat" data-sortable="true">Heat</th>
-                <!--<th data-field="tags" data-sortable="false">Tags</th>-->
+                <th data-field="tags" data-sortable="false">Tags</th>
                 <th data-field="is_public" data-sortable="true">Public?</th>
 
             </tr>
             </thead>
             {% for img in imgs %}
                 <tr>
-                    <td>{{ img.author.username }}</td>
-                    <td><a href="{% static 'img_pool/'%}{{ img.img }} ">
+                    <td><a href="/index/users/{{img.author.username}}">{{ img.author.username }}</a></td>
+                    <td><a href="{% url 'pic' img.id %} ">
                         {{img.id}}</a>
                     </td>
                     <td>{{ img.created_at }}</td>
                     <td>{{ img.like_num }}</td>
-                    <!--<td>{{img.tags}}</td>-->
+                    <td>
+                        {% for tag in img.tags.all %}
+                        <a href="/tag/{{tag.id}}">{{tag}}</a>
+                        {% endfor %}
+                    </td>
                     <td>{{ img.is_public }}</td>
                 </tr>
             {% endfor %}
@@ -51,7 +52,15 @@
         </table>
     </div>
 </div>
-
-
+<script>
+    $(function () {
+        $("#id_date_start_day")[0].setAttribute('disabled', 'disabled');
+        $("#id_date_end_day")[0].setAttribute('disabled', 'disabled');
+        $("#id_date_start_month")[0].setAttribute('disabled', 'disabled');
+        $("#id_date_end_month")[0].setAttribute('disabled', 'disabled');
+        $("#id_date_start_year")[0].setAttribute('disabled', 'disabled');
+        $("#id_date_end_year")[0].setAttribute('disabled', 'disabled');
+    });
+</script>
 {% endblock %}
 

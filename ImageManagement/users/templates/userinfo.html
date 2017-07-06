@@ -2,19 +2,23 @@
 {% load bootstrap3 %}
 {% load static %}
 {% block content %}
-<h2>{{user.username}}</h2>
-{% if is_following %}
-<a class="btn btn-default" href="#" role="button">Unfollow</a>
+<h2>{{target.nickname}}</h2>
+{% if if_following %}
+<a class="btn btn-default" href="{{'unfollow/'}}{{target.username}}/" role="button">
+    Unfollow</a>
 {% else %}
-<a class="btn btn-default" href="#" role="button">Follow</a>
+<a class="btn btn-default" href="{{'follow/'}}{{target.username}}/" role="button">Follow</a>
 {% endif %}
-{% if is_blocked %}
-<a class="btn btn-default" href="#" role="button">Unblock</a>
+{% if if_blocked %}
+<a class="btn btn-default" href="{{'unblack/'}}{{target.username}}/" role="button">
+    Unblock</a>
 {% else %}
-<a class="btn btn-default" href="#" role="button">Block</a>
+<a class="btn btn-default" href="{{'black/'}}{{target.username}}/" role="button">Block
+</a>
 {% endif %}
-{% if is_hidden %}
-<h2>Sorry, you cannnot see anything about the {{user.username}} because
+{% if hidden %}
+<<<<<<< HEAD
+<h2>Sorry, you cannnot see anything about the {{target.nickname}} because
     you are blocked.</h2>
 {% else %}
 <hr>
@@ -44,22 +48,23 @@
              alt="{{img.description}}">
     </a>
     {% if tl.type == 'like' %}
-    <p>><strong>{{tl.sender_id.nickname}}</strong> likes <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
-    {% else %}
+    <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> likes
+        <strong><a href="/index/users/{{tl.receiver_id.username}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
+    {% endif %}
     {% if tl.type == 'collect' %}
-    <p><strong>{{tl.sender_id.nickname}}</strong> collects <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
-    {% else %}
+    <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> collects
+        <strong><a href="/index/users/{{tl.receiver_id.username}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
+    {% endif %}
     {% if tl.type == 'comment' %}
-    <p><strong>{{tl.sender_id.nickname}}</strong> comments <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
-    <div class="well">
-        <p>{{tl.comment_text}}</p>
-    </div>
-    {% else %}
-    <p><strong>{{tl.sender_id.nickname}}</strong> uploads this image. </p>
+    <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> comments
+        <strong><a href="/index/users/{{tl.receiver_id.username}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
+    <div class="well"><p>{{tl.comment_text}}</p></div>
     {% endif %}
-    {% endif %}
+   {% if tl.type == 'post' %}
+    <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> uploads this image. </p>
     {% endif %}
     <p>{{tl.occur_time}}</p>
+    <hr>
     {% endfor %}
 </div>
 <hr>
@@ -81,21 +86,21 @@
 <h3>Followings</h3>
 <div class="container">
     {% for man in followings %}
-    <p><strong>{{man.username}}</strong></p>
+    <p><strong><a href="/index/users/{{man.username}}">{{man.username}}</a></strong></p>
     {% endfor %}
 </div>
 <hr>
 <h3>Followers</h3>
 <div class="container">
     {% for man in followers %}
-    <p><strong>{{man.username}}</strong></p>
+    <p><strong><a href="/index/users/{{man.username}}">{{man.username}}</a></strong></p>
     {% endfor %}
 </div>
 <hr>
 <h3>Blocks</h3>
 <div class="container">
     {% for man in blocks %}
-    <p><strong>{{man.username}}</strong></p>
+    <p><strong><a href="/index/users/{{man.username}}">{{man.username}}</a></strong></p>
     {% endfor %}
 </div>
 {% endif %}

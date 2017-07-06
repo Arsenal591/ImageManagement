@@ -22,6 +22,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from timeline.timeline_spread import *
 from users.models import MyUser
+from timeline.models import Timeline
 
 def home(request):
     return redirect('index')
@@ -72,6 +73,7 @@ def create_post_entry(is_public, description, img, tags, author):
     add_tag(new_post, tags)
     new_post.author = author
     new_post.save()
+    return new_post
 
 @login_required
 def upload_batch(request):
@@ -82,10 +84,10 @@ def upload_batch(request):
             description = form['description'].value()
             tags = form['tags'].value()
             imgs = request.FILES.getlist('img_batch')
+            find_user = MyUser.objects.get(username=request.user.username)
             for img in imgs:
-                create_post_entry(is_public, description, img, tags, request.user)
-                find_user = MyUser.objects.get(username=request.user.username)
-                create_post_timeline(find_user, post)
+                new_post = create_post_entry(is_public, description, img, tags, find_user)
+                create_post_timeline(find_user, new_post)
             return home(request)
     return render(request, 'upload_batch.html', {'form': BatchUploadForm()})
 
@@ -222,15 +224,46 @@ def filtershow(request):
         if bool(form['between_date'].value()):
             img_set = img_set.filter(created_at__range=(form['date_start'].value(), form['date_end'].value()))
         
-
         return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info})
      
     return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info})
 
-
 def pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
-    return render(request, 'pic.html', {'img': pic})
+    if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
+    if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
+    can_del = (pic.author.id == request.user.id)
+    tags = pic.tags.all()
+    comments = Timeline.objects.filter(type='comment', image_id=pic)
+    return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected, 'tags':tags, 'can_del': can_del, 'comments':comments})
+
+def tag(request, tag_id):
+    tag = get_object_or_404(ImageTag, pk=tag_id)
+    imgs = ImagePost.objects.filter(tags__name__contains=tag)
+    return render(request, 'tag.html', {'tag': tag, 'imgs': imgs})
+
+def del_pic(request, pic_id):
+    pic = get_object_or_404(ImagePost, pk=pic_id)
+    pre_pic = None
+    try: # try to find the previous public post
+        # PLEASE hit the next line during presentation
+        # without executing 'while not ...' loop
+        pre_pic = get_previous_by_created_at(pic)
+        while not pre_pic.is_public:
+            pre_pic = get_previous_by_created_at(pre_pic)
+    except Exception as e: # if there is no public post before it
+        all_posts = ImagePost.objects.filter(is_public=True).exclude(pk=pic.id)
+        if all_posts:
+            pre_pic = all_posts[0]
+        else:
+            pic.delete()
+            return redirect('index.html')
+    pic.delete()
+    return redirect('/pic/'+str(pre_pic.id))
+    #if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
+    #if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
+    #can_del = (pre_pic.author.id == request.user.id)
+    #return render(request, 'pic.html', {'img': pre_pic, 'if_liked': if_liked, 'if_collected': if_collected, 'can_del': can_del, 'comments':comments})
 
 # search image by given image
 # It's not quite decent to use this function name
