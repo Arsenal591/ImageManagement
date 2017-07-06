@@ -73,6 +73,7 @@ def create_post_entry(is_public, description, img, tags, author):
     add_tag(new_post, tags)
     new_post.author = author
     new_post.save()
+    return new_post
 
 @login_required
 def upload_batch(request):
@@ -85,8 +86,8 @@ def upload_batch(request):
             imgs = request.FILES.getlist('img_batch')
             find_user = MyUser.objects.get(username=request.user.username)
             for img in imgs:
-                create_post_entry(is_public, description, img, tags, find_user)
-                create_post_timeline(find_user, post)
+                new_post = create_post_entry(is_public, description, img, tags, find_user)
+                create_post_timeline(find_user, new_post)
             return home(request)
     return render(request, 'upload_batch.html', {'form': BatchUploadForm()})
 
