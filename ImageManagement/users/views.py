@@ -56,7 +56,7 @@ def visit_user(request, visited_username):
 
     timelines = select_object_timeline_by_user(this_user, visit_user)
     timelines = get_timeline_details(this_user, timelines)
-    imgs = ImagePost.objects.filter(author__username=request.user.username, is_public=1).all()
+    imgs = ImagePost.objects.filter(author__username=visited_username, is_public=1).all()
     followings = visit_user.followings.all()
     followers = visit_user.followers.all()
     collection = get_image_collection(visit_user).all()
@@ -64,8 +64,6 @@ def visit_user(request, visited_username):
     if_following = visit_user in this_user.followings.all()
     if_blocked = visit_user in this_user.blacklist.all()
     hidden = if_blocked or this_user in visit_user.blacklist.all()
-
-    print(hidden)
 
     return render(request, 'userinfo.html', {'user':this_user,
                                              'target':visit_user,
