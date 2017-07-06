@@ -83,9 +83,9 @@ def upload_batch(request):
             description = form['description'].value()
             tags = form['tags'].value()
             imgs = request.FILES.getlist('img_batch')
+            find_user = MyUser.objects.get(username=request.user.username)
             for img in imgs:
-                create_post_entry(is_public, description, img, tags, request.user)
-                find_user = MyUser.objects.get(username=request.user.username)
+                create_post_entry(is_public, description, img, tags, find_user)
                 create_post_timeline(find_user, post)
             return home(request)
     return render(request, 'upload_batch.html', {'form': BatchUploadForm()})
@@ -266,7 +266,6 @@ def del_pic(request, pic_id):
     if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
     if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
     return render(request, 'pic.html', {'img': pre_pic, 'if_liked': if_liked, 'if_collected': if_collected})
-
 
 # search image by given image
 # It's not quite decent to use this function name

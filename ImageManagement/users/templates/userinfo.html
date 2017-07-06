@@ -4,20 +4,20 @@
 {% block content %}
 <h2>{{target.nickname}}</h2>
 {% if if_following %}
-<a class="btn btn-default" href="{{'unfollow/'}}{{user.username}}/" role="button">
+<a class="btn btn-default" href="{{'unfollow/'}}{{target.username}}/" role="button">
     Unfollow</a>
 {% else %}
-<a class="btn btn-default" href="{{'follow/'}}{{user.username}}/" role="button">Follow</a>
+<a class="btn btn-default" href="{{'follow/'}}{{target.username}}/" role="button">Follow</a>
 {% endif %}
 {% if if_blocked %}
-<a class="btn btn-default" href="{{'unblack/'}}{{user.username}}/" role="button">
+<a class="btn btn-default" href="{{'unblack/'}}{{target.username}}/" role="button">
     Unblock</a>
 {% else %}
-<a class="btn btn-default" href="{{'black/'}}{{user.username}}/" role="button">Block
+<a class="btn btn-default" href="{{'black/'}}{{target.username}}/" role="button">Block
 </a>
 {% endif %}
 {% if hidden %}
-<h2>Sorry, you cannnot see anything about the {{user.username}} because
+<h2>Sorry, you cannnot see anything about the {{target.nickname}} because
     you are blocked.</h2>
 {% else %}
 <hr>
