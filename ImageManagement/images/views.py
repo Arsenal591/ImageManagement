@@ -232,7 +232,15 @@ def pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
     if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
     if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
-    return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected})
+    tags = pic.tags.all()
+    comments = Timeline.objects.filter(type='comment', image_id=pic)
+    return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected, 'tags':tags, 'comments':comments})
+
+def tag(request, tag_id):
+    tag = get_object_or_404(ImageTag, pk=tag_id)
+    #imgs=[]
+    imgs = ImagePost.objects.filter(tags__name__contains=tag)
+    return render(request, 'tag.html', {'tag': tag, 'imgs': imgs})
 
 # search image by given image
 # It's not quite decent to use this function name
