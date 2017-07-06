@@ -222,15 +222,19 @@ def filtershow(request):
         if bool(form['between_date'].value()):
             img_set = img_set.filter(created_at__range=(form['date_start'].value(), form['date_end'].value()))
         
-
-        return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info})
+        tag_set=[]
+        #for img in img_set:
+        #    tag_set.append(img.tags_set.all())
+        return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info, 'tagset':tag_set})
      
     return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info})
 
 
 def pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
-    return render(request, 'pic.html', {'img': pic})
+    if_liked = False
+    if_collected = False
+    return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected})
 
 # search image by given image
 # It's not quite decent to use this function name

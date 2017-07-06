@@ -11,9 +11,6 @@
         {% buttons submit='Submit' %}{% endbuttons %}
 </form>
 
-<p>Images of user: {{ user }}</p>
-
-
 <div class="container">
     <div class="table">
         <table data-toggle="table" id="table_filter"
@@ -30,7 +27,7 @@
                 <th data-field="date" data-sortable="true"
                     data-filter-control="select">Date</th>
                 <th data-field="heat" data-sortable="true">Heat</th>
-                <!--<th data-field="tags" data-sortable="false">Tags</th>-->
+                <th data-field="tags" data-sortable="false">Tags</th>
                 <th data-field="is_public" data-sortable="true">Public?</th>
 
             </tr>
@@ -43,7 +40,13 @@
                     </td>
                     <td>{{ img.created_at }}</td>
                     <td>{{ img.like_num }}</td>
-                    <!--<td>{{img.tags}}</td>-->
+                    <td>
+                        {% for tags in tag_set %}
+                            {% for tag in tags %}
+                                {{tag}}
+                            {% endfor %}
+                        {% endfor %}
+                    </td>
                     <td>{{ img.is_public }}</td>
                 </tr>
             {% endfor %}

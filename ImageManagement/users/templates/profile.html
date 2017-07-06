@@ -2,7 +2,7 @@
 {% load bootstrap3 %}
 {% load static %}
 {% block content %}
-<h2>Welcome！{{user.username}}</h2>
+<h2>Welcome！{{user.nickname}}</h2>
 <hr>
 <h3>My Images</h3>
 <div class="container container-fluid">
@@ -30,38 +30,39 @@
              alt="{{img.description}}">
     </a>
     {% if tl.type == 'like' %}
-    <p>><strong>{{tl.sender_id.nickname}}</strong> likes <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
-    {% else %}
+    <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> likes
+        <strong><a href="/index/users/{{tl.receiver_id.username}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
+    {% endif %}
     {% if tl.type == 'collect' %}
-    <p><strong>{{tl.sender_id.nickname}}</strong> collects <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
-    {% else %}
+    <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> collects
+        <strong><a href="/index/users/{{tl.receiver_id.username}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
+    {% endif %}
     {% if tl.type == 'comment' %}
-    <p><strong>{{tl.sender_id.nickname}}</strong> comments <strong>{{tl.receiver_id.nickname}}</strong> image. </p>
-    <div class="well">
-        <p>{{tl.comment_text}}</p>
-    </div>
-    {% else %}
-    <p><strong>{{tl.sender_id.nickname}}</strong> uploads this image. </p>
+    <p><strong><a href="/index/users/{{tl.sender_id.nusername}}/">{{tl.sender_id.nickname}}</a></strong> comments
+        <strong><a href="/index/users/{{tl.receiver_id.username}}/">{{tl.receiver_id.nickname}}</a></strong> image. </p>
+    <div class="well"><p>{{tl.comment_text}}</p></div>
     {% endif %}
-    {% endif %}
+    {% if tl.type == 'post' %}
+    <p><strong><a href="/index/users/{{tl.sender_id.username}}/">{{tl.sender_id.nickname}}</a></strong> uploads this image. </p>
     {% endif %}
     <p>{{tl.occur_time}}</p>
     <!-- href should be like , but something error
     happen -->
     {% if tl.if_liked %}
-    <a class="btn btn-default" href="#" role="button">Unlike</a>
+    <a class="btn btn-default" href="{{'unlike/'}}{{tl.id}}/" role="button">Unlike</a>
     {% else %}
-    <a class="btn btn-default" href="#"
+    <a class="btn btn-default" href="{{'like/'}}{{tl.id}}/"
        role="button">Like</a>
     {% endif %}
     {% if tl.if_collected %}
-    <a class="btn btn-default" href="#" role="button">Uncollected</a>
+    <a class="btn btn-default" href="{{'uncollect/'}}{{tl.id}}/" role="button">Uncollected</a>
     {% else %}
-    <a class="btn btn-default" href="#"
+    <a class="btn btn-default" href="{{'collect/'}}{{tl.id}}/"
        role="button">Collected</a>
     {% endif %}
     <a class="btn btn-default" href="#"
        role="button">Comment</a>
+    <hr>
     {% endfor %}
 
 </div>
@@ -84,21 +85,21 @@
 <h3>Followings</h3>
 <div class="container">
     {% for man in followings %}
-    <p><strong>{{man.username}}</strong></p>
+    <p><strong><a href="/index/users/{{man.username}}">{{man.username}}</a></strong></p>
     {% endfor %}
 </div>
 <hr>
 <h3>Followers</h3>
 <div class="container">
     {% for man in followers %}
-    <p><strong>{{man.username}}</strong></p>
+    <p><strong><a href="/index/users/{{man.username}}">{{man.username}}</a></strong></p>
     {% endfor %}
 </div>
 <hr>
 <h3>Blocks</h3>
 <div class="container">
     {% for man in blocks %}
-    <p><strong>{{man.username}}</strong></p>
+    <p><strong><a href="/index/users/{{man.username}}">{{man.username}}</a></strong></p>
     {% endfor %}
 </div>
 
