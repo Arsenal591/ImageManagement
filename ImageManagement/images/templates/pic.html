@@ -48,7 +48,9 @@
         <a class="btn btn-primary btn-lg" href="{{'collect/'}}{{img.id}}/" role="button">Collected</a>
         {% endif %}
         <a class="btn btn-primary btn-lg " href="{% url 'process' img.id %}" role="button">More Process</a>
+        {% if can_del %}
         <a class="btn btn-primary btn-lg " href="{% url 'del_pic' img.id %}" role="button">Delete</a>
+        {% endif %}
     </div>
     {% endif %}
     <h2>Comments</h2>
