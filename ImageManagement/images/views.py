@@ -223,19 +223,50 @@ def filtershow(request):
         if bool(form['between_date'].value()):
             img_set = img_set.filter(created_at__range=(form['date_start'].value(), form['date_end'].value()))
         
-        tag_set=[]
-        #for img in img_set:
-        #    tag_set.append(img.tags_set.all())
-        return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info, 'tagset':tag_set})
+        return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info})
      
     return render(request, 'filter.html', {'imgs': img_set, 'form': FilterForm(), 'info': info})
-
 
 def pic(request, pic_id):
     pic = get_object_or_404(ImagePost, pk=pic_id)
     if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
     if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
-    return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected})
+    can_del = (pic.author.id == request.user.id)
+    tags = pic.tags.all()
+    comments = Timeline.objects.filter(type='comment', image_id=pic)
+    return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected, 'tags':tags, 'can_del': can_del, 'comments':comments})
+
+def tag(request, tag_id):
+    tag = get_object_or_404(ImageTag, pk=tag_id)
+    imgs = ImagePost.objects.filter(tags__name__contains=tag)
+    return render(request, 'tag.html', {'tag': tag, 'imgs': imgs})
+
+def del_pic(request, pic_id):
+    pic = get_object_or_404(ImagePost, pk=pic_id)
+    if request.user.id != pic.author.id:
+        if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
+        if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
+        return render(request, 'pic.html', {'img': pic, 'if_liked': if_liked, 'if_collected': if_collected})
+      
+    pre_pic = None
+    try: # try to find the previous public post
+        # PLEASE hit the next line during presentation
+        # without executing 'while not ...' loop
+        pre_pic = get_previous_by_created_at(pic)
+        while not pre_pic.is_public:
+            pre_pic = get_previous_by_created_at(pre_pic)
+    except Exception as e: # if there is no public post before it
+        all_posts = ImagePost.objects.filter(is_public=True).exclude(pk=pic.id)
+        if all_posts:
+            pre_pic = all_posts[0]
+        else:
+            pic.delete()
+            return redirect('index.html')
+    pic.delete()
+    if_liked = Timeline.objects.filter(sender_id__username=request.user.username, type='like', image_id=pic).count()>0
+    if_collected = Timeline.objects.filter(sender_id__username=request.user.username, type='collect', image_id=pic).count()>0
+    return render(request, 'pic.html', {'img': pre_pic, 'if_liked': if_liked, 'if_collected': if_collected})
+
 
 # search image by given image
 # It's not quite decent to use this function name

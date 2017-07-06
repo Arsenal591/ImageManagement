@@ -203,6 +203,7 @@ def like(request, image_id, url):
     user = MyUser.objects.get(username=request.user.username)
     #timeline = Timeline.objects.get(id=timeline_id)
     image = ImagePost.objects.get(id=image_id)
+    image.like_num += 1
     create_like_timeline(user, image)
     return redirect(url)
     
@@ -211,6 +212,7 @@ def collect(request, image_id, url):
     user = MyUser.objects.get(username=request.user.username)
     #timeline = Timeline.objects.get(id=timeline_id)
     image = ImagePost.objects.get(id=image_id)
+    image.collect_num += 1
     create_collect_timeline(user, image)
     return redirect(url)
 
@@ -228,6 +230,8 @@ def unlike(request, image_id, url):
     user = MyUser.objects.get(username=request.user.username)
     timeline = Timeline.objects.get(image_id=image_id, sender_id=user, type='like')
     timeline.delete()
+    image = ImagePost.objects.get(id=image_id)
+    image.like_num -= 1
     #this_timeline = Timeline.objects.get(id=timeline_id)
     #target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='like', sender_id=user)
     #target_timeline.delete()
@@ -237,6 +241,9 @@ def uncollect(request, image_id, url):
     url = '/index/' + url
     user = MyUser.objects.get(username=request.user.username)
     timeline = Timeline.objects.get(image_id=image_id, sender_id=user, type='collect')
+    image = ImagePost.objects.get(id=image_id)
+    image.collect_num -= 1
+    #this_timeline = Timeline.objects.get(id=timeline_id)
     #this_timeline = Timeline.objects.get(id=timeline_id)
     #target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='collect', sender_id=user)
     timeline.delete()
