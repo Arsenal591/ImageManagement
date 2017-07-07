@@ -51,6 +51,8 @@ def index(request):
 
 @login_required(login_url='login')
 def visit_user(request, visited_username):
+    if request.user.username == visited_username:
+        return index(request)
     this_user = MyUser.objects.get(username=request.user.username)
     visit_user = MyUser.objects.get(username=visited_username)
 
@@ -204,6 +206,7 @@ def like(request, image_id, url):
     #timeline = Timeline.objects.get(id=timeline_id)
     image = ImagePost.objects.get(id=image_id)
     image.like_num += 1
+    image.save()
     create_like_timeline(user, image)
     return redirect(url)
     
@@ -213,6 +216,7 @@ def collect(request, image_id, url):
     #timeline = Timeline.objects.get(id=timeline_id)
     image = ImagePost.objects.get(id=image_id)
     image.collect_num += 1
+    image.save()
     create_collect_timeline(user, image)
     return redirect(url)
 
@@ -232,6 +236,7 @@ def unlike(request, image_id, url):
     timeline.delete()
     image = ImagePost.objects.get(id=image_id)
     image.like_num -= 1
+    image.save()
     #this_timeline = Timeline.objects.get(id=timeline_id)
     #target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='like', sender_id=user)
     #target_timeline.delete()
@@ -243,6 +248,7 @@ def uncollect(request, image_id, url):
     timeline = Timeline.objects.get(image_id=image_id, sender_id=user, type='collect')
     image = ImagePost.objects.get(id=image_id)
     image.collect_num -= 1
+    image.save()
     #this_timeline = Timeline.objects.get(id=timeline_id)
     #this_timeline = Timeline.objects.get(id=timeline_id)
     #target_timeline = Timeline.objects.get(image_id=this_timeline.image_id, type='collect', sender_id=user)
