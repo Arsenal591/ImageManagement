@@ -51,6 +51,8 @@ def index(request):
 
 @login_required(login_url='login')
 def visit_user(request, visited_username):
+    if request.user.username == visited_username:
+        return index(request)
     this_user = MyUser.objects.get(username=request.user.username)
     visit_user = MyUser.objects.get(username=visited_username)
 
